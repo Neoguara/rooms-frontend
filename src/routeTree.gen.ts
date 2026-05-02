@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsuariosIndexRouteImport } from './routes/usuarios/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as GradeIndexRouteImport } from './routes/grade/index'
 import { Route as ConfiguracoesIndexRouteImport } from './routes/configuracoes/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GradeIndexRoute = GradeIndexRouteImport.update({
+  id: '/grade/',
+  path: '/grade/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConfiguracoesIndexRoute = ConfiguracoesIndexRouteImport.update({
   id: '/configuracoes/',
   path: '/configuracoes/',
@@ -38,12 +44,14 @@ const ConfiguracoesIndexRoute = ConfiguracoesIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/configuracoes/': typeof ConfiguracoesIndexRoute
+  '/grade/': typeof GradeIndexRoute
   '/login/': typeof LoginIndexRoute
   '/usuarios/': typeof UsuariosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/configuracoes': typeof ConfiguracoesIndexRoute
+  '/grade': typeof GradeIndexRoute
   '/login': typeof LoginIndexRoute
   '/usuarios': typeof UsuariosIndexRoute
 }
@@ -51,20 +59,28 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/configuracoes/': typeof ConfiguracoesIndexRoute
+  '/grade/': typeof GradeIndexRoute
   '/login/': typeof LoginIndexRoute
   '/usuarios/': typeof UsuariosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/configuracoes/' | '/login/' | '/usuarios/'
+  fullPaths: '/' | '/configuracoes/' | '/grade/' | '/login/' | '/usuarios/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/configuracoes' | '/login' | '/usuarios'
-  id: '__root__' | '/' | '/configuracoes/' | '/login/' | '/usuarios/'
+  to: '/' | '/configuracoes' | '/grade' | '/login' | '/usuarios'
+  id:
+    | '__root__'
+    | '/'
+    | '/configuracoes/'
+    | '/grade/'
+    | '/login/'
+    | '/usuarios/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConfiguracoesIndexRoute: typeof ConfiguracoesIndexRoute
+  GradeIndexRoute: typeof GradeIndexRoute
   LoginIndexRoute: typeof LoginIndexRoute
   UsuariosIndexRoute: typeof UsuariosIndexRoute
 }
@@ -92,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/grade/': {
+      id: '/grade/'
+      path: '/grade'
+      fullPath: '/grade/'
+      preLoaderRoute: typeof GradeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/configuracoes/': {
       id: '/configuracoes/'
       path: '/configuracoes'
@@ -105,6 +128,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConfiguracoesIndexRoute: ConfiguracoesIndexRoute,
+  GradeIndexRoute: GradeIndexRoute,
   LoginIndexRoute: LoginIndexRoute,
   UsuariosIndexRoute: UsuariosIndexRoute,
 }

@@ -1,16 +1,12 @@
 import {
   Calendar,
   Home,
-  DoorOpen,
   Users,
   Settings,
   BarChart3,
   Clock,
   Building2,
   FileText,
-  LogOut,
-  CheckSquare,
-  LayoutGrid,
   Search,
 } from "lucide-react"
 
@@ -24,13 +20,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter,
   SidebarMenuBadge,
 } from "@/components/ui/sidebar"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Link } from "@tanstack/react-router"
 
 const mainNavItems = [
@@ -53,19 +44,6 @@ const mainNavItems = [
     title: "Minhas Reservas",
     url: "/minhas-reservas",
     icon: Clock,
-  },
-]
-
-const adminNavItems = [
-  {
-    title: "Gerenciar Salas",
-    url: "/salas",
-    icon: DoorOpen,
-  },
-  {
-    title: "Montar Grade",
-    url: "/montar-grade",
-    icon: LayoutGrid,
   },
 ]
 
@@ -99,11 +77,7 @@ export function AppSidebar() {
   const pathname = ""
   // const { user, logout, canApprove, canManageUsers } = useAuth()
 
-  const filteredManagementItems = managementItems.filter((item) => {
-    // if (item.requiresAdmin && !canManageUsers) return false
-    // if (item.requiresApproval && !canApprove) return false
-    return true
-  })
+  const filteredManagementItems = managementItems.filter(() => true)
 
   // const getRoleBadge = () => {
   //   if (!user) return null
@@ -125,15 +99,6 @@ export function AppSidebar() {
   //     </Badge>
   //   )
   // }
-
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .substring(0, 2)
-      .toUpperCase()
-  }
 
   return (
     <Sidebar>

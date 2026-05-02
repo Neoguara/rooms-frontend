@@ -1,7 +1,6 @@
 import { cn } from "#/lib/utils"
 import { Check } from "lucide-react"
 import { Input } from "../ui/input"
-import { Switch } from "@radix-ui/react-switch"
 
 export function Aparencia ({ themeOptions, colorPresets }: {
     themeOptions: any
@@ -16,7 +15,7 @@ export function Aparencia ({ themeOptions, colorPresets }: {
                 Selecione como o tema deve ser exibido
               </p>
               <div className="flex flex-col gap-2">
-                {themeOptions.map((option) => {
+                {themeOptions.map((option: any) => {
                   const Icon = option.icon
                 //   const isSelected = theme === option.value
                   const isSelected = false
@@ -114,7 +113,7 @@ export function Aparencia ({ themeOptions, colorPresets }: {
 
               {/* Presets */}
               <div className="flex flex-wrap gap-2">
-                {colorPresets.map((preset) => {
+                {colorPresets.map((preset: any) => {
                 //   const isActive = colors.primaryColor === preset.primary && colors.accentColor === preset.accent
                 const isActive = false
 

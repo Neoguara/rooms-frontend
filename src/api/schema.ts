@@ -20,6 +20,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rooms/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findById_1"];
+        put: operations["update_1"];
+        post?: never;
+        delete: operations["delete_1"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["requestUpdate"];
+        post?: never;
+        delete: operations["requestDeletion"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/users": {
         parameters: {
             query?: never;
@@ -30,6 +62,70 @@ export interface paths {
         get: operations["findAll"];
         put?: never;
         post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rooms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findAll_1"];
+        put?: never;
+        post: operations["create_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findAll_2"];
+        put?: never;
+        post: operations["requestCreation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events/requests/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/events/requests/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["approve"];
         delete?: never;
         options?: never;
         head?: never;
@@ -72,6 +168,59 @@ export interface components {
             /** @enum {string} */
             role?: "ADMIN" | "USER";
         };
+        UpdateRoomRequest: {
+            name?: string;
+            code?: string;
+            type?: string;
+            building?: string;
+            resources?: string;
+            /** Format: int32 */
+            floor?: number;
+            /** Format: int32 */
+            capacity?: number;
+        };
+        RoomResponse: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            code?: string;
+            type?: string;
+            building?: string;
+            resources?: string;
+            /** Format: int32 */
+            floor?: number;
+            /** Format: int32 */
+            capacity?: number;
+            isActive?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        UpdateEventRequest: {
+            title?: string;
+            description?: string;
+            /** Format: date-time */
+            startAt?: string;
+            /** Format: date-time */
+            endAt?: string;
+            isAllDay?: boolean;
+            recurrenceRule?: string;
+            justification?: string;
+            /** Format: uuid */
+            userId?: string;
+            /** Format: uuid */
+            roomId?: string;
+        };
+        CreateEventRequestResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            createdBy?: string;
+            status?: string;
+            type?: string;
+            justification?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
         CreateUserRequest: {
             name: string;
             /** Format: email */
@@ -80,6 +229,32 @@ export interface components {
             /** @enum {string} */
             role: "ADMIN" | "USER";
         };
+        CreateRoomRequest: {
+            name?: string;
+            code?: string;
+            type?: string;
+            building?: string;
+            resources?: string;
+            /** Format: int32 */
+            floor?: number;
+            /** Format: int32 */
+            capacity?: number;
+        };
+        CreateEventRequest: {
+            title?: string;
+            description?: string;
+            /** Format: date-time */
+            startAt?: string;
+            /** Format: date-time */
+            endAt?: string;
+            isAllDay?: boolean;
+            recurrenceRule?: string;
+            justification?: string;
+            /** Format: uuid */
+            userId?: string;
+            /** Format: uuid */
+            roomId?: string;
+        };
         LoginRequest: {
             /** Format: email */
             email: string;
@@ -87,6 +262,31 @@ export interface components {
         };
         TokenResponse: {
             token?: string;
+        };
+        EventResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            roomId?: string;
+            title?: string;
+            description?: string;
+            /** Format: date-time */
+            startAt?: string;
+            /** Format: date-time */
+            endAt?: string;
+            isAllDay?: boolean;
+            recurrenceRule?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            /** Format: date-time */
+            deletedAt?: string;
+        };
+        DeleteEventRequest: {
+            /** Format: uuid */
+            userId?: string;
+            justification?: string;
         };
     };
     responses: never;
@@ -165,6 +365,126 @@ export interface operations {
             };
         };
     };
+    findById_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoomResponse"];
+                };
+            };
+        };
+    };
+    update_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateRoomRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoomResponse"];
+                };
+            };
+        };
+    };
+    delete_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    requestUpdate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateEventRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CreateEventRequestResponse"];
+                };
+            };
+        };
+    };
+    requestDeletion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteEventRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CreateEventRequestResponse"];
+                };
+            };
+        };
+    };
     findAll: {
         parameters: {
             query?: never;
@@ -206,6 +526,134 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["UserResponse"];
                 };
+            };
+        };
+    };
+    findAll_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoomResponse"][];
+                };
+            };
+        };
+    };
+    create_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRoomRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoomResponse"];
+                };
+            };
+        };
+    };
+    findAll_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EventResponse"][];
+                };
+            };
+        };
+    };
+    requestCreation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateEventRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CreateEventRequestResponse"];
+                };
+            };
+        };
+    };
+    reject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    approve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

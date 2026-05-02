@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react"
-import { 
-  Sun, 
-  Moon, 
-  Monitor, 
-  Settings, 
-  Clock, 
-  Bell, 
-  Shield, 
-  Palette, 
-  Puzzle,
+import {
+  Sun,
+  Moon,
+  Monitor,
+  Settings,
+  Palette,
   RotateCcw,
   Save,
 } from "lucide-react"
@@ -18,11 +14,6 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Aparencia } from "./Aparencia"
-import { Geral } from "./Geral"
-import { Horarios } from "./Horarios"
-import { Notificaoes } from "./Notificacoes"
-import { Seguranca } from "./Seguranca"
-import { Integracao } from "./Integracao"
 
 const settingsCategories = [
   { id: "aparencia", label: "Aparencia", icon: Palette, description: "Tema, cores e layout" },
@@ -58,14 +49,6 @@ export function ConfiguracoesPage() {
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  const applyPreset = (preset: typeof colorPresets[0]) => {
-    // setColors({
-    //   primaryColor: preset.primary,
-    //   accentColor: preset.accent,
-    // })
-    // setHasChanges(true)
-  }
 
   const resetToDefault = () => {
     // resetColors()
