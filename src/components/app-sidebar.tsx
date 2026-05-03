@@ -27,11 +27,12 @@ import {
   SidebarFooter,
   SidebarMenuBadge,
 } from "@/components/ui/sidebar"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Link } from "@tanstack/react-router"
+import { useAuth } from "@/hooks/use-auth"
 
 const mainNavItems = [
   {
@@ -59,7 +60,7 @@ const mainNavItems = [
 const adminNavItems = [
   {
     title: "Gerenciar Salas",
-    url: "/salas",
+    url: "/rooms",
     icon: DoorOpen,
   },
   {
@@ -79,7 +80,7 @@ const managementItems = [
   },
   {
     title: "Usuários",
-    url: "/usuarios",
+    url: "/users",
     icon: Users,
     requiresAdmin: true,
   },
@@ -90,14 +91,14 @@ const managementItems = [
   },
   {
     title: "Configurações",
-    url: "/configuracoes",
+    url: "/settings",
     icon: Settings,
   },
 ]
 
 export function AppSidebar() {
   const pathname = ""
-  // const { user, logout, canApprove, canManageUsers } = useAuth()
+  const { user, logout } = useAuth()
 
   const filteredManagementItems = managementItems.filter((item) => {
     // if (item.requiresAdmin && !canManageUsers) return false
@@ -105,26 +106,15 @@ export function AppSidebar() {
     return true
   })
 
-  // const getRoleBadge = () => {
-  //   if (!user) return null
-  //   const roleColors = {
-  //     professor: "bg-emerald-500/20 text-emerald-600 border-emerald-500/30",
-  //     funcionario: "bg-blue-500/20 text-blue-600 border-blue-500/30",
-  //     coordenador: "bg-amber-500/20 text-amber-600 border-amber-500/30",
-  //     admin: "bg-purple-500/20 text-purple-600 border-purple-500/30",
-  //   }
-  //   const roleLabels = {
-  //     professor: "Professor",
-  //     funcionario: "Funcionário",
-  //     coordenador: "Coordenador",
-  //     admin: "Admin",
-  //   }
-  //   return (
-  //     <Badge variant="outline" className={roleColors[user.role]}>
-  //       {roleLabels[user.role]}
-  //     </Badge>
-  //   )
-  // }
+  const roleColors = {
+    ADMIN: "bg-purple-500/20 text-purple-600 border-purple-500/30",
+    USER: "bg-blue-500/20 text-blue-600 border-blue-500/30",
+  }
+
+  const roleLabels = {
+    ADMIN: "Admin",
+    USER: "Usuário",
+  }
 
   const getInitials = (name: string) => {
     return name
@@ -173,7 +163,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* {(canManageUsers || canApprove) && (
           <SidebarGroup>
             <SidebarGroupLabel>Gestão Acadêmica</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -181,7 +170,7 @@ export function AppSidebar() {
                 {adminNavItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={pathname === item.url}>
-                      <Link href={item.url}>
+                      <Link to={item.url}>
                         <item.icon className="size-4" />
                         <span>{item.title}</span>
                       </Link>
@@ -191,7 +180,6 @@ export function AppSidebar() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-        )} */}
 
         {filteredManagementItems.length > 0 && (
           <SidebarGroup>
@@ -218,12 +206,11 @@ export function AppSidebar() {
           </SidebarGroup>
         )}
       </SidebarContent>
-      {/* <SidebarFooter className="border-t border-sidebar-border p-4">
+      <SidebarFooter className="border-t border-sidebar-border p-4">
         {user ? (
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <Avatar className="size-9">
-                <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="bg-primary text-primary-foreground text-xs">
                   {getInitials(user.name)}
                 </AvatarFallback>
@@ -238,7 +225,9 @@ export function AppSidebar() {
               </div>
             </div>
             <div className="flex items-center justify-between">
-              {getRoleBadge()}
+              <Badge variant="outline" className={roleColors[user.role]}>
+                {roleLabels[user.role]}
+              </Badge>
               <Button
                 variant="ghost"
                 size="sm"
@@ -260,13 +249,13 @@ export function AppSidebar() {
               <span className="text-sm font-medium text-sidebar-foreground">
                 Não conectado
               </span>
-              <Link href="/login" className="text-xs text-primary hover:underline">
+              <Link to="/login" className="text-xs text-primary hover:underline">
                 Fazer login
               </Link>
             </div>
           </div>
         )}
-      </SidebarFooter> */}
+      </SidebarFooter>
     </Sidebar>
   )
 }

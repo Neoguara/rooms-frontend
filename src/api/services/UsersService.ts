@@ -443,11 +443,11 @@ export interface UsersService {
             body: UpdateBody;
         };
     };
-    delete: {
+    deleteById: {
         /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteBody, DeleteParameters, TMeta, TSignal>, client?: (schema: DeleteSchema, options: ServiceOperationMutationFnOptions<DeleteBody, DeleteParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteData, DeleteError>>): Promise<RequestFnResponse<DeleteData, DeleteError>>;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteByIdBody, DeleteByIdParameters, TMeta, TSignal>, client?: (schema: DeleteByIdSchema, options: ServiceOperationMutationFnOptions<DeleteByIdBody, DeleteByIdParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteByIdData, DeleteByIdError>>): Promise<RequestFnResponse<DeleteByIdData, DeleteByIdError>>;
         /**/
-        getMutationKey(parameters: DeepReadonly<DeleteParameters> | void): ServiceOperationMutationKey<DeleteSchema, DeleteParameters>;
+        getMutationKey(parameters: DeepReadonly<DeleteByIdParameters> | void): ServiceOperationMutationKey<DeleteByIdSchema, DeleteByIdParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -455,7 +455,7 @@ export interface UsersService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.users.delete.useMutation({
+         * const { mutate, isPending } = qraft.users.deleteById.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -464,7 +464,7 @@ export interface UsersService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.users.delete.useMutation()
+         * const { mutate, isPending } = qraft.users.deleteById.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -473,7 +473,7 @@ export interface UsersService {
          * });
          * ```
          */
-        useMutation<TVariables extends DeleteBody, TContext = unknown>(parameters: DeepReadonly<DeleteParameters>, options?: ServiceOperationUseMutationOptions<DeleteSchema, DeleteData, DeleteParameters, TVariables, OperationError<DeleteError>, TContext>): UseMutationResult<DeleteData, OperationError<DeleteError>, TVariables | void, TContext>;
+        useMutation<TVariables extends DeleteByIdBody, TContext = unknown>(parameters: DeepReadonly<DeleteByIdParameters>, options?: ServiceOperationUseMutationOptions<DeleteByIdSchema, DeleteByIdData, DeleteByIdParameters, TVariables, OperationError<DeleteByIdError>, TContext>): UseMutationResult<DeleteByIdData, OperationError<DeleteByIdError>, TVariables | void, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -481,7 +481,7 @@ export interface UsersService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.users.delete.useMutation({
+         * const { mutate, isPending } = qraft.users.deleteById.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -490,7 +490,7 @@ export interface UsersService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.users.delete.useMutation()
+         * const { mutate, isPending } = qraft.users.deleteById.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -499,18 +499,18 @@ export interface UsersService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<DeleteBody, DeleteParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteSchema, DeleteData, DeleteParameters, TVariables, OperationError<DeleteError>, TContext>): UseMutationResult<DeleteData, OperationError<DeleteError>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<DeleteByIdBody, DeleteByIdParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteByIdSchema, DeleteByIdData, DeleteByIdParameters, TVariables, OperationError<DeleteByIdError>, TContext>): UseMutationResult<DeleteByIdData, OperationError<DeleteByIdError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteTotal = qraft.users.delete.useIsMutating()
+         * const deleteByIdTotal = qraft.users.deleteById.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteTotal = qraft.users.delete.useIsMutating({
+         * const deleteByIdTotal = qraft.users.deleteById.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -519,14 +519,14 @@ export interface UsersService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext> | MutationFiltersByMutationKey<DeleteSchema, DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext> | MutationFiltersByMutationKey<DeleteByIdSchema, DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deletePendingMutationVariables = qraft.users.delete.useMutationState({
+         * const deleteByIdPendingMutationVariables = qraft.users.deleteById.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -535,7 +535,7 @@ export interface UsersService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteMutationData = qraft.users.delete.useMutationState({
+         * const deleteByIdMutationData = qraft.users.deleteById.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -547,12 +547,12 @@ export interface UsersService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<DeleteData, OperationError<DeleteError>, MutationVariables<DeleteBody, DeleteParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext> | MutationFiltersByMutationKey<DeleteSchema, DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext>;
-            select?: (mutation: Mutation<DeleteData, OperationError<DeleteError>, MutationVariables<DeleteBody, DeleteParameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<DeleteByIdData, OperationError<DeleteByIdError>, MutationVariables<DeleteByIdBody, DeleteByIdParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext> | MutationFiltersByMutationKey<DeleteByIdSchema, DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext>;
+            select?: (mutation: Mutation<DeleteByIdData, OperationError<DeleteByIdError>, MutationVariables<DeleteByIdBody, DeleteByIdParameters>, TContext>) => TResult;
         }): Array<TResult>;
         /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext> | MutationFiltersByMutationKey<DeleteSchema, DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext>): number;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext> | MutationFiltersByMutationKey<DeleteByIdSchema, DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
@@ -561,7 +561,7 @@ export interface UsersService {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.users.delete.getMutationCache();
+         * const mutationCache = qraft.users.deleteById.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -573,20 +573,20 @@ export interface UsersService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.users.delete.getMutationCache();
+         * const mutationCache = qraft.users.deleteById.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext> | MutationFiltersByMutationKey<DeleteSchema, DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext>): Mutation<DeleteData, DeleteError, MutationVariables<DeleteBody, DeleteParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext> | MutationFiltersByMutationKey<DeleteSchema, DeleteBody, DeleteData, DeleteParameters, OperationError<DeleteError>, TContext>): Array<Mutation<DeleteData, DeleteError, MutationVariables<DeleteBody, DeleteParameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext> | MutationFiltersByMutationKey<DeleteByIdSchema, DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext>): Mutation<DeleteByIdData, DeleteByIdError, MutationVariables<DeleteByIdBody, DeleteByIdParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext> | MutationFiltersByMutationKey<DeleteByIdSchema, DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext>): Array<Mutation<DeleteByIdData, DeleteByIdError, MutationVariables<DeleteByIdBody, DeleteByIdParameters>, TContext>>;
         };
-        schema: DeleteSchema;
+        schema: DeleteByIdSchema;
         types: {
-            parameters: DeleteParameters;
-            data: DeleteData;
-            error: DeleteError;
-            body: DeleteBody;
+            parameters: DeleteByIdParameters;
+            data: DeleteByIdData;
+            error: DeleteByIdError;
+            body: DeleteByIdBody;
         };
     };
     findAll: {
@@ -952,14 +952,14 @@ export const update = {
     schema: UpdateSchema;
     [QraftServiceOperationsToken]: UsersService["update"];
 };
-export const ddelete = {
+export const deleteById = {
     schema: {
         method: "delete",
         url: "/users/{id}"
     }
 } as {
-    schema: DeleteSchema;
-    [QraftServiceOperationsToken]: UsersService["delete"];
+    schema: DeleteByIdSchema;
+    [QraftServiceOperationsToken]: UsersService["deleteById"];
 };
 export const findAll = {
     schema: {
@@ -983,7 +983,7 @@ export const create = {
 export const usersService = {
     findById,
     update,
-    ddelete,
+    deleteById,
     findAll,
     create
 } as const;
@@ -1005,14 +1005,14 @@ type UpdateParameters = paths["/users/{id}"]["put"]["parameters"];
 type UpdateData = paths["/users/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
 type UpdateError = unknown;
 type UpdateBody = paths["/users/{id}"]["put"]["requestBody"]["content"]["application/json"];
-type DeleteSchema = {
+type DeleteByIdSchema = {
     method: "delete";
     url: "/users/{id}";
 };
-type DeleteParameters = paths["/users/{id}"]["delete"]["parameters"];
-type DeleteData = null;
-type DeleteError = unknown;
-type DeleteBody = undefined;
+type DeleteByIdParameters = paths["/users/{id}"]["delete"]["parameters"];
+type DeleteByIdData = null;
+type DeleteByIdError = unknown;
+type DeleteByIdBody = undefined;
 type FindAllSchema = {
     method: "get";
     url: "/users";
@@ -1032,6 +1032,6 @@ type CreateParameters = {
     header?: never;
     path?: never;
 };
-type CreateData = paths["/users"]["post"]["responses"]["201"]["content"]["*/*"];
+type CreateData = paths["/users"]["post"]["responses"]["200"]["content"]["*/*"];
 type CreateError = unknown;
 type CreateBody = paths["/users"]["post"]["requestBody"]["content"]["application/json"];

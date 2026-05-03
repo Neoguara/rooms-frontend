@@ -5,16 +5,26 @@
 
 import type { UsersService } from "./UsersService";
 import { usersService } from "./UsersService";
+import type { RoomsService } from "./RoomsService";
+import { roomsService } from "./RoomsService";
+import type { EventsService } from "./EventsService";
+import { eventsService } from "./EventsService";
 import type { AuthService } from "./AuthService";
 import { authService } from "./AuthService";
 export type Services = {
     users: UsersService;
+    rooms: RoomsService;
+    events: EventsService;
     auth: AuthService;
 };
 export const services: {
     users: typeof usersService;
+    rooms: typeof roomsService;
+    events: typeof eventsService;
     auth: typeof authService;
 } = {
     users: usersService,
+    rooms: roomsService,
+    events: eventsService,
     auth: authService
 };

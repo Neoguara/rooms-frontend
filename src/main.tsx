@@ -6,8 +6,10 @@ import * as TanStackQueryProvider from '@/integrations/tanstack-query/root-provi
 import { routeTree } from '@/routeTree.gen'
 import '@/styles/index.css'
 import 'overlayscrollbars/overlayscrollbars.css'
-import { APIProvider, useAPI } from './hooks/useAPI'
-import { AuthProvider } from './components/auth-provider'
+import { APIProvider, useAPI } from './hooks/use-api'
+import { AuthProvider, useAuth } from './hooks/use-auth'
+import { ThemeProvider } from './hooks/use-theme'
+import { Toaster } from './components/ui/sonner'
 
 // Create a new router instance
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
@@ -18,6 +20,7 @@ const router = createRouter({
     context: {
         queryClient: undefined!,
         api: undefined!,
+        authentication: undefined!,
     },
     defaultPreload: 'intent',
     scrollRestoration: true,
@@ -39,6 +42,7 @@ function App() {
             context={{
                 api: useAPI().api,
                 queryClient: TanStackQueryProviderContext.queryClient,
+                authentication: useAuth()
             }}
         />
     )
@@ -54,13 +58,16 @@ if (rootElement && !rootElement.innerHTML) {
         <StrictMode>
             <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
                 <APIProvider {...TanStackQueryProviderContext}>
-                    <AuthProvider>
-                        <OverlayScrollbarsComponent style={{ height: '100vh' }}>
-                            <App />
-                        </OverlayScrollbarsComponent>
-                    </AuthProvider>
+                    <ThemeProvider>
+                        <AuthProvider>
+                            <OverlayScrollbarsComponent style={{ height: '100vh' }}>
+                                <App />
+                            </OverlayScrollbarsComponent>
+                            <Toaster />
+                        </AuthProvider>
+                    </ThemeProvider>
                 </APIProvider>
             </TanStackQueryProvider.Provider>
-        </StrictMode >
+         </StrictMode >
     )
 }

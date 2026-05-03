@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
-import { useAPI } from '@/hooks/useAPI'
+import { useAPI } from '@/hooks/use-api'
 
 export type UserRole = "ADMIN" | "USER"
 
@@ -10,13 +10,12 @@ export interface User {
   role: UserRole
 }
 
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null
   isLoading: boolean
+  isLogged: () => boolean
   login: (email: string, password: string) => Promise<boolean>
   logout: () => void
-  canManageUsers: boolean
-  canApprove: boolean
 }
 
 const AuthContext = createContext<AuthContextType>(null!)
@@ -51,10 +50,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           localStorage.setItem('auth_token', token)
           let userData: User
           try {
-            const payload = JSON.parse(atob(token.split('.')[1]))
+
+
+            const payload = result
+
             userData = {
-              id: payload.sub || payload.id || email,
-              name: payload.name || payload.sub || email,
+              id: payload.id || email,
+              name: payload.name || email,
               email: payload.email || email,
               role: (payload.role as UserRole) || 'USER',
             }
@@ -79,16 +81,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null)
   }, [])
 
+  const isLogged = useCallback(() => {
+    const tokenLogged = localStorage.getItem('auth_token')
+    const userDataLogged = localStorage.getItem('auth_user')
+    
+    let userLogged = null
+    
+    if (tokenLogged && userDataLogged) {
+      try {
+        userLogged = (JSON.parse(userDataLogged))
+      } catch {
+        localStorage.removeItem('auth_token')
+        localStorage.removeItem('auth_user')
+      }
+    }
+
+    return userLogged !== null
+    
+  }, [])
+
   const value = useMemo(
     () => ({
       user,
       isLoading,
+      isLogged,
       login,
       logout,
-      canManageUsers: user?.role === 'ADMIN',
-      canApprove: user?.role === 'ADMIN',
     }),
-    [user, isLoading, login, logout],
+    [user, isLoading, isLogged, login, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

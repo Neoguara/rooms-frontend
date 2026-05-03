@@ -6,7 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field"
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from "react"
-import { useAuth } from "@/components/auth-provider"
+import { useAuth } from "@/hooks/use-auth"
 
 export const Route = createFileRoute('/login/')({
   component: LoginPage,
@@ -27,7 +27,7 @@ function LoginPage() {
     try {
       const success = await login(email, password)
       if (success) {
-        navigate({ to: "/" })
+        navigate({ to: "/dashboard" })
       } else {
         setError("Email ou senha inválidos. Verifique suas credenciais.")
       }

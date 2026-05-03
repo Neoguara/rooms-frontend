@@ -23,6 +23,7 @@ import { Horarios } from "./Horarios"
 import { Notificaoes } from "./Notificacoes"
 import { Seguranca } from "./Seguranca"
 import { Integracao } from "./Integracao"
+import { useTheme } from "#/hooks/use-theme"
 
 const settingsCategories = [
   { id: "aparencia", label: "Aparencia", icon: Palette, description: "Tema, cores e layout" },
@@ -33,23 +34,8 @@ const settingsCategories = [
 //  { id: "integracao", label: "Integracoes", icon: Puzzle, description: "APIs e webhooks" },
 ]
 
-const themeOptions = [
-  { value: "light", label: "Claro", icon: Sun, description: "Tema claro padrao" },
-  { value: "dark", label: "Escuro", icon: Moon, description: "Tema escuro para ambientes com pouca luz" },
-  { value: "system", label: "Sistema", icon: Monitor, description: "Seguir preferencia do sistema" },
-]
-
-const colorPresets = [
-  { name: "Academico", primary: "#1e3a8a", accent: "#d97706" },
-  { name: "Azul Profundo", primary: "#0f3460", accent: "#ea580c" },
-  { name: "Verde Academico", primary: "#1a5f3d", accent: "#c29f4a" },
-  { name: "Marinho & Ouro", primary: "#0a2463", accent: "#d4af37" },
-  { name: "Púrpura Real", primary: "#4a148c", accent: "#ffc107" },
-  { name: "Cinza & Âmbar", primary: "#37474f", accent: "#ff9800" },
-]
-
 export function ConfiguracoesPage() {
-//   const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 //   const { colors, setColors, resetColors } = useColors()
   const [mounted, setMounted] = useState(false)
   const [activeCategory, setActiveCategory] = useState("aparencia")
@@ -59,17 +45,9 @@ export function ConfiguracoesPage() {
     setMounted(true)
   }, [])
 
-  const applyPreset = (preset: typeof colorPresets[0]) => {
-    // setColors({
-    //   primaryColor: preset.primary,
-    //   accentColor: preset.accent,
-    // })
-    // setHasChanges(true)
-  }
 
   const resetToDefault = () => {
-    // resetColors()
-    // setTheme("system")
+    setTheme("system")
     // setHasChanges(false)
   }
 
@@ -84,7 +62,7 @@ export function ConfiguracoesPage() {
   const renderContent = () => {
     switch (activeCategory) {
       case "aparencia":
-        return <Aparencia themeOptions={themeOptions} colorPresets={colorPresets}/>    
+        return <Aparencia/>    
       case "geral":
         //return <Geral />
       case "horarios":

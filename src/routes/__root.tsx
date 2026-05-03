@@ -1,10 +1,11 @@
-import { createRootRouteWithContext, useRouterState } from '@tanstack/react-router'
+import { createRootRouteWithContext } from '@tanstack/react-router'
 import type { QueryClient } from '@tanstack/react-query'
-import { AppSidebar } from '#/components/app-sidebar'
-import { SidebarInset, SidebarProvider } from '#/components/ui/sidebar'
-import type { useAPI } from '#/hooks/useAPI'
+import type { useAPI } from '#/hooks/use-api'
+import type { AuthContextType } from '#/hooks/use-auth'
+
 export interface RouterContext {
-  queryClient: QueryClient
+  queryClient: QueryClient,
+  authentication: AuthContextType
   api: ReturnType<typeof useAPI>['api']
 }
 
@@ -13,19 +14,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const isLoginPage = pathname === '/login' || pathname === '/login/'
-
-  if (isLoginPage) {
-    return <>{children}</>
-  }
-
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-       {children}
-      </SidebarInset>
-    </SidebarProvider>
-  )
+  return <>{children}</>
 }
