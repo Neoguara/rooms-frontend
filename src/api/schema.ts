@@ -148,6 +148,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/events/requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["findAllRequests"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -303,6 +319,44 @@ export interface components {
             updatedAt?: string;
             /** Format: date-time */
             deletedAt?: string;
+        };
+        EventChangeItemResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            oldRoomId?: string;
+            /** Format: uuid */
+            newRoomId?: string;
+            oldTitle?: string;
+            newTitle?: string;
+            oldDescription?: string;
+            newDescription?: string;
+            /** Format: date-time */
+            oldStartAt?: string;
+            /** Format: date-time */
+            newStartAt?: string;
+            /** Format: date-time */
+            oldEndAt?: string;
+            /** Format: date-time */
+            newEndAt?: string;
+            oldIsAllDay?: boolean;
+            newIsAllDay?: boolean;
+            oldRecurrenceRule?: string;
+            newRecurrenceRule?: string;
+        };
+        EventChangeRequestResponse: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            eventId?: string;
+            /** Format: uuid */
+            createdBy?: string;
+            status?: string;
+            type?: string;
+            justification?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            changeItem?: components["schemas"]["EventChangeItemResponse"];
         };
         DeleteEventRequest: {
             /** Format: uuid */
@@ -698,6 +752,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["TokenResponse"];
+                };
+            };
+        };
+    };
+    findAllRequests: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EventChangeRequestResponse"][];
                 };
             };
         };

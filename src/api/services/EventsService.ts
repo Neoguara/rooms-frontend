@@ -934,6 +934,229 @@ export interface EventsService {
             body: ApproveBody;
         };
     };
+    findAllRequests: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAllRequestsSchema, FindAllRequestsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAllRequestsParameters, TMeta, TSignal> | void), client?: (schema: FindAllRequestsSchema, options: {
+            parameters: FindAllRequestsParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<FindAllRequestsData, FindAllRequestsError>>): Promise<RequestFnResponse<FindAllRequestsData, FindAllRequestsError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<FindAllRequestsParameters> | void): ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.events.findAllRequests.useQuery()
+         * ```
+         */
+        useQuery<TData = FindAllRequestsData>(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAllRequestsData, FindAllRequestsError, TData, ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAllRequestsError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.events.findAllRequests.useQuery()
+         * ```
+         */
+        useQuery<TData = FindAllRequestsData>(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<DefinedInitialDataOptions<FindAllRequestsData, FindAllRequestsError, TData, ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAllRequestsError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<FindAllRequestsParameters> | void): ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.events.findAllRequests.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends FindAllRequestsParameters, TQueryFnData = FindAllRequestsData, TData = OperationInfiniteData<TQueryFnData, FindAllRequestsParameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAllRequestsError, TData, ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAllRequestsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.events.findAllRequests.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends FindAllRequestsParameters, TQueryFnData = FindAllRequestsData, TData = OperationInfiniteData<TQueryFnData, FindAllRequestsParameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAllRequestsError, TData, ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAllRequestsData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAllRequestsError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const findAllRequestsTotal = qraft.events.findAllRequests.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const findAllRequestsResults = qraft.events.findAllRequests.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * findAllRequestsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const findAllRequestsCombinedResults = qraft.events.findAllRequests.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * findAllRequestsCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAllRequestsSchema, FindAllRequestsParameters, FindAllRequestsData, FindAllRequestsError>>, TCombinedResult = Array<UseQueryResult<FindAllRequestsData, FindAllRequestsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<FindAllRequestsData, FindAllRequestsError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.events.findAllRequests.useSuspenseQuery()
+         * ```
+         */
+        useSuspenseQuery<TData = FindAllRequestsData>(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAllRequestsData, FindAllRequestsError, TData, ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAllRequestsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.events.findAllRequests.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends FindAllRequestsParameters, TData = FindAllRequestsData>(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAllRequestsData, FindAllRequestsError, OperationInfiniteData<TData, FindAllRequestsParameters>, ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAllRequestsData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAllRequestsParameters>, OperationError<FindAllRequestsError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const findAllRequestsData = qraft.events.findAllRequests.useSuspenseQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * findAllRequestsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const findAllRequestsCombinedData = qraft.events.findAllRequests.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * findAllRequestsCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAllRequestsSchema, FindAllRequestsParameters, FindAllRequestsData, FindAllRequestsError>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAllRequestsData, FindAllRequestsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAllRequestsData, FindAllRequestsError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, FindAllRequestsError> | void): Promise<FindAllRequestsData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, FindAllRequestsError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, FindAllRequestsError> | void): Promise<FindAllRequestsData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends FindAllRequestsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, DeepReadonly<TPageParam>, FindAllRequestsError> | void): Promise<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends FindAllRequestsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, DeepReadonly<TPageParam>, FindAllRequestsError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends FindAllRequestsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, DeepReadonly<TPageParam>, FindAllRequestsError> | void): Promise<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void)): FindAllRequestsData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void)): OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>,
+            data: NoInfer<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>,
+            data: FindAllRequestsData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void)): QueryState<FindAllRequestsData, FindAllRequestsError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<FindAllRequestsParameters> | ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | void): QueryState<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>, FindAllRequestsError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<FindAllRequestsParameters> | undefined) | ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, updater: Updater<NoInfer<FindAllRequestsData> | undefined, NoInfer<DeepReadonly<FindAllRequestsData>> | undefined>, options?: SetDataOptions): FindAllRequestsData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<FindAllRequestsParameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, updater: Updater<NoInfer<FindAllRequestsData> | undefined, NoInfer<FindAllRequestsData> | undefined>, options?: SetDataOptions): Array<FindAllRequestsData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): number;
+        schema: FindAllRequestsSchema;
+        types: {
+            parameters: FindAllRequestsParameters;
+            data: FindAllRequestsData;
+            error: FindAllRequestsError;
+        };
+    };
 }
 export const requestUpdate = {
     schema: {
@@ -992,13 +1215,23 @@ export const approve = {
     schema: ApproveSchema;
     [QraftServiceOperationsToken]: EventsService["approve"];
 };
+export const findAllRequests = {
+    schema: {
+        method: "get",
+        url: "/events/requests"
+    }
+} as {
+    schema: FindAllRequestsSchema;
+    [QraftServiceOperationsToken]: EventsService["findAllRequests"];
+};
 export const eventsService = {
     requestUpdate,
     requestDeletion,
     findAll2,
     requestCreation,
     reject,
-    approve
+    approve,
+    findAllRequests
 } as const;
 type RequestUpdateSchema = {
     method: "put";
@@ -1060,3 +1293,10 @@ type ApproveParameters = paths["/events/requests/{id}/approve"]["post"]["paramet
 type ApproveData = null;
 type ApproveError = unknown;
 type ApproveBody = undefined;
+type FindAllRequestsSchema = {
+    method: "get";
+    url: "/events/requests";
+};
+type FindAllRequestsParameters = undefined;
+type FindAllRequestsData = paths["/events/requests"]["get"]["responses"]["200"]["content"]["*/*"];
+type FindAllRequestsError = unknown;
