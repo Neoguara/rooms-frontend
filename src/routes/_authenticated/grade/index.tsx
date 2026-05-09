@@ -125,7 +125,10 @@ function GradePage() {
   const { api } = useAPI()
 
   const { data: rooms = [], isLoading: loadingRooms } = api.rooms.findAll1.useQuery()
-  const { data: events = [], isLoading: loadingEvents, refetch: refetchEvents } = api.events.findAll2.useQuery()
+  const { data: eventsa = [], isLoading: loadingEvents, refetch: refetchEvents } = api.events.findAll2.useQuery()
+
+
+  const events = eventsa.filter(event => typeof event.deletedAt !== `string`)
 
   const requestCreationMutation = api.events.requestCreation.useMutation()
   const requestUpdateMutation = api.events.requestUpdate.useMutation()
@@ -711,7 +714,7 @@ function GradePage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteEvent} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogAction onClick={handleDeleteEvent} className="bg-destructive hover:bg-destructive/90">
               Remover
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -729,7 +732,7 @@ function GradePage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Voltar</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmCancelEdit} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogAction onClick={confirmCancelEdit} className="bg-destructive hover:bg-destructive/90">
               Descartar
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -805,7 +808,7 @@ function GradePage() {
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-1">Histórico não disponível</h3>
               <p className="text-sm text-muted-foreground max-w-60">
-                O histórico de sessões de edição será exibido aqui quando disponível via API.
+                ....
               </p>
             </div>
           </ScrollArea>

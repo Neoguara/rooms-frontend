@@ -104,7 +104,7 @@ function BookingCell({
     return (
       <td
         className={cn(
-          "h-16 min-w-[100px] border-r border-b border-border/50 p-1 transition-colors",
+          "h-16 min-w-25 max-w-25 truncate border-r border-b border-border/50 p-1 transition-colors",
           weekend && "bg-muted/30",
           today && "bg-primary/5",
           isEditMode && !weekend && "hover:bg-accent/50 cursor-pointer"
@@ -122,10 +122,10 @@ function BookingCell({
 
   if (dayEvents.length > 1) {
     return (
-      <td className={cn("h-16 min-w-[100px] border-r border-b border-border/50 p-1", today && "bg-primary/5")}>
+      <td className={cn("h-16 min-w-25 max-w-25 border-r border-b border-border/50 p-1", today && "bg-primary/5")}>
         <Popover>
           <PopoverTrigger asChild>
-            <button className="w-full h-full rounded-md px-2 py-1 text-left bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30 hover:border-primary/50 transition-colors">
+            <button className="w-full h-full rounded-md px-2 py-1 text-left bg-linear-to-r from-primary/20 to-primary/10 border border-primary/30 hover:border-primary/50 transition-colors">
               <div className="text-xs font-medium text-foreground truncate">
                 {dayEvents.length} eventos
               </div>
@@ -170,7 +170,7 @@ function BookingCell({
   const isLocalOnly = event._localOnly
 
   return (
-    <td className={cn("h-16 min-w-[100px] border-r border-b border-border/50 p-1 group/cell", today && "bg-primary/5")}>
+    <td className={cn("h-16 min-w-25 max-w-25 border-r border-b border-border/50 p-1 group/cell", today && "bg-primary/5")}>
       <Popover>
         <PopoverTrigger asChild>
           <button
@@ -369,7 +369,7 @@ export function RoomScheduler({
         <table className="w-full border-collapse">
           <thead className="sticky top-0 z-10 bg-card">
             <tr>
-              <th className="sticky left-0 z-20 bg-card min-w-[180px] border-r border-b border-border" />
+              <th className="sticky left-0 z-20 bg-card min-w-45 border-r border-b border-border" />
               {monthGroups.map((group, idx) => (
                 <th
                   key={`${group.month}-${idx}`}
@@ -381,7 +381,7 @@ export function RoomScheduler({
               ))}
             </tr>
             <tr>
-              <th className="sticky left-0 z-20 bg-card min-w-[180px] px-4 py-2 text-left border-r border-b border-border">
+              <th className="sticky left-0 z-20 bg-card min-w-45 px-4 py-2 text-left border-r border-b border-border">
                 <span className="text-sm font-medium text-foreground">Sala</span>
               </th>
               {dates.map((date) => {
@@ -391,7 +391,7 @@ export function RoomScheduler({
                   <th
                     key={toDateString(date)}
                     className={cn(
-                      "min-w-[100px] px-2 py-2 text-center border-r border-b border-border",
+                      "min-w-25 px-2 py-2 text-center border-r border-b border-border",
                       weekend && "bg-muted/30",
                       today && "bg-primary/10"
                     )}
@@ -421,7 +421,7 @@ export function RoomScheduler({
                   <React.Fragment key={building}>
                     <tr className="bg-muted/50">
                       <td
-                        className="sticky left-0 z-10 bg-muted/50 min-w-[180px] px-4 py-2 border-r border-b border-border cursor-pointer hover:bg-muted transition-colors"
+                        className="sticky left-0 z-10 bg-muted/50 min-w-45 px-4 py-2 border-r border-b border-border cursor-pointer hover:bg-muted transition-colors"
                         onClick={() => toggleBuilding(building)}
                       >
                         <div className="flex items-center gap-2">
@@ -437,7 +437,7 @@ export function RoomScheduler({
                         <td
                           key={toDateString(date)}
                           className={cn(
-                            "min-w-[100px] border-r border-b border-border/50 bg-muted/50",
+                            "min-w-25 border-r border-b border-border/50 bg-muted/50",
                             isWeekend(date) && "bg-muted/70",
                             isToday(date) && "bg-primary/10"
                           )}
@@ -447,7 +447,7 @@ export function RoomScheduler({
                     </tr>
                     {!isCollapsed && buildingRooms.map((room) => (
                       <tr key={room.id} className="group">
-                        <td className="sticky left-0 z-10 bg-card min-w-[180px] px-4 py-2 border-r border-b border-border group-hover:bg-accent/30 transition-colors">
+                        <td className="sticky left-0 z-10 bg-card min-w-45 px-4 py-2 border-r border-b border-border group-hover:bg-accent/30 transition-colors">
                           <div className="flex items-center gap-3 pl-4">
                             <div className={cn(
                               "size-9 rounded-lg flex items-center justify-center text-xs font-bold shrink-0",
