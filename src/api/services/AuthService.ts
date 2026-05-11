@@ -154,5 +154,5 @@ type LoginParameters = {
     path?: never;
 };
 type LoginData = paths["/auth/login"]["post"]["responses"]["200"]["content"]["*/*"];
-type LoginError = unknown;
+type LoginError = paths["/auth/login"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/auth/login"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/auth/login"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/auth/login"]["post"]["responses"]["422"]["content"]["*/*"];
 type LoginBody = paths["/auth/login"]["post"]["requestBody"]["content"]["application/json"];

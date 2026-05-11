@@ -7,24 +7,29 @@ import type { paths } from "../schema";
 import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey, MutationFiltersByParameters, MutationVariables, OperationError, OperationInfiniteData, PartialParameters, QueryFiltersByParameters, QueryFiltersByQueryKey, QueryFnOptionsByParameters, QueryFnOptionsByQueryKey, RequestFnResponse, ServiceOperationEnsureInfiniteQueryDataOptions, ServiceOperationEnsureQueryDataOptions, ServiceOperationFetchInfiniteQueryOptions, ServiceOperationFetchQueryOptions, ServiceOperationInfiniteQueryKey, ServiceOperationMutationFnOptions, ServiceOperationMutationKey, ServiceOperationQueryKey, ServiceOperationUseMutationOptions, UseQueryOptionsForUseQueries, UseQueryOptionsForUseSuspenseQuery, WithOptional, QraftServiceOperationsToken } from "@openapi-qraft/tanstack-query-react-types";
 import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface RoomsService {
+    /** @description Retorna os dados de uma sala pelo seu ID. */
     findById1: {
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindById1Schema, FindById1Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindById1Parameters, TMeta, TSignal>), client?: (schema: FindById1Schema, options: {
             parameters: FindById1Parameters;
             signal?: TSignal;
             meta?: TMeta;
         }) => Promise<RequestFnResponse<FindById1Data, FindById1Error>>): Promise<RequestFnResponse<FindById1Data, FindById1Error>>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         getQueryKey(parameters: DeepReadonly<FindById1Parameters>): ServiceOperationQueryKey<FindById1Schema, FindById1Parameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
          * const { data, isLoading } = qraft.rooms.findById1.useQuery({
          *     path: {
          *         id: id
+         *     },
+         *     query: {
+         *         expand: expand
          *     }
          * })
          * ```
@@ -33,23 +38,28 @@ export interface RoomsService {
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
          * const { data, isLoading } = qraft.rooms.findById1.useQuery({
          *     path: {
          *         id: id
+         *     },
+         *     query: {
+         *         expand: expand
          *     }
          * })
          * ```
          */
         useQuery<TData = FindById1Data>(parameters: ServiceOperationQueryKey<FindById1Schema, FindById1Parameters> | (DeepReadonly<FindById1Parameters>), options: Omit<DefinedInitialDataOptions<FindById1Data, FindById1Error, TData, ServiceOperationQueryKey<FindById1Schema, FindById1Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindById1Error>>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         getInfiniteQueryKey(parameters: DeepReadonly<FindById1Parameters>): ServiceOperationInfiniteQueryKey<FindById1Schema, FindById1Parameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
@@ -59,7 +69,11 @@ export interface RoomsService {
          *         id: id
          *     }
          * }, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             expand: initialExpand
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -72,6 +86,7 @@ export interface RoomsService {
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
@@ -81,7 +96,11 @@ export interface RoomsService {
          *         id: id
          *     }
          * }, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             expand: initialExpand
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -94,6 +113,7 @@ export interface RoomsService {
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
@@ -107,6 +127,9 @@ export interface RoomsService {
          *     parameters: {
          *         path: {
          *             id: id
+         *         },
+         *         query: {
+         *             expand: expand
          *         }
          *     }
          * })
@@ -116,6 +139,7 @@ export interface RoomsService {
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
@@ -124,11 +148,17 @@ export interface RoomsService {
          *         {
          *             path: {
          *                 id: id1
+         *             },
+         *             query: {
+         *                 expand: expand1
          *             }
          *         },
          *         {
          *             path: {
          *                 id: id2
+         *             },
+         *             query: {
+         *                 expand: expand2
          *             }
          *         }
          *     ]
@@ -143,11 +173,17 @@ export interface RoomsService {
          *         {
          *             path: {
          *                 id: id1
+         *             },
+         *             query: {
+         *                 expand: expand1
          *             }
          *         },
          *         {
          *             path: {
          *                 id: id2
+         *             },
+         *             query: {
+         *                 expand: expand2
          *             }
          *         }
          *     ]
@@ -163,12 +199,16 @@ export interface RoomsService {
          * Performs asynchronous data fetching with Suspense support.
          * Similar to useQuery but integrates with React Suspense for loading states.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
          * const data = qraft.rooms.findById1.useSuspenseQuery({
          *     path: {
          *         id: id
+         *     },
+         *     query: {
+         *         expand: expand
          *     }
          * })
          * ```
@@ -179,6 +219,7 @@ export interface RoomsService {
          * Manages paginated data and provides utilities for fetching additional pages.
          * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
          *
          * @example Suspense Infinite Query
@@ -188,7 +229,11 @@ export interface RoomsService {
          *         id: id
          *     }
          * }, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             expand: initialExpand
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -201,6 +246,7 @@ export interface RoomsService {
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
          *
+         * @description Retorna os dados de uma sala pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
@@ -209,11 +255,17 @@ export interface RoomsService {
          *         {
          *             path: {
          *                 id: id1
+         *             },
+         *             query: {
+         *                 expand: expand1
          *             }
          *         },
          *         {
          *             path: {
          *                 id: id2
+         *             },
+         *             query: {
+         *                 expand: expand2
          *             }
          *         }
          *     ]
@@ -228,11 +280,17 @@ export interface RoomsService {
          *         {
          *             path: {
          *                 id: id1
+         *             },
+         *             query: {
+         *                 expand: expand1
          *             }
          *         },
          *         {
          *             path: {
          *                 id: id2
+         *             },
+         *             query: {
+         *                 expand: expand2
          *             }
          *         }
          *     ]
@@ -244,23 +302,23 @@ export interface RoomsService {
             queries: T;
             combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindById1Data, FindById1Error>, "data">>) => TCombinedResult;
         }): TCombinedResult;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         fetchQuery(options: ServiceOperationFetchQueryOptions<FindById1Schema, FindById1Data, FindById1Parameters, FindById1Error>): Promise<FindById1Data>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         prefetchQuery(options: ServiceOperationFetchQueryOptions<FindById1Schema, FindById1Data, FindById1Parameters, FindById1Error>): Promise<void>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindById1Schema, FindById1Data, FindById1Parameters, FindById1Error>): Promise<FindById1Data>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         fetchInfiniteQuery<TPageParam extends FindById1Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById1Schema, FindById1Data, FindById1Parameters, DeepReadonly<TPageParam>, FindById1Error>): Promise<OperationInfiniteData<FindById1Data, FindById1Parameters>>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         prefetchInfiniteQuery<TPageParam extends FindById1Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById1Schema, FindById1Data, FindById1Parameters, DeepReadonly<TPageParam>, FindById1Error>): Promise<void>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         ensureInfiniteQueryData<TPageParam extends FindById1Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindById1Schema, FindById1Data, FindById1Parameters, DeepReadonly<TPageParam>, FindById1Error>): Promise<OperationInfiniteData<FindById1Data, FindById1Parameters>>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         getQueryData(parameters: ServiceOperationQueryKey<FindById1Schema, FindById1Parameters> | (DeepReadonly<FindById1Parameters>)): FindById1Data | undefined;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindById1Schema, FindById1Parameters> | (DeepReadonly<FindById1Parameters>)): OperationInfiniteData<FindById1Data, FindById1Parameters> | undefined;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error> | QueryFiltersByQueryKey<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>): TInfinite extends true ? Array<[
             queryKey: ServiceOperationInfiniteQueryKey<FindById1Schema, FindById1Parameters>,
             data: NoInfer<OperationInfiniteData<FindById1Data, FindById1Parameters>> | undefined
@@ -268,27 +326,27 @@ export interface RoomsService {
             queryKey: ServiceOperationQueryKey<FindById1Schema, FindById1Parameters>,
             data: FindById1Data | undefined
         ]>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         getQueryState(parameters: ServiceOperationQueryKey<FindById1Schema, FindById1Parameters> | (DeepReadonly<FindById1Parameters>)): QueryState<FindById1Data, FindById1Error> | undefined;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         getInfiniteQueryState(parameters: DeepReadonly<FindById1Parameters> | ServiceOperationInfiniteQueryKey<FindById1Schema, FindById1Parameters>): QueryState<OperationInfiniteData<FindById1Data, FindById1Parameters>, FindById1Error> | undefined;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         setQueryData(parameters: (DeepReadonly<FindById1Parameters>) | ServiceOperationQueryKey<FindById1Schema, FindById1Parameters>, updater: Updater<NoInfer<FindById1Data> | undefined, NoInfer<DeepReadonly<FindById1Data>> | undefined>, options?: SetDataOptions): FindById1Data | undefined;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         setInfiniteQueryData(parameters: (DeepReadonly<FindById1Parameters>) | ServiceOperationInfiniteQueryKey<FindById1Schema, FindById1Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindById1Data, FindById1Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindById1Data, FindById1Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindById1Data, FindById1Parameters> | undefined;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error> | QueryFiltersByQueryKey<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>, updater: Updater<NoInfer<FindById1Data> | undefined, NoInfer<FindById1Data> | undefined>, options?: SetDataOptions): Array<FindById1Data | undefined>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>, options?: InvalidateOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error> | QueryFiltersByQueryKey<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>, options?: RefetchOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error> | QueryFiltersByQueryKey<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>, options?: CancelOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error> | QueryFiltersByQueryKey<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>): void;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error> | QueryFiltersByQueryKey<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>, options?: ResetOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de uma sala pelo seu ID. */
         isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error> | QueryFiltersByQueryKey<FindById1Schema, FindById1Data, TInfinite, FindById1Parameters, FindById1Error>): number;
         schema: FindById1Schema;
         types: {
@@ -297,19 +355,21 @@ export interface RoomsService {
             error: FindById1Error;
         };
     };
-    update1: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<Update1Body, Update1Parameters, TMeta, TSignal>, client?: (schema: Update1Schema, options: ServiceOperationMutationFnOptions<Update1Body, Update1Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<Update1Data, Update1Error>>): Promise<RequestFnResponse<Update1Data, Update1Error>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<Update1Parameters> | void): ServiceOperationMutationKey<Update1Schema, Update1Parameters>;
+    /** @description Atualiza os dados da sala. */
+    updateById: {
+        /** @description Atualiza os dados da sala. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateByIdBody, UpdateByIdParameters, TMeta, TSignal>, client?: (schema: UpdateByIdSchema, options: ServiceOperationMutationFnOptions<UpdateByIdBody, UpdateByIdParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateByIdData, UpdateByIdError>>): Promise<RequestFnResponse<UpdateByIdData, UpdateByIdError>>;
+        /** @description Atualiza os dados da sala. */
+        getMutationKey(parameters: DeepReadonly<UpdateByIdParameters> | void): ServiceOperationMutationKey<UpdateByIdSchema, UpdateByIdParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Atualiza os dados da sala.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.rooms.update1.useMutation({
+         * const { mutate, isPending } = qraft.rooms.updateById.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -318,7 +378,7 @@ export interface RoomsService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.rooms.update1.useMutation()
+         * const { mutate, isPending } = qraft.rooms.updateById.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -327,15 +387,16 @@ export interface RoomsService {
          * });
          * ```
          */
-        useMutation<TVariables extends Update1Body, TContext = unknown>(parameters: DeepReadonly<Update1Parameters>, options?: ServiceOperationUseMutationOptions<Update1Schema, Update1Data, Update1Parameters, TVariables, OperationError<Update1Error>, TContext>): UseMutationResult<Update1Data, OperationError<Update1Error>, TVariables, TContext>;
+        useMutation<TVariables extends UpdateByIdBody, TContext = unknown>(parameters: DeepReadonly<UpdateByIdParameters>, options?: ServiceOperationUseMutationOptions<UpdateByIdSchema, UpdateByIdData, UpdateByIdParameters, TVariables, OperationError<UpdateByIdError>, TContext>): UseMutationResult<UpdateByIdData, OperationError<UpdateByIdError>, TVariables, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Atualiza os dados da sala.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.rooms.update1.useMutation({
+         * const { mutate, isPending } = qraft.rooms.updateById.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -344,7 +405,7 @@ export interface RoomsService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.rooms.update1.useMutation()
+         * const { mutate, isPending } = qraft.rooms.updateById.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -353,18 +414,19 @@ export interface RoomsService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<Update1Body, Update1Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<Update1Schema, Update1Data, Update1Parameters, TVariables, OperationError<Update1Error>, TContext>): UseMutationResult<Update1Data, OperationError<Update1Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<UpdateByIdBody, UpdateByIdParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateByIdSchema, UpdateByIdData, UpdateByIdParameters, TVariables, OperationError<UpdateByIdError>, TContext>): UseMutationResult<UpdateByIdData, OperationError<UpdateByIdError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
+         * @description Atualiza os dados da sala.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const update1Total = qraft.rooms.update1.useIsMutating()
+         * const updateByIdTotal = qraft.rooms.updateById.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const update1Total = qraft.rooms.update1.useIsMutating({
+         * const updateByIdTotal = qraft.rooms.updateById.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -373,14 +435,15 @@ export interface RoomsService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext> | MutationFiltersByMutationKey<Update1Schema, Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext> | MutationFiltersByMutationKey<UpdateByIdSchema, UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
+         * @description Atualiza os dados da sala.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const update1PendingMutationVariables = qraft.rooms.update1.useMutationState({
+         * const updateByIdPendingMutationVariables = qraft.rooms.updateById.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -389,7 +452,7 @@ export interface RoomsService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const update1MutationData = qraft.rooms.update1.useMutationState({
+         * const updateByIdMutationData = qraft.rooms.updateById.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -401,21 +464,22 @@ export interface RoomsService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<Update1Data, OperationError<Update1Error>, MutationVariables<Update1Body, Update1Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext> | MutationFiltersByMutationKey<Update1Schema, Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext>;
-            select?: (mutation: Mutation<Update1Data, OperationError<Update1Error>, MutationVariables<Update1Body, Update1Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateByIdData, OperationError<UpdateByIdError>, MutationVariables<UpdateByIdBody, UpdateByIdParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext> | MutationFiltersByMutationKey<UpdateByIdSchema, UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext>;
+            select?: (mutation: Mutation<UpdateByIdData, OperationError<UpdateByIdError>, MutationVariables<UpdateByIdBody, UpdateByIdParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext> | MutationFiltersByMutationKey<Update1Schema, Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext>): number;
+        /** @description Atualiza os dados da sala. */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext> | MutationFiltersByMutationKey<UpdateByIdSchema, UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
+         * @description Atualiza os dados da sala.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.rooms.update1.getMutationCache();
+         * const mutationCache = qraft.rooms.updateById.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -427,31 +491,33 @@ export interface RoomsService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.rooms.update1.getMutationCache();
+         * const mutationCache = qraft.rooms.updateById.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext> | MutationFiltersByMutationKey<Update1Schema, Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext>): Mutation<Update1Data, Update1Error, MutationVariables<Update1Body, Update1Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext> | MutationFiltersByMutationKey<Update1Schema, Update1Body, Update1Data, Update1Parameters, OperationError<Update1Error>, TContext>): Array<Mutation<Update1Data, Update1Error, MutationVariables<Update1Body, Update1Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext> | MutationFiltersByMutationKey<UpdateByIdSchema, UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext>): Mutation<UpdateByIdData, UpdateByIdError, MutationVariables<UpdateByIdBody, UpdateByIdParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext> | MutationFiltersByMutationKey<UpdateByIdSchema, UpdateByIdBody, UpdateByIdData, UpdateByIdParameters, OperationError<UpdateByIdError>, TContext>): Array<Mutation<UpdateByIdData, UpdateByIdError, MutationVariables<UpdateByIdBody, UpdateByIdParameters>, TContext>>;
         };
-        schema: Update1Schema;
+        schema: UpdateByIdSchema;
         types: {
-            parameters: Update1Parameters;
-            data: Update1Data;
-            error: Update1Error;
-            body: Update1Body;
+            parameters: UpdateByIdParameters;
+            data: UpdateByIdData;
+            error: UpdateByIdError;
+            body: UpdateByIdBody;
         };
     };
+    /** @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED. */
     deleteById1: {
-        /**/
+        /** @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteById1Body, DeleteById1Parameters, TMeta, TSignal>, client?: (schema: DeleteById1Schema, options: ServiceOperationMutationFnOptions<DeleteById1Body, DeleteById1Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteById1Data, DeleteById1Error>>): Promise<RequestFnResponse<DeleteById1Data, DeleteById1Error>>;
-        /**/
+        /** @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED. */
         getMutationKey(parameters: DeepReadonly<DeleteById1Parameters> | void): ServiceOperationMutationKey<DeleteById1Schema, DeleteById1Parameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -478,6 +544,7 @@ export interface RoomsService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -503,6 +570,7 @@ export interface RoomsService {
         /**
          * Returns the count of currently in-progress mutations.
          *
+         * @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -523,6 +591,7 @@ export interface RoomsService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
+         * @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -551,12 +620,13 @@ export interface RoomsService {
             filters?: MutationFiltersByParameters<DeleteById1Body, DeleteById1Data, DeleteById1Parameters, OperationError<DeleteById1Error>, TContext> | MutationFiltersByMutationKey<DeleteById1Schema, DeleteById1Body, DeleteById1Data, DeleteById1Parameters, OperationError<DeleteById1Error>, TContext>;
             select?: (mutation: Mutation<DeleteById1Data, OperationError<DeleteById1Error>, MutationVariables<DeleteById1Body, DeleteById1Parameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /**/
+        /** @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteById1Body, DeleteById1Data, DeleteById1Parameters, OperationError<DeleteById1Error>, TContext> | MutationFiltersByMutationKey<DeleteById1Schema, DeleteById1Body, DeleteById1Data, DeleteById1Parameters, OperationError<DeleteById1Error>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
+         * @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -589,47 +659,446 @@ export interface RoomsService {
             body: DeleteById1Body;
         };
     };
+    /**
+     * @description Altera o status da sala. Transições permitidas:
+     * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+     * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+     * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+     * - **ARCHIVED**: arquiva a sala independente do status atual.
+     *
+     * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+     *
+     */
+    updateStatus: {
+        /**
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateStatusBody, UpdateStatusParameters, TMeta, TSignal>, client?: (schema: UpdateStatusSchema, options: ServiceOperationMutationFnOptions<UpdateStatusBody, UpdateStatusParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateStatusData, UpdateStatusError>>): Promise<RequestFnResponse<UpdateStatusData, UpdateStatusError>>;
+        /**
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         */
+        getMutationKey(parameters: DeepReadonly<UpdateStatusParameters> | void): ServiceOperationMutationKey<UpdateStatusSchema, UpdateStatusParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.updateStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.updateStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends UpdateStatusBody, TContext = unknown>(parameters: DeepReadonly<UpdateStatusParameters>, options?: ServiceOperationUseMutationOptions<UpdateStatusSchema, UpdateStatusData, UpdateStatusParameters, TVariables, OperationError<UpdateStatusError>, TContext>): UseMutationResult<UpdateStatusData, OperationError<UpdateStatusError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.updateStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.updateStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateStatusSchema, UpdateStatusData, UpdateStatusParameters, TVariables, OperationError<UpdateStatusError>, TContext>): UseMutationResult<UpdateStatusData, OperationError<UpdateStatusError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const updateStatusTotal = qraft.rooms.updateStatus.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const updateStatusTotal = qraft.rooms.updateStatus.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const updateStatusPendingMutationVariables = qraft.rooms.updateStatus.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const updateStatusMutationData = qraft.rooms.updateStatus.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 id: id
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateStatusData, OperationError<UpdateStatusError>, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>;
+            select?: (mutation: Mutation<UpdateStatusData, OperationError<UpdateStatusError>, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @description Altera o status da sala. Transições permitidas:
+         * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         * - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.rooms.updateStatus.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.rooms.updateStatus.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): Mutation<UpdateStatusData, UpdateStatusError, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): Array<Mutation<UpdateStatusData, UpdateStatusError, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext>>;
+        };
+        schema: UpdateStatusSchema;
+        types: {
+            parameters: UpdateStatusParameters;
+            data: UpdateStatusData;
+            error: UpdateStatusError;
+            body: UpdateStatusBody;
+        };
+    };
+    /** @description Substitui todos os recursos da sala pela lista informada. */
+    replaceResources: {
+        /** @description Substitui todos os recursos da sala pela lista informada. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<ReplaceResourcesBody, ReplaceResourcesParameters, TMeta, TSignal>, client?: (schema: ReplaceResourcesSchema, options: ServiceOperationMutationFnOptions<ReplaceResourcesBody, ReplaceResourcesParameters, TMeta, TSignal>) => Promise<RequestFnResponse<ReplaceResourcesData, ReplaceResourcesError>>): Promise<RequestFnResponse<ReplaceResourcesData, ReplaceResourcesError>>;
+        /** @description Substitui todos os recursos da sala pela lista informada. */
+        getMutationKey(parameters: DeepReadonly<ReplaceResourcesParameters> | void): ServiceOperationMutationKey<ReplaceResourcesSchema, ReplaceResourcesParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Substitui todos os recursos da sala pela lista informada.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.replaceResources.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.replaceResources.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends ReplaceResourcesBody, TContext = unknown>(parameters: DeepReadonly<ReplaceResourcesParameters>, options?: ServiceOperationUseMutationOptions<ReplaceResourcesSchema, ReplaceResourcesData, ReplaceResourcesParameters, TVariables, OperationError<ReplaceResourcesError>, TContext>): UseMutationResult<ReplaceResourcesData, OperationError<ReplaceResourcesError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Substitui todos os recursos da sala pela lista informada.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.replaceResources.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.rooms.replaceResources.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<ReplaceResourcesBody, ReplaceResourcesParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<ReplaceResourcesSchema, ReplaceResourcesData, ReplaceResourcesParameters, TVariables, OperationError<ReplaceResourcesError>, TContext>): UseMutationResult<ReplaceResourcesData, OperationError<ReplaceResourcesError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @description Substitui todos os recursos da sala pela lista informada.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const replaceResourcesTotal = qraft.rooms.replaceResources.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const replaceResourcesTotal = qraft.rooms.replaceResources.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext> | MutationFiltersByMutationKey<ReplaceResourcesSchema, ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @description Substitui todos os recursos da sala pela lista informada.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const replaceResourcesPendingMutationVariables = qraft.rooms.replaceResources.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const replaceResourcesMutationData = qraft.rooms.replaceResources.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 id: id
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<ReplaceResourcesData, OperationError<ReplaceResourcesError>, MutationVariables<ReplaceResourcesBody, ReplaceResourcesParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext> | MutationFiltersByMutationKey<ReplaceResourcesSchema, ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext>;
+            select?: (mutation: Mutation<ReplaceResourcesData, OperationError<ReplaceResourcesError>, MutationVariables<ReplaceResourcesBody, ReplaceResourcesParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /** @description Substitui todos os recursos da sala pela lista informada. */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext> | MutationFiltersByMutationKey<ReplaceResourcesSchema, ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @description Substitui todos os recursos da sala pela lista informada.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.rooms.replaceResources.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.rooms.replaceResources.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext> | MutationFiltersByMutationKey<ReplaceResourcesSchema, ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext>): Mutation<ReplaceResourcesData, ReplaceResourcesError, MutationVariables<ReplaceResourcesBody, ReplaceResourcesParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext> | MutationFiltersByMutationKey<ReplaceResourcesSchema, ReplaceResourcesBody, ReplaceResourcesData, ReplaceResourcesParameters, OperationError<ReplaceResourcesError>, TContext>): Array<Mutation<ReplaceResourcesData, ReplaceResourcesError, MutationVariables<ReplaceResourcesBody, ReplaceResourcesParameters>, TContext>>;
+        };
+        schema: ReplaceResourcesSchema;
+        types: {
+            parameters: ReplaceResourcesParameters;
+            data: ReplaceResourcesData;
+            error: ReplaceResourcesError;
+            body: ReplaceResourcesBody;
+        };
+    };
+    /** @description Retorna todas as salas cadastradas. */
     findAll1: {
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAll1Schema, FindAll1Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAll1Parameters, TMeta, TSignal> | void), client?: (schema: FindAll1Schema, options: {
             parameters: FindAll1Parameters;
             signal?: TSignal;
             meta?: TMeta;
         }) => Promise<RequestFnResponse<FindAll1Data, FindAll1Error>>): Promise<RequestFnResponse<FindAll1Data, FindAll1Error>>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         getQueryKey(parameters: DeepReadonly<FindAll1Parameters> | void): ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
          * const { data, isLoading } = qraft.rooms.findAll1.useQuery()
+         * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.rooms.findAll1.useQuery({
+         *     query: {
+         *         expand: expand
+         *     }
+         * })
          * ```
          */
         useQuery<TData = FindAll1Data>(parameters: ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters> | (DeepReadonly<FindAll1Parameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAll1Data, FindAll1Error, TData, ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAll1Error>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
          * const { data, isLoading } = qraft.rooms.findAll1.useQuery()
          * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.rooms.findAll1.useQuery({
+         *     query: {
+         *         expand: expand
+         *     }
+         * })
+         * ```
          */
         useQuery<TData = FindAll1Data>(parameters: ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters> | (DeepReadonly<FindAll1Parameters> | void), options: Omit<DefinedInitialDataOptions<FindAll1Data, FindAll1Error, TData, ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAll1Error>>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         getInfiniteQueryKey(parameters: DeepReadonly<FindAll1Parameters> | void): ServiceOperationInfiniteQueryKey<FindAll1Schema, FindAll1Parameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.rooms.findAll1.useInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             expand: initialExpand
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -642,12 +1111,17 @@ export interface RoomsService {
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.rooms.findAll1.useInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             expand: initialExpand
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -660,24 +1134,45 @@ export interface RoomsService {
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
          * const findAll1Total = qraft.rooms.findAll1.useIsFetching()
          * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const findAll1ByParametersTotal = qraft.rooms.findAll1.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         query: {
+         *             expand: expand
+         *         }
+         *     }
+         * })
+         * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
          * const findAll1Results = qraft.rooms.findAll1.useQueries({
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 expand: expand1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 expand: expand2
+         *             }
+         *         }
          *     ]
          * });
          * findAll1Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
@@ -687,8 +1182,16 @@ export interface RoomsService {
          * const findAll1CombinedResults = qraft.rooms.findAll1.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 expand: expand1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 expand: expand2
+         *             }
+         *         }
          *     ]
          * });
          * findAll1CombinedResults.forEach(data => console.log({ data }));
@@ -702,10 +1205,19 @@ export interface RoomsService {
          * Performs asynchronous data fetching with Suspense support.
          * Similar to useQuery but integrates with React Suspense for loading states.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
          * const data = qraft.rooms.findAll1.useSuspenseQuery()
+         * ```
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.rooms.findAll1.useSuspenseQuery({
+         *     query: {
+         *         expand: expand
+         *     }
+         * })
          * ```
          */
         useSuspenseQuery<TData = FindAll1Data>(parameters: ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters> | (DeepReadonly<FindAll1Parameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAll1Data, FindAll1Error, TData, ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAll1Error>>;
@@ -714,12 +1226,17 @@ export interface RoomsService {
          * Manages paginated data and provides utilities for fetching additional pages.
          * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
          *
          * @example Suspense Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.rooms.findAll1.useSuspenseInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             expand: initialExpand
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -732,13 +1249,22 @@ export interface RoomsService {
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
          *
+         * @description Retorna todas as salas cadastradas.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
          * const findAll1Data = qraft.rooms.findAll1.useSuspenseQueries({
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 expand: expand1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 expand: expand2
+         *             }
+         *         }
          *     ]
          * });
          * findAll1Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
@@ -748,8 +1274,16 @@ export interface RoomsService {
          * const findAll1CombinedData = qraft.rooms.findAll1.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 expand: expand1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 expand: expand2
+         *             }
+         *         }
          *     ]
          * });
          * findAll1CombinedData.forEach(data => console.log({ data }));
@@ -759,23 +1293,23 @@ export interface RoomsService {
             queries: T;
             combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAll1Data, FindAll1Error>, "data">>) => TCombinedResult;
         }): TCombinedResult;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         fetchQuery(options: ServiceOperationFetchQueryOptions<FindAll1Schema, FindAll1Data, FindAll1Parameters, FindAll1Error> | void): Promise<FindAll1Data>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAll1Schema, FindAll1Data, FindAll1Parameters, FindAll1Error> | void): Promise<void>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAll1Schema, FindAll1Data, FindAll1Parameters, FindAll1Error> | void): Promise<FindAll1Data>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         fetchInfiniteQuery<TPageParam extends FindAll1Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll1Schema, FindAll1Data, FindAll1Parameters, DeepReadonly<TPageParam>, FindAll1Error> | void): Promise<OperationInfiniteData<FindAll1Data, FindAll1Parameters>>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         prefetchInfiniteQuery<TPageParam extends FindAll1Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll1Schema, FindAll1Data, FindAll1Parameters, DeepReadonly<TPageParam>, FindAll1Error> | void): Promise<void>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         ensureInfiniteQueryData<TPageParam extends FindAll1Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAll1Schema, FindAll1Data, FindAll1Parameters, DeepReadonly<TPageParam>, FindAll1Error> | void): Promise<OperationInfiniteData<FindAll1Data, FindAll1Parameters>>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         getQueryData(parameters: ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters> | (DeepReadonly<FindAll1Parameters> | void)): FindAll1Data | undefined;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAll1Schema, FindAll1Parameters> | (DeepReadonly<FindAll1Parameters> | void)): OperationInfiniteData<FindAll1Data, FindAll1Parameters> | undefined;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>): TInfinite extends true ? Array<[
             queryKey: ServiceOperationInfiniteQueryKey<FindAll1Schema, FindAll1Parameters>,
             data: NoInfer<OperationInfiniteData<FindAll1Data, FindAll1Parameters>> | undefined
@@ -783,27 +1317,27 @@ export interface RoomsService {
             queryKey: ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters>,
             data: FindAll1Data | undefined
         ]>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         getQueryState(parameters: ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters> | (DeepReadonly<FindAll1Parameters> | void)): QueryState<FindAll1Data, FindAll1Error> | undefined;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         getInfiniteQueryState(parameters: DeepReadonly<FindAll1Parameters> | ServiceOperationInfiniteQueryKey<FindAll1Schema, FindAll1Parameters> | void): QueryState<OperationInfiniteData<FindAll1Data, FindAll1Parameters>, FindAll1Error> | undefined;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         setQueryData(parameters: (DeepReadonly<FindAll1Parameters> | undefined) | ServiceOperationQueryKey<FindAll1Schema, FindAll1Parameters>, updater: Updater<NoInfer<FindAll1Data> | undefined, NoInfer<DeepReadonly<FindAll1Data>> | undefined>, options?: SetDataOptions): FindAll1Data | undefined;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         setInfiniteQueryData(parameters: (DeepReadonly<FindAll1Parameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAll1Schema, FindAll1Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAll1Data, FindAll1Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAll1Data, FindAll1Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAll1Data, FindAll1Parameters> | undefined;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>, updater: Updater<NoInfer<FindAll1Data> | undefined, NoInfer<FindAll1Data> | undefined>, options?: SetDataOptions): Array<FindAll1Data | undefined>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>, options?: InvalidateOptions): Promise<void>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>, options?: RefetchOptions): Promise<void>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>, options?: CancelOptions): Promise<void>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>): void;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>, options?: ResetOptions): Promise<void>;
-        /**/
+        /** @description Retorna todas as salas cadastradas. */
         isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error> | QueryFiltersByQueryKey<FindAll1Schema, FindAll1Data, TInfinite, FindAll1Parameters, FindAll1Error>): number;
         schema: FindAll1Schema;
         types: {
@@ -812,15 +1346,17 @@ export interface RoomsService {
             error: FindAll1Error;
         };
     };
+    /** @description Cadastra uma nova sala com status inicial ACTIVE. */
     create1: {
-        /**/
+        /** @description Cadastra uma nova sala com status inicial ACTIVE. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<Create1Body, Create1Parameters, TMeta, TSignal>, client?: (schema: Create1Schema, options: ServiceOperationMutationFnOptions<Create1Body, Create1Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<Create1Data, Create1Error>>): Promise<RequestFnResponse<Create1Data, Create1Error>>;
-        /**/
+        /** @description Cadastra uma nova sala com status inicial ACTIVE. */
         getMutationKey(parameters: DeepReadonly<Create1Parameters> | void): ServiceOperationMutationKey<Create1Schema, Create1Parameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Cadastra uma nova sala com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -840,6 +1376,7 @@ export interface RoomsService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Cadastra uma nova sala com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -858,6 +1395,7 @@ export interface RoomsService {
         /**
          * Returns the count of currently in-progress mutations.
          *
+         * @description Cadastra uma nova sala com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -874,6 +1412,7 @@ export interface RoomsService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
+         * @description Cadastra uma nova sala com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -898,12 +1437,13 @@ export interface RoomsService {
             filters?: MutationFiltersByParameters<Create1Body, Create1Data, Create1Parameters, OperationError<Create1Error>, TContext> | MutationFiltersByMutationKey<Create1Schema, Create1Body, Create1Data, Create1Parameters, OperationError<Create1Error>, TContext>;
             select?: (mutation: Mutation<Create1Data, OperationError<Create1Error>, MutationVariables<Create1Body, Create1Parameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /**/
+        /** @description Cadastra uma nova sala com status inicial ACTIVE. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<Create1Body, Create1Data, Create1Parameters, OperationError<Create1Error>, TContext> | MutationFiltersByMutationKey<Create1Schema, Create1Body, Create1Data, Create1Parameters, OperationError<Create1Error>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
+         * @description Cadastra uma nova sala com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -933,6 +1473,7 @@ export interface RoomsService {
         };
     };
 }
+/** @description Retorna os dados de uma sala pelo seu ID. */
 export const findById1 = {
     schema: {
         method: "get",
@@ -942,16 +1483,18 @@ export const findById1 = {
     schema: FindById1Schema;
     [QraftServiceOperationsToken]: RoomsService["findById1"];
 };
-export const update1 = {
+/** @description Atualiza os dados da sala. */
+export const updateById = {
     schema: {
         method: "put",
         url: "/rooms/{id}",
         mediaType: ["application/json"]
     }
 } as {
-    schema: Update1Schema;
-    [QraftServiceOperationsToken]: RoomsService["update1"];
+    schema: UpdateByIdSchema;
+    [QraftServiceOperationsToken]: RoomsService["updateById"];
 };
+/** @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED. */
 export const deleteById1 = {
     schema: {
         method: "delete",
@@ -961,6 +1504,38 @@ export const deleteById1 = {
     schema: DeleteById1Schema;
     [QraftServiceOperationsToken]: RoomsService["deleteById1"];
 };
+/**
+ * @description Altera o status da sala. Transições permitidas:
+ * - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+ * - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+ * - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+ * - **ARCHIVED**: arquiva a sala independente do status atual.
+ *
+ * Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+ *
+ */
+export const updateStatus = {
+    schema: {
+        method: "patch",
+        url: "/rooms/{id}",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: UpdateStatusSchema;
+    [QraftServiceOperationsToken]: RoomsService["updateStatus"];
+};
+/** @description Substitui todos os recursos da sala pela lista informada. */
+export const replaceResources = {
+    schema: {
+        method: "put",
+        url: "/rooms/{id}/resources",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: ReplaceResourcesSchema;
+    [QraftServiceOperationsToken]: RoomsService["replaceResources"];
+};
+/** @description Retorna todas as salas cadastradas. */
 export const findAll1 = {
     schema: {
         method: "get",
@@ -970,6 +1545,7 @@ export const findAll1 = {
     schema: FindAll1Schema;
     [QraftServiceOperationsToken]: RoomsService["findAll1"];
 };
+/** @description Cadastra uma nova sala com status inicial ACTIVE. */
 export const create1 = {
     schema: {
         method: "post",
@@ -982,8 +1558,10 @@ export const create1 = {
 };
 export const roomsService = {
     findById1,
-    update1,
+    updateById,
     deleteById1,
+    updateStatus,
+    replaceResources,
     findAll1,
     create1
 } as const;
@@ -993,33 +1571,55 @@ type FindById1Schema = {
 };
 type FindById1Parameters = paths["/rooms/{id}"]["get"]["parameters"];
 type FindById1Data = paths["/rooms/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindById1Error = unknown;
-type Update1Schema = {
+type FindById1Error = paths["/rooms/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/rooms/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/rooms/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/rooms/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
+type UpdateByIdSchema = {
     method: "put";
     url: "/rooms/{id}";
     mediaType: [
         "application/json"
     ];
 };
-type Update1Parameters = paths["/rooms/{id}"]["put"]["parameters"];
-type Update1Data = paths["/rooms/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
-type Update1Error = unknown;
-type Update1Body = paths["/rooms/{id}"]["put"]["requestBody"]["content"]["application/json"];
+type UpdateByIdParameters = paths["/rooms/{id}"]["put"]["parameters"];
+type UpdateByIdData = paths["/rooms/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
+type UpdateByIdError = paths["/rooms/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/rooms/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/rooms/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/rooms/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
+type UpdateByIdBody = paths["/rooms/{id}"]["put"]["requestBody"]["content"]["application/json"];
 type DeleteById1Schema = {
     method: "delete";
     url: "/rooms/{id}";
 };
 type DeleteById1Parameters = paths["/rooms/{id}"]["delete"]["parameters"];
 type DeleteById1Data = null;
-type DeleteById1Error = unknown;
+type DeleteById1Error = paths["/rooms/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/rooms/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/rooms/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/rooms/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
 type DeleteById1Body = undefined;
+type UpdateStatusSchema = {
+    method: "patch";
+    url: "/rooms/{id}";
+    mediaType: [
+        "application/json"
+    ];
+};
+type UpdateStatusParameters = paths["/rooms/{id}"]["patch"]["parameters"];
+type UpdateStatusData = paths["/rooms/{id}"]["patch"]["responses"]["200"]["content"]["*/*"];
+type UpdateStatusError = paths["/rooms/{id}"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/rooms/{id}"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/rooms/{id}"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/rooms/{id}"]["patch"]["responses"]["422"]["content"]["*/*"];
+type UpdateStatusBody = paths["/rooms/{id}"]["patch"]["requestBody"]["content"]["application/json"];
+type ReplaceResourcesSchema = {
+    method: "put";
+    url: "/rooms/{id}/resources";
+    mediaType: [
+        "application/json"
+    ];
+};
+type ReplaceResourcesParameters = paths["/rooms/{id}/resources"]["put"]["parameters"];
+type ReplaceResourcesData = paths["/rooms/{id}/resources"]["put"]["responses"]["200"]["content"]["*/*"];
+type ReplaceResourcesError = paths["/rooms/{id}/resources"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/rooms/{id}/resources"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/rooms/{id}/resources"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/rooms/{id}/resources"]["put"]["responses"]["422"]["content"]["*/*"];
+type ReplaceResourcesBody = paths["/rooms/{id}/resources"]["put"]["requestBody"]["content"]["application/json"];
 type FindAll1Schema = {
     method: "get";
     url: "/rooms";
 };
-type FindAll1Parameters = undefined;
+type FindAll1Parameters = paths["/rooms"]["get"]["parameters"];
 type FindAll1Data = paths["/rooms"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAll1Error = unknown;
+type FindAll1Error = paths["/rooms"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/rooms"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/rooms"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/rooms"]["get"]["responses"]["422"]["content"]["*/*"];
 type Create1Schema = {
     method: "post";
     url: "/rooms";
@@ -1032,6 +1632,6 @@ type Create1Parameters = {
     header?: never;
     path?: never;
 };
-type Create1Data = paths["/rooms"]["post"]["responses"]["200"]["content"]["*/*"];
-type Create1Error = unknown;
+type Create1Data = paths["/rooms"]["post"]["responses"]["201"]["content"]["*/*"];
+type Create1Error = paths["/rooms"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/rooms"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/rooms"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/rooms"]["post"]["responses"]["422"]["content"]["*/*"];
 type Create1Body = paths["/rooms"]["post"]["requestBody"]["content"]["application/json"];

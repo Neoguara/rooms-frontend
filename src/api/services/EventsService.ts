@@ -299,37 +299,37 @@ export interface EventsService {
             body: RequestDeletionBody;
         };
     };
-    findAll2: {
+    findAll4: {
         /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAll2Schema, FindAll2Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAll2Parameters, TMeta, TSignal> | void), client?: (schema: FindAll2Schema, options: {
-            parameters: FindAll2Parameters;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAll4Schema, FindAll4Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAll4Parameters, TMeta, TSignal> | void), client?: (schema: FindAll4Schema, options: {
+            parameters: FindAll4Parameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindAll2Data, FindAll2Error>>): Promise<RequestFnResponse<FindAll2Data, FindAll2Error>>;
+        }) => Promise<RequestFnResponse<FindAll4Data, FindAll4Error>>): Promise<RequestFnResponse<FindAll4Data, FindAll4Error>>;
         /**/
-        getQueryKey(parameters: DeepReadonly<FindAll2Parameters> | void): ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>;
+        getQueryKey(parameters: DeepReadonly<FindAll4Parameters> | void): ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.events.findAll2.useQuery()
+         * const { data, isLoading } = qraft.events.findAll4.useQuery()
          * ```
          */
-        useQuery<TData = FindAll2Data>(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAll2Data, FindAll2Error, TData, ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAll2Error>>;
+        useQuery<TData = FindAll4Data>(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAll4Data, FindAll4Error, TData, ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAll4Error>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.events.findAll2.useQuery()
+         * const { data, isLoading } = qraft.events.findAll4.useQuery()
          * ```
          */
-        useQuery<TData = FindAll2Data>(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<DefinedInitialDataOptions<FindAll2Data, FindAll2Error, TData, ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAll2Error>>;
+        useQuery<TData = FindAll4Data>(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<DefinedInitialDataOptions<FindAll4Data, FindAll4Error, TData, ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAll4Error>>;
         /**/
-        getInfiniteQueryKey(parameters: DeepReadonly<FindAll2Parameters> | void): ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>;
+        getInfiniteQueryKey(parameters: DeepReadonly<FindAll4Parameters> | void): ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -338,7 +338,7 @@ export interface EventsService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAll2.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.events.findAll4.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -347,7 +347,7 @@ export interface EventsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll2Parameters, TQueryFnData = FindAll2Data, TData = OperationInfiniteData<TQueryFnData, FindAll2Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAll2Error, TData, ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAll2Error>>;
+        useInfiniteQuery<TPageParam extends FindAll4Parameters, TQueryFnData = FindAll4Data, TData = OperationInfiniteData<TQueryFnData, FindAll4Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAll4Error, TData, ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAll4Error>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -356,7 +356,7 @@ export interface EventsService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAll2.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.events.findAll4.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -365,7 +365,7 @@ export interface EventsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll2Parameters, TQueryFnData = FindAll2Data, TData = OperationInfiniteData<TQueryFnData, FindAll2Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAll2Error, TData, ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll2Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAll2Error>>;
+        useInfiniteQuery<TPageParam extends FindAll4Parameters, TQueryFnData = FindAll4Data, TData = OperationInfiniteData<TQueryFnData, FindAll4Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAll4Error, TData, ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll4Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAll4Error>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
@@ -374,39 +374,39 @@ export interface EventsService {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findAll2Total = qraft.events.findAll2.useIsFetching()
+         * const findAll4Total = qraft.events.findAll4.useIsFetching()
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findAll2Results = qraft.events.findAll2.useQueries({
+         * const findAll4Results = qraft.events.findAll4.useQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * findAll4Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findAll2CombinedResults = qraft.events.findAll2.useQueries({
+         * const findAll4CombinedResults = qraft.events.findAll4.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2CombinedResults.forEach(data => console.log({ data }));
+         * findAll4CombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAll2Schema, FindAll2Parameters, FindAll2Data, FindAll2Error>>, TCombinedResult = Array<UseQueryResult<FindAll2Data, FindAll2Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAll4Schema, FindAll4Parameters, FindAll4Data, FindAll4Error>>, TCombinedResult = Array<UseQueryResult<FindAll4Data, FindAll4Error>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindAll2Data, FindAll2Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<FindAll4Data, FindAll4Error>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
@@ -415,10 +415,10 @@ export interface EventsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.events.findAll2.useSuspenseQuery()
+         * const data = qraft.events.findAll4.useSuspenseQuery()
          * ```
          */
-        useSuspenseQuery<TData = FindAll2Data>(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAll2Data, FindAll2Error, TData, ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAll2Error>>;
+        useSuspenseQuery<TData = FindAll4Data>(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAll4Data, FindAll4Error, TData, ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAll4Error>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -428,7 +428,7 @@ export interface EventsService {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAll2.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.events.findAll4.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -437,7 +437,7 @@ export interface EventsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindAll2Parameters, TData = FindAll2Data>(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAll2Data, FindAll2Error, OperationInfiniteData<TData, FindAll2Parameters>, ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll2Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAll2Parameters>, OperationError<FindAll2Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends FindAll4Parameters, TData = FindAll4Data>(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAll4Data, FindAll4Error, OperationInfiniteData<TData, FindAll4Parameters>, ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll4Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAll4Parameters>, OperationError<FindAll4Error>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
@@ -445,81 +445,81 @@ export interface EventsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findAll2Data = qraft.events.findAll2.useSuspenseQueries({
+         * const findAll4Data = qraft.events.findAll4.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * findAll4Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findAll2CombinedData = qraft.events.findAll2.useSuspenseQueries({
+         * const findAll4CombinedData = qraft.events.findAll4.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2CombinedData.forEach(data => console.log({ data }));
+         * findAll4CombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAll2Schema, FindAll2Parameters, FindAll2Data, FindAll2Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAll2Data, FindAll2Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAll4Schema, FindAll4Parameters, FindAll4Data, FindAll4Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAll4Data, FindAll4Error>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAll2Data, FindAll2Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAll4Data, FindAll4Error>, "data">>) => TCombinedResult;
         }): TCombinedResult;
         /**/
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, FindAll2Error> | void): Promise<FindAll2Data>;
+        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, FindAll4Error> | void): Promise<FindAll4Data>;
         /**/
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, FindAll2Error> | void): Promise<void>;
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, FindAll4Error> | void): Promise<void>;
         /**/
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, FindAll2Error> | void): Promise<FindAll2Data>;
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, FindAll4Error> | void): Promise<FindAll4Data>;
         /**/
-        fetchInfiniteQuery<TPageParam extends FindAll2Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, DeepReadonly<TPageParam>, FindAll2Error> | void): Promise<OperationInfiniteData<FindAll2Data, FindAll2Parameters>>;
+        fetchInfiniteQuery<TPageParam extends FindAll4Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, DeepReadonly<TPageParam>, FindAll4Error> | void): Promise<OperationInfiniteData<FindAll4Data, FindAll4Parameters>>;
         /**/
-        prefetchInfiniteQuery<TPageParam extends FindAll2Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, DeepReadonly<TPageParam>, FindAll2Error> | void): Promise<void>;
+        prefetchInfiniteQuery<TPageParam extends FindAll4Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, DeepReadonly<TPageParam>, FindAll4Error> | void): Promise<void>;
         /**/
-        ensureInfiniteQueryData<TPageParam extends FindAll2Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, DeepReadonly<TPageParam>, FindAll2Error> | void): Promise<OperationInfiniteData<FindAll2Data, FindAll2Parameters>>;
+        ensureInfiniteQueryData<TPageParam extends FindAll4Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, DeepReadonly<TPageParam>, FindAll4Error> | void): Promise<OperationInfiniteData<FindAll4Data, FindAll4Parameters>>;
         /**/
-        getQueryData(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void)): FindAll2Data | undefined;
+        getQueryData(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void)): FindAll4Data | undefined;
         /**/
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void)): OperationInfiniteData<FindAll2Data, FindAll2Parameters> | undefined;
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void)): OperationInfiniteData<FindAll4Data, FindAll4Parameters> | undefined;
         /**/
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>,
-            data: NoInfer<OperationInfiniteData<FindAll2Data, FindAll2Parameters>> | undefined
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>,
+            data: NoInfer<OperationInfiniteData<FindAll4Data, FindAll4Parameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>,
-            data: FindAll2Data | undefined
+            queryKey: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>,
+            data: FindAll4Data | undefined
         ]>;
         /**/
-        getQueryState(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void)): QueryState<FindAll2Data, FindAll2Error> | undefined;
+        getQueryState(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void)): QueryState<FindAll4Data, FindAll4Error> | undefined;
         /**/
-        getInfiniteQueryState(parameters: DeepReadonly<FindAll2Parameters> | ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | void): QueryState<OperationInfiniteData<FindAll2Data, FindAll2Parameters>, FindAll2Error> | undefined;
+        getInfiniteQueryState(parameters: DeepReadonly<FindAll4Parameters> | ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | void): QueryState<OperationInfiniteData<FindAll4Data, FindAll4Parameters>, FindAll4Error> | undefined;
         /**/
-        setQueryData(parameters: (DeepReadonly<FindAll2Parameters> | undefined) | ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>, updater: Updater<NoInfer<FindAll2Data> | undefined, NoInfer<DeepReadonly<FindAll2Data>> | undefined>, options?: SetDataOptions): FindAll2Data | undefined;
+        setQueryData(parameters: (DeepReadonly<FindAll4Parameters> | undefined) | ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>, updater: Updater<NoInfer<FindAll4Data> | undefined, NoInfer<DeepReadonly<FindAll4Data>> | undefined>, options?: SetDataOptions): FindAll4Data | undefined;
         /**/
-        setInfiniteQueryData(parameters: (DeepReadonly<FindAll2Parameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAll2Data, FindAll2Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAll2Data, FindAll2Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAll2Data, FindAll2Parameters> | undefined;
+        setInfiniteQueryData(parameters: (DeepReadonly<FindAll4Parameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAll4Data, FindAll4Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAll4Data, FindAll4Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAll4Data, FindAll4Parameters> | undefined;
         /**/
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, updater: Updater<NoInfer<FindAll2Data> | undefined, NoInfer<FindAll2Data> | undefined>, options?: SetDataOptions): Array<FindAll2Data | undefined>;
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, updater: Updater<NoInfer<FindAll4Data> | undefined, NoInfer<FindAll4Data> | undefined>, options?: SetDataOptions): Array<FindAll4Data | undefined>;
         /**/
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: InvalidateOptions): Promise<void>;
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: InvalidateOptions): Promise<void>;
         /**/
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: RefetchOptions): Promise<void>;
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: RefetchOptions): Promise<void>;
         /**/
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: CancelOptions): Promise<void>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: CancelOptions): Promise<void>;
         /**/
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): void;
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): void;
         /**/
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: ResetOptions): Promise<void>;
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: ResetOptions): Promise<void>;
         /**/
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): number;
-        schema: FindAll2Schema;
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): number;
+        schema: FindAll4Schema;
         types: {
-            parameters: FindAll2Parameters;
-            data: FindAll2Data;
-            error: FindAll2Error;
+            parameters: FindAll4Parameters;
+            data: FindAll4Data;
+            error: FindAll4Error;
         };
     };
     requestCreation: {
@@ -1178,14 +1178,14 @@ export const requestDeletion = {
     schema: RequestDeletionSchema;
     [QraftServiceOperationsToken]: EventsService["requestDeletion"];
 };
-export const findAll2 = {
+export const findAll4 = {
     schema: {
         method: "get",
         url: "/events"
     }
 } as {
-    schema: FindAll2Schema;
-    [QraftServiceOperationsToken]: EventsService["findAll2"];
+    schema: FindAll4Schema;
+    [QraftServiceOperationsToken]: EventsService["findAll4"];
 };
 export const requestCreation = {
     schema: {
@@ -1227,7 +1227,7 @@ export const findAllRequests = {
 export const eventsService = {
     requestUpdate,
     requestDeletion,
-    findAll2,
+    findAll4,
     requestCreation,
     reject,
     approve,
@@ -1242,7 +1242,7 @@ type RequestUpdateSchema = {
 };
 type RequestUpdateParameters = paths["/events/{id}"]["put"]["parameters"];
 type RequestUpdateData = paths["/events/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
-type RequestUpdateError = unknown;
+type RequestUpdateError = paths["/events/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/events/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/events/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/events/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
 type RequestUpdateBody = paths["/events/{id}"]["put"]["requestBody"]["content"]["application/json"];
 type RequestDeletionSchema = {
     method: "delete";
@@ -1253,15 +1253,15 @@ type RequestDeletionSchema = {
 };
 type RequestDeletionParameters = paths["/events/{id}"]["delete"]["parameters"];
 type RequestDeletionData = paths["/events/{id}"]["delete"]["responses"]["200"]["content"]["*/*"];
-type RequestDeletionError = unknown;
+type RequestDeletionError = paths["/events/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/events/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/events/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/events/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
 type RequestDeletionBody = paths["/events/{id}"]["delete"]["requestBody"]["content"]["application/json"];
-type FindAll2Schema = {
+type FindAll4Schema = {
     method: "get";
     url: "/events";
 };
-type FindAll2Parameters = undefined;
-type FindAll2Data = paths["/events"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAll2Error = unknown;
+type FindAll4Parameters = undefined;
+type FindAll4Data = paths["/events"]["get"]["responses"]["200"]["content"]["*/*"];
+type FindAll4Error = paths["/events"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["422"]["content"]["*/*"];
 type RequestCreationSchema = {
     method: "post";
     url: "/events";
@@ -1275,7 +1275,7 @@ type RequestCreationParameters = {
     path?: never;
 };
 type RequestCreationData = paths["/events"]["post"]["responses"]["200"]["content"]["*/*"];
-type RequestCreationError = unknown;
+type RequestCreationError = paths["/events"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/events"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/events"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/events"]["post"]["responses"]["422"]["content"]["*/*"];
 type RequestCreationBody = paths["/events"]["post"]["requestBody"]["content"]["application/json"];
 type RejectSchema = {
     method: "post";
@@ -1283,7 +1283,7 @@ type RejectSchema = {
 };
 type RejectParameters = paths["/events/requests/{id}/reject"]["post"]["parameters"];
 type RejectData = null;
-type RejectError = unknown;
+type RejectError = paths["/events/requests/{id}/reject"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/events/requests/{id}/reject"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/events/requests/{id}/reject"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/events/requests/{id}/reject"]["post"]["responses"]["422"]["content"]["*/*"];
 type RejectBody = undefined;
 type ApproveSchema = {
     method: "post";
@@ -1291,7 +1291,7 @@ type ApproveSchema = {
 };
 type ApproveParameters = paths["/events/requests/{id}/approve"]["post"]["parameters"];
 type ApproveData = null;
-type ApproveError = unknown;
+type ApproveError = paths["/events/requests/{id}/approve"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/events/requests/{id}/approve"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/events/requests/{id}/approve"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/events/requests/{id}/approve"]["post"]["responses"]["422"]["content"]["*/*"];
 type ApproveBody = undefined;
 type FindAllRequestsSchema = {
     method: "get";
@@ -1299,4 +1299,4 @@ type FindAllRequestsSchema = {
 };
 type FindAllRequestsParameters = undefined;
 type FindAllRequestsData = paths["/events/requests"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAllRequestsError = unknown;
+type FindAllRequestsError = paths["/events/requests"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/events/requests"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/events/requests"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/events/requests"]["get"]["responses"]["422"]["content"]["*/*"];

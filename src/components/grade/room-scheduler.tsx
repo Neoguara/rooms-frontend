@@ -122,45 +122,42 @@ function BookingCell({
 
   if (dayEvents.length > 1) {
     return (
-      <td className={cn("h-16 min-w-25 max-w-25 border-r border-b border-border/50 p-1", today && "bg-primary/5")}>
-        <Popover>
-          <PopoverTrigger asChild>
-            <button className="w-full h-full rounded-md px-2 py-1 text-left bg-linear-to-r from-primary/20 to-primary/10 border border-primary/30 hover:border-primary/50 transition-colors">
-              <div className="text-xs font-medium text-foreground truncate">
-                {dayEvents.length} eventos
-              </div>
-            </button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 p-2" align="start">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-medium text-foreground">{formatDate(date)}</div>
-                {isEditMode && (
-                  <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={() => onCellClick?.(room.id!, date)}>
-                    <Plus className="size-3 mr-1" />
-                    Adicionar
-                  </Button>
+      <td className={cn("min-w-25 max-w-25 border-r border-b border-border/50 p-1 align-top", today && "bg-primary/5")}>
+        <div className="flex flex-col gap-0.5">
+          {dayEvents.map((event) => {
+            const color = getEventColor(event)
+            const isLocalOnly = event._localOnly
+            return (
+              <button
+                key={event.id}
+                className={cn(
+                  "w-full rounded px-1.5 py-0.5 text-left transition-all border hover:shadow-sm",
+                  isLocalOnly ? "border-dashed border-amber-500/40" : "border-transparent"
                 )}
-              </div>
-              <div className="space-y-1">
-                {dayEvents.map((event) => (
-                  <button
-                    key={event.id}
-                    className="w-full text-left p-2 rounded-md hover:bg-accent transition-colors border border-transparent hover:border-border"
-                    onClick={() => onEventClick?.(event)}
-                  >
-                    <div className="text-xs font-medium truncate" style={{ color: getEventColor(event) }}>
-                      {event.title}
-                    </div>
-                    <div className="text-[10px] text-muted-foreground">
-                      {getTimeStr(event.startAt)} - {getTimeStr(event.endAt)}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
+                style={{
+                  backgroundColor: `${color}15`,
+                  borderColor: isLocalOnly ? undefined : `${color}40`,
+                }}
+                onClick={() => onEventClick?.(event)}
+              >
+                <div className="text-[10px] font-medium truncate leading-tight" style={{ color: isLocalOnly ? "rgb(245 158 11)" : color }}>
+                  {event.title}
+                </div>
+                <div className="text-[9px] text-muted-foreground leading-tight">
+                  {getTimeStr(event.startAt)} - {getTimeStr(event.endAt)}
+                </div>
+              </button>
+            )
+          })}
+          {isEditMode && (
+            <button
+              className="w-full rounded py-0.5 hover:bg-accent transition-colors flex items-center justify-center"
+              onClick={() => onCellClick?.(room.id!, date)}
+            >
+              <Plus className="size-3 text-muted-foreground" />
+            </button>
+          )}
+        </div>
       </td>
     )
   }
@@ -188,7 +185,7 @@ function BookingCell({
             </div>
             <div className="flex items-center gap-1 mt-0.5">
               <Clock className="size-3 text-muted-foreground" />
-              <span className="text-[10px] text-muted-foreground">{getTimeStr(event.startAt)}</span>
+              <span className="text-[10px] text-muted-foreground">{getTimeStr(event.startAt)} - {getTimeStr(event.endAt)}</span>
             </div>
             {isEditMode && (
               <div className="absolute top-0.5 right-0.5 opacity-0 group-hover/cell:opacity-100 transition-opacity">

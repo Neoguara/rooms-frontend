@@ -993,7 +993,7 @@ type FindByIdSchema = {
 };
 type FindByIdParameters = paths["/users/{id}"]["get"]["parameters"];
 type FindByIdData = paths["/users/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindByIdError = unknown;
+type FindByIdError = paths["/users/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/users/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/users/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/users/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
 type UpdateSchema = {
     method: "put";
     url: "/users/{id}";
@@ -1003,7 +1003,7 @@ type UpdateSchema = {
 };
 type UpdateParameters = paths["/users/{id}"]["put"]["parameters"];
 type UpdateData = paths["/users/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
-type UpdateError = unknown;
+type UpdateError = paths["/users/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/users/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/users/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/users/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
 type UpdateBody = paths["/users/{id}"]["put"]["requestBody"]["content"]["application/json"];
 type DeleteByIdSchema = {
     method: "delete";
@@ -1011,7 +1011,7 @@ type DeleteByIdSchema = {
 };
 type DeleteByIdParameters = paths["/users/{id}"]["delete"]["parameters"];
 type DeleteByIdData = null;
-type DeleteByIdError = unknown;
+type DeleteByIdError = paths["/users/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/users/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/users/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/users/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
 type DeleteByIdBody = undefined;
 type FindAllSchema = {
     method: "get";
@@ -1019,7 +1019,7 @@ type FindAllSchema = {
 };
 type FindAllParameters = undefined;
 type FindAllData = paths["/users"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAllError = unknown;
+type FindAllError = paths["/users"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/users"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/users"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/users"]["get"]["responses"]["422"]["content"]["*/*"];
 type CreateSchema = {
     method: "post";
     url: "/users";
@@ -1033,5 +1033,5 @@ type CreateParameters = {
     path?: never;
 };
 type CreateData = paths["/users"]["post"]["responses"]["200"]["content"]["*/*"];
-type CreateError = unknown;
+type CreateError = paths["/users"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/users"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/users"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/users"]["post"]["responses"]["422"]["content"]["*/*"];
 type CreateBody = paths["/users"]["post"]["requestBody"]["content"]["application/json"];

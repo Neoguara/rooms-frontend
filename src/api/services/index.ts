@@ -7,24 +7,39 @@ import type { UsersService } from "./UsersService";
 import { usersService } from "./UsersService";
 import type { RoomsService } from "./RoomsService";
 import { roomsService } from "./RoomsService";
+import type { RoomTypesService } from "./RoomTypesService";
+import { roomTypesService } from "./RoomTypesService";
+import type { ResourcesService } from "./ResourcesService";
+import { resourcesService } from "./ResourcesService";
 import type { EventsService } from "./EventsService";
 import { eventsService } from "./EventsService";
+import type { BuildingsService } from "./BuildingsService";
+import { buildingsService } from "./BuildingsService";
 import type { AuthService } from "./AuthService";
 import { authService } from "./AuthService";
 export type Services = {
     users: UsersService;
     rooms: RoomsService;
+    roomTypes: RoomTypesService;
+    resources: ResourcesService;
     events: EventsService;
+    buildings: BuildingsService;
     auth: AuthService;
 };
 export const services: {
     users: typeof usersService;
     rooms: typeof roomsService;
+    roomTypes: typeof roomTypesService;
+    resources: typeof resourcesService;
     events: typeof eventsService;
+    buildings: typeof buildingsService;
     auth: typeof authService;
 } = {
     users: usersService,
     rooms: roomsService,
+    roomTypes: roomTypesService,
+    resources: resourcesService,
     events: eventsService,
+    buildings: buildingsService,
     auth: authService
 };
