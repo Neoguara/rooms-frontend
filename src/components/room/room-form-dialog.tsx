@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { Monitor, Wind, Wifi, Projector, Mic, Tv } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -23,28 +22,10 @@ import type { components } from '@/api/schema'
 import { useAPI } from '@/hooks/use-api'
 import { toast } from 'sonner'
 
-type RoomResponse = components['schemas']['RoomResponse']
-
-const allResources = [
-  { id: 'projetor', label: 'Projetor', icon: Projector },
-  { id: 'ar_condicionado', label: 'Ar Condicionado', icon: Wind },
-  { id: 'quadro_branco', label: 'Quadro Branco', icon: Monitor },
-  { id: 'computadores', label: 'Computadores', icon: Monitor },
-  { id: 'sistema_som', label: 'Sistema de Som', icon: Mic },
-  { id: 'microfones', label: 'Microfones', icon: Mic },
-  { id: 'tv', label: 'TV', icon: Tv },
-  { id: 'videoconferencia', label: 'Videoconferência', icon: Monitor },
-  { id: 'wifi', label: 'Wi-Fi', icon: Wifi },
-]
-
-const roomTypes = [
-  { value: 'sala_aula', label: 'Sala de Aula' },
-  { value: 'laboratorio', label: 'Laboratório' },
-  { value: 'auditorio', label: 'Auditório' },
-  { value: 'sala_reuniao', label: 'Sala de Reunião' },
-]
-
-const buildings = ['Bloco A', 'Bloco B', 'Bloco C', 'Bloco D', 'Bloco E', 'Bloco F']
+type RoomDetailResponse = components['schemas']['RoomDetailResponse']
+type BuildingResponse = components['schemas']['BuildingResponse']
+type RoomTypeResponse = components['schemas']['RoomTypeResponse']
+type ResourceResponse = components['schemas']['ResourceResponse']
 
 const floors = [
   { value: '0', label: 'Térreo' },
@@ -53,42 +34,35 @@ const floors = [
   { value: '3', label: '3º Andar' },
   { value: '4', label: '4º Andar' },
   { value: '5', label: '5º Andar' },
+  { value: '6', label: '6º Andar' },
+  { value: '7', label: '7º Andar' },
+  { value: '8', label: '8º Andar' },
 ]
 
 interface FormData {
   name: string
   code: string
-  type: string
-  building: string
+  roomTypeId: string
+  buildingId: string
   floor: string
   capacity: string
-  resources: string[]
+  resourceIds: string[]
 }
 
 const defaultForm: FormData = {
   name: '',
   code: '',
-  type: 'sala_aula',
-  building: 'Bloco A',
+  roomTypeId: '',
+  buildingId: '',
   floor: '1',
   capacity: '30',
-  resources: [],
-}
-
-function parseResources(resources?: string): string[] {
-  if (!resources) return []
-  try {
-    const parsed = JSON.parse(resources)
-    return Array.isArray(parsed) ? parsed : [resources]
-  } catch {
-    return resources.split(',').map((r) => r.trim()).filter(Boolean)
-  }
+  resourceIds: [],
 }
 
 interface RoomFormDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  editingRoom: RoomResponse | null
+  editingRoom: RoomDetailResponse | null
 }
 
 export const RoomFormDialog = memo(function RoomFormDialog({
@@ -98,8 +72,18 @@ export const RoomFormDialog = memo(function RoomFormDialog({
 }: RoomFormDialogProps) {
   const { api } = useAPI()
 
+  const { data: buildingsRaw = [] } = api.buildings.findAll5.useQuery()
+  const { data: roomTypesRaw = [] } = api.roomTypes.findAll2.useQuery()
+  const { data: resourcesRaw = [] } = api.resources.findAll3.useQuery()
+
+  const buildings = (Array.isArray(buildingsRaw) ? buildingsRaw : []) as BuildingResponse[]
+  const roomTypes = (Array.isArray(roomTypesRaw) ? roomTypesRaw : []) as RoomTypeResponse[]
+  const resources = (Array.isArray(resourcesRaw) ? resourcesRaw : []) as ResourceResponse[]
+
   const createMutation = api.rooms.create1.useMutation()
-  const updateMutation = api.rooms.update1.useMutation()
+  const updateMutation = api.rooms.updateById.useMutation()
+  const replaceResourcesMutation = api.rooms.replaceResources.useMutation()
+
   const [isSaving, setIsSaving] = useState(false)
   const [form, setForm] = useState<FormData>(defaultForm)
 
@@ -111,11 +95,14 @@ export const RoomFormDialog = memo(function RoomFormDialog({
           ? {
               name: editingRoom.name ?? '',
               code: editingRoom.code ?? '',
-              type: editingRoom.type ?? 'sala_aula',
-              building: editingRoom.building ?? 'Bloco A',
+              roomTypeId: editingRoom.roomTypeId ?? '',
+              buildingId: editingRoom.buildingId ?? '',
               floor: String(editingRoom.floor ?? 1),
               capacity: String(editingRoom.capacity ?? 30),
-              resources: parseResources(editingRoom.resources),
+              resourceIds:
+                (editingRoom.resources
+                  ?.map((r) => r.id)
+                  .filter(Boolean) as string[]) ?? [],
             }
           : defaultForm,
       )
@@ -123,46 +110,77 @@ export const RoomFormDialog = memo(function RoomFormDialog({
     wasOpen.current = open
   }, [open, editingRoom])
 
-  const toggleResource = (label: string) => {
+  const toggleResource = (id: string) => {
     setForm((prev) => ({
       ...prev,
-      resources: prev.resources.includes(label)
-        ? prev.resources.filter((r) => r !== label)
-        : [...prev.resources, label],
+      resourceIds: prev.resourceIds.includes(id)
+        ? prev.resourceIds.filter((r) => r !== id)
+        : [...prev.resourceIds, id],
     }))
   }
 
   const handleSave = useCallback(async () => {
     setIsSaving(true)
     try {
-      const body = {
-        name: form.name,
-        code: form.code,
-        type: form.type,
-        building: form.building,
-        floor: parseInt(form.floor),
-        capacity: parseInt(form.capacity),
-        resources: JSON.stringify(form.resources),
-      }
       if (editingRoom?.id) {
-        await updateMutation.mutateAsync({ path: { id: editingRoom.id }, body })
+        await updateMutation.mutateAsync({
+          path: { id: editingRoom.id },
+          body: {
+            name: form.name,
+            code: form.code,
+            roomTypeId: form.roomTypeId || undefined,
+            buildingId: form.buildingId || undefined,
+            floor: parseInt(form.floor),
+            capacity: parseInt(form.capacity),
+          },
+        })
+        await replaceResourcesMutation.mutateAsync({
+          path: { id: editingRoom.id },
+          body: { resourceIds: form.resourceIds },
+        })
         await api.rooms.findAll1.invalidateQueries()
         toast.success('Sala atualizada com sucesso.')
       } else {
-        await createMutation.mutateAsync({ body })
+        await createMutation.mutateAsync({
+          body: {
+            name: form.name,
+            code: form.code,
+            roomTypeId: form.roomTypeId || undefined,
+            buildingId: form.buildingId || undefined,
+            floor: parseInt(form.floor),
+            capacity: parseInt(form.capacity),
+            resourceIds: form.resourceIds,
+          },
+        })
         await api.rooms.findAll1.invalidateQueries()
         toast.success('Sala cadastrada com sucesso.')
       }
       onOpenChange(false)
     } catch (e) {
       console.error(e)
-      toast.error(editingRoom?.id ? 'Erro ao atualizar sala.' : 'Erro ao cadastrar sala.')
+      toast.error(
+        editingRoom?.id ? 'Erro ao atualizar sala.' : 'Erro ao cadastrar sala.',
+      )
     } finally {
       setTimeout(() => setIsSaving(false), 300)
     }
-  }, [form, editingRoom, createMutation, updateMutation, api, onOpenChange])
+  }, [
+    form,
+    editingRoom,
+    createMutation,
+    updateMutation,
+    replaceResourcesMutation,
+    api,
+    onOpenChange,
+  ])
 
   const isDisabled = !form.name || !form.code || !form.capacity || isSaving
+
+  const activeBuildings = buildings.filter(
+    (b) => b.status !== 'INACTIVE' && b.status !== 'ARCHIVED',
+  )
+  const activeRoomTypes = roomTypes.filter((rt) => rt.active !== false)
+  const activeResources = resources.filter((r) => r.active !== false)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -179,18 +197,18 @@ export const RoomFormDialog = memo(function RoomFormDialog({
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nome da Sala *</Label>
+              <Label htmlFor="room-name">Nome da Sala *</Label>
               <Input
-                id="name"
+                id="room-name"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Ex: Sala 101"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="code">Código *</Label>
+              <Label htmlFor="room-code">Código *</Label>
               <Input
-                id="code"
+                id="room-code"
                 value={form.code}
                 onChange={(e) => setForm({ ...form, code: e.target.value })}
                 placeholder="Ex: BL-A-101"
@@ -200,24 +218,27 @@ export const RoomFormDialog = memo(function RoomFormDialog({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Tipo *</Label>
-              <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
+              <Label>Tipo de Sala</Label>
+              <Select
+                value={form.roomTypeId}
+                onValueChange={(v) => setForm({ ...form, roomTypeId: v })}
+              >
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Selecione o tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  {roomTypes.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>
-                      {t.label}
+                  {activeRoomTypes.map((rt) => (
+                    <SelectItem key={rt.id} value={rt.id!}>
+                      {rt.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="capacity">Capacidade *</Label>
+              <Label htmlFor="room-capacity">Capacidade *</Label>
               <Input
-                id="capacity"
+                id="room-capacity"
                 type="number"
                 value={form.capacity}
                 onChange={(e) => setForm({ ...form, capacity: e.target.value })}
@@ -228,23 +249,29 @@ export const RoomFormDialog = memo(function RoomFormDialog({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Prédio *</Label>
-              <Select value={form.building} onValueChange={(v) => setForm({ ...form, building: v })}>
+              <Label>Prédio</Label>
+              <Select
+                value={form.buildingId}
+                onValueChange={(v) => setForm({ ...form, buildingId: v })}
+              >
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Selecione o prédio" />
                 </SelectTrigger>
                 <SelectContent>
-                  {buildings.map((b) => (
-                    <SelectItem key={b} value={b}>
-                      {b}
+                  {activeBuildings.map((b) => (
+                    <SelectItem key={b.id} value={b.id!}>
+                      {b.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Andar *</Label>
-              <Select value={form.floor} onValueChange={(v) => setForm({ ...form, floor: v })}>
+              <Label>Andar</Label>
+              <Select
+                value={form.floor}
+                onValueChange={(v) => setForm({ ...form, floor: v })}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -261,24 +288,32 @@ export const RoomFormDialog = memo(function RoomFormDialog({
 
           <div className="space-y-3">
             <Label>Recursos Disponíveis</Label>
-            <div className="grid grid-cols-2 gap-3">
-              {allResources.map((resource) => (
-                <div key={resource.id} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={resource.id}
-                    checked={form.resources.includes(resource.label)}
-                    onCheckedChange={() => toggleResource(resource.label)}
-                  />
-                  <label
-                    htmlFor={resource.id}
-                    className="text-sm font-medium leading-none flex items-center gap-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    <resource.icon className="size-4 text-muted-foreground" />
-                    {resource.label}
-                  </label>
-                </div>
-              ))}
-            </div>
+            {activeResources.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                Nenhum recurso cadastrado.
+              </p>
+            ) : (
+              <div className="grid grid-cols-2 gap-3">
+                {activeResources.map((resource) => (
+                  <div key={resource.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`res-${resource.id}`}
+                      checked={form.resourceIds.includes(resource.id!)}
+                      onCheckedChange={() => toggleResource(resource.id!)}
+                    />
+                    <label
+                      htmlFor={`res-${resource.id}`}
+                      className="flex cursor-pointer items-center gap-2 text-sm font-medium leading-none"
+                    >
+                      {resource.icon && (
+                        <span className="text-base">{resource.icon}</span>
+                      )}
+                      {resource.name}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -286,8 +321,16 @@ export const RoomFormDialog = memo(function RoomFormDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancelar
           </Button>
-          <Button onClick={handleSave} disabled={isDisabled} className="min-w-40">
-            {isSaving ? 'Salvando...' : editingRoom ? 'Salvar Alterações' : 'Criar Sala'}
+          <Button
+            onClick={handleSave}
+            disabled={isDisabled}
+            className="min-w-40"
+          >
+            {isSaving
+              ? 'Salvando...'
+              : editingRoom
+                ? 'Salvar Alterações'
+                : 'Criar Sala'}
           </Button>
         </DialogFooter>
       </DialogContent>

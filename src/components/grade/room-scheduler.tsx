@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import type { components } from "@/api/schema"
 
-type RoomResponse = components["schemas"]["RoomResponse"]
+type RoomDetailResponse = components["schemas"]["RoomDetailResponse"]
 type EventResponse = components["schemas"]["EventResponse"]
 
 export interface DisplayEvent extends EventResponse {
@@ -17,7 +17,7 @@ export interface DisplayEvent extends EventResponse {
 
 interface RoomSchedulerProps {
   events: DisplayEvent[]
-  rooms: RoomResponse[]
+  rooms: RoomDetailResponse[]
   onCellClick?: (roomId: string, date: Date) => void
   onEventClick?: (event: DisplayEvent) => void
   isEditMode?: boolean
@@ -87,7 +87,7 @@ function BookingCell({
   onEventClick,
 }: {
   events: DisplayEvent[]
-  room: RoomResponse
+  room: RoomDetailResponse
   date: Date
   isEditMode?: boolean
   onCellClick?: (roomId: string, date: Date) => void
@@ -254,14 +254,14 @@ export function RoomScheduler({
   const dates = React.useMemo(() => generateDates(currentStartDate, daysToShow), [currentStartDate, daysToShow])
 
   const buildings = React.useMemo(() => {
-    const set = new Set(rooms.map((r) => r.building ?? "").filter(Boolean))
+    const set = new Set(rooms.map((r) => r.building?.name ?? r.buildingId ?? "").filter(Boolean))
     return Array.from(set).sort()
   }, [rooms])
 
   const roomsByBuilding = React.useMemo(() => {
-    const grouped: Record<string, RoomResponse[]> = {}
+    const grouped: Record<string, RoomDetailResponse[]> = {}
     rooms.forEach((room) => {
-      const building = room.building ?? "Sem Prédio"
+      const building = room.building?.name ?? room.buildingId ?? "Sem Prédio"
       if (!grouped[building]) grouped[building] = []
       grouped[building].push(room)
     })

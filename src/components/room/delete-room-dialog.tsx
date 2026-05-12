@@ -13,12 +13,12 @@ import type { components } from '@/api/schema'
 import { useAPI } from '@/hooks/use-api'
 import { toast } from 'sonner'
 
-type RoomResponse = components['schemas']['RoomResponse']
+type RoomDetailResponse = components['schemas']['RoomDetailResponse']
 
 interface DeleteRoomDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  room: RoomResponse | null
+  room: RoomDetailResponse | null
 }
 
 export const DeleteRoomDialog = memo(function DeleteRoomDialog({

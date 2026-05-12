@@ -1,23 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Plus,
   Search,
   DoorOpen,
   Users,
-  MapPin,
   Building2,
   Pencil,
   Trash2,
   Eye,
   MoreHorizontal,
-  Check,
-  Monitor,
   ChevronRight,
   ChevronLeft,
   ChevronsLeft,
   ChevronsRight,
-  Mic,
+  Wrench,
+  Package,
+  Layers,
+  MapPin,
+  CheckCircle2,
+  XCircle,
+  Archive,
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
@@ -34,6 +37,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -52,6 +56,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Label } from '@/components/ui/label'
 import { useAPI } from '@/hooks/use-api'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
@@ -59,117 +73,168 @@ import type { components } from '@/api/schema'
 import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { RoomFormDialog } from '@/components/room/room-form-dialog'
 import { DeleteRoomDialog } from '@/components/room/delete-room-dialog'
+import { toast } from 'sonner'
 
-type RoomResponse = components['schemas']['RoomResponse']
+type RoomDetailResponse = components['schemas']['RoomDetailResponse']
+type BuildingResponse = components['schemas']['BuildingResponse']
+type RoomTypeResponse = components['schemas']['RoomTypeResponse']
+type ResourceResponse = components['schemas']['ResourceResponse']
 
 export const Route = createFileRoute('/_authenticated/rooms/')({
   component: RoomsPage,
   loader: async ({ context: { api } }) => {
-    await api.rooms.findAll1.prefetchQuery()
+    await Promise.all([
+      api.rooms.findAll1.prefetchQuery(),
+      api.buildings.findAll5.prefetchQuery(),
+      api.roomTypes.findAll2.prefetchQuery(),
+      api.resources.findAll3.prefetchQuery(),
+    ])
   },
   pendingComponent: LoadingAuthenticated,
 })
 
-const roomTypes = [
-  { value: 'sala_aula', label: 'Sala de Aula' },
-  { value: 'laboratorio', label: 'Laboratório' },
-  { value: 'auditorio', label: 'Auditório' },
-  { value: 'sala_reuniao', label: 'Sala de Reunião' },
-]
-
-function getRoomTypeName(type: string) {
-  return roomTypes.find((t) => t.value === type)?.label ?? type
-}
-
-function getRoomTypeColor(type: string) {
-  switch (type) {
-    case 'sala_aula':
-      return 'bg-emerald-500/20 text-emerald-600 border-emerald-500/30'
-    case 'laboratorio':
-      return 'bg-blue-500/20 text-blue-600 border-blue-500/30'
-    case 'auditorio':
-      return 'bg-amber-500/20 text-amber-600 border-amber-500/30'
-    case 'sala_reuniao':
-      return 'bg-purple-500/20 text-purple-600 border-purple-500/30'
-    default:
-      return 'bg-gray-500/20 text-gray-600 border-gray-500/30'
+function getRoomStatusLabel(status?: string) {
+  switch (status) {
+    case 'AVAILABLE': return 'Disponível'
+    case 'MAINTENANCE': return 'Em Manutenção'
+    case 'INACTIVE': return 'Inativa'
+    case 'ARCHIVED': return 'Arquivada'
+    default: return status ?? 'N/A'
   }
 }
 
-function getRoomTypeIcon(type: string) {
-  switch (type) {
-    case 'sala_aula':
-      return DoorOpen
-    case 'laboratorio':
-      return Monitor
-    case 'auditorio':
-      return Mic
-    case 'sala_reuniao':
-      return Users
-    default:
-      return DoorOpen
+function getRoomStatusVariant(status?: string): 'default' | 'secondary' | 'destructive' | 'outline' {
+  switch (status) {
+    case 'AVAILABLE': return 'default'
+    case 'MAINTENANCE': return 'outline'
+    default: return 'secondary'
   }
 }
 
-function parseResources(resources?: string): string[] {
-  if (!resources) return []
-  try {
-    const parsed = JSON.parse(resources)
-    return Array.isArray(parsed) ? parsed : [String(resources)]
-  } catch {
-    return resources.split(',').map((r) => r.trim()).filter(Boolean)
+function getBuildingStatusLabel(status?: string) {
+  switch (status) {
+    case 'ACTIVE': return 'Ativo'
+    case 'INACTIVE': return 'Inativo'
+    case 'ARCHIVED': return 'Arquivado'
+    default: return status ?? 'N/A'
   }
 }
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
 
 function RoomsPage() {
-  const { api } = useAPI()
   const { user } = useAuth()
-
-
   const isAdmin = user?.role === 'ADMIN'
 
-  console.log(user)
+  return (
+    <>
+      <header className="flex h-16 shrink-0 items-center gap-2 border-b border-border px-4">
+        <SidebarTrigger className="-ml-1" />
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        <DoorOpen className="size-5 text-primary" />
+        <h1 className="text-lg font-semibold">Gerenciamento de Salas</h1>
+      </header>
 
-  const { data: rooms = [] } = api.rooms.findAll1.useSuspenseQuery()
-  const roomList = Array.isArray(rooms) ? (rooms as RoomResponse[]) : []
+      <main className="flex-1 overflow-auto p-6">
+        <Tabs defaultValue="rooms">
+          <TabsList className="mb-6">
+            <TabsTrigger value="rooms" className="flex items-center gap-2">
+              <DoorOpen className="size-4" />
+              Salas
+            </TabsTrigger>
+            <TabsTrigger value="buildings" className="flex items-center gap-2">
+              <Building2 className="size-4" />
+              Prédios
+            </TabsTrigger>
+            <TabsTrigger value="room-types" className="flex items-center gap-2">
+              <Layers className="size-4" />
+              Tipos de Sala
+            </TabsTrigger>
+            <TabsTrigger value="resources" className="flex items-center gap-2">
+              <Package className="size-4" />
+              Recursos
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="rooms">
+            <RoomsTab isAdmin={isAdmin} />
+          </TabsContent>
+          <TabsContent value="buildings">
+            <BuildingsTab isAdmin={isAdmin} />
+          </TabsContent>
+          <TabsContent value="room-types">
+            <RoomTypesTab isAdmin={isAdmin} />
+          </TabsContent>
+          <TabsContent value="resources">
+            <ResourcesTab isAdmin={isAdmin} />
+          </TabsContent>
+        </Tabs>
+      </main>
+    </>
+  )
+}
+
+// ─── Rooms Tab ────────────────────────────────────────────────────────────────
+
+function RoomsTab({ isAdmin }: { isAdmin: boolean }) {
+  const { api } = useAPI()
+
+  const { data: roomsRaw = [] } = api.rooms.findAll1.useSuspenseQuery({
+    query: {
+      expand: ['building', 'roomType', 'resources']
+    }
+  })
+  const { data: buildingsRaw = [] } = api.buildings.findAll5.useSuspenseQuery()
+  const { data: roomTypesRaw = [] } =
+    api.roomTypes.findAll2.useSuspenseQuery()
+
+  const rooms = (Array.isArray(roomsRaw) ? roomsRaw : []) as RoomDetailResponse[]
+  const buildings = (Array.isArray(buildingsRaw) ? buildingsRaw : []) as BuildingResponse[]
+  const roomTypes = (Array.isArray(roomTypesRaw) ? roomTypesRaw : []) as RoomTypeResponse[]
+
+  const buildingMap = useMemo(
+    () => new Map(buildings.map((b) => [b.id, b])),
+    [buildings],
+  )
+  const roomTypeMap = useMemo(
+    () => new Map(roomTypes.map((rt) => [rt.id, rt])),
+    [roomTypes],
+  )
 
   const [search, setSearch] = useState('')
-  const [filterType, setFilterType] = useState('all')
-  const [filterBuilding, setFilterBuilding] = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
+  const [filterBuilding, setFilterBuilding] = useState('all')
+  const [filterRoomType, setFilterRoomType] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(6)
 
-  const [viewRoom, setViewRoom] = useState<RoomResponse | null>(null)
+  const [viewRoom, setViewRoom] = useState<RoomDetailResponse | null>(null)
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [editingRoom, setEditingRoom] = useState<RoomResponse | null>(null)
+  const [editingRoom, setEditingRoom] = useState<RoomDetailResponse | null>(null)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-  const [roomToDelete, setRoomToDelete] = useState<RoomResponse | null>(null)
-
-  const buildings = useMemo(() => {
-    const set = new Set(roomList.map((r) => r.building).filter(Boolean))
-    return Array.from(set) as string[]
-  }, [roomList])
+  const [roomToDelete, setRoomToDelete] = useState<RoomDetailResponse | null>(null)
 
   const filteredRooms = useMemo(() => {
-    return roomList.filter((room) => {
+    return rooms.filter((room) => {
+      const buildingName =
+        room.building?.name ?? buildingMap.get(room.buildingId ?? '')?.name ?? ''
       const matchesSearch =
         room.name?.toLowerCase().includes(search.toLowerCase()) ||
-        room.code?.toLowerCase().includes(search.toLowerCase())
-      const matchesType = filterType === 'all' || room.type === filterType
-      const matchesBuilding =
-        filterBuilding === 'all' || room.building === filterBuilding
+        room.code?.toLowerCase().includes(search.toLowerCase()) ||
+        buildingName.toLowerCase().includes(search.toLowerCase())
       const matchesStatus =
-        filterStatus === 'all' ||
-        (filterStatus === 'active' && room.isActive === true) ||
-        (filterStatus === 'inactive' && room.isActive === false)
-      return matchesSearch && matchesType && matchesBuilding && matchesStatus
+        filterStatus === 'all' || room.status === filterStatus
+      const matchesBuilding =
+        filterBuilding === 'all' || room.buildingId === filterBuilding
+      const matchesRoomType =
+        filterRoomType === 'all' || room.roomTypeId === filterRoomType
+      return matchesSearch && matchesStatus && matchesBuilding && matchesRoomType
     })
-  }, [roomList, search, filterType, filterBuilding, filterStatus])
+  }, [rooms, search, filterStatus, filterBuilding, filterRoomType, buildingMap])
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [search, filterType, filterBuilding, filterStatus])
+  }, [search, filterStatus, filterBuilding, filterRoomType])
 
   const totalPages = Math.ceil(filteredRooms.length / itemsPerPage)
   const paginatedRooms = filteredRooms.slice(
@@ -179,12 +244,12 @@ function RoomsPage() {
 
   const stats = useMemo(
     () => ({
-      total: roomList.length,
-      active: roomList.filter((r) => r.isActive).length,
-      labs: roomList.filter((r) => r.type === 'laboratorio').length,
-      capacity: roomList.reduce((acc, r) => acc + (r.capacity ?? 0), 0),
+      total: rooms.length,
+      available: rooms.filter((r) => r.status === 'AVAILABLE').length,
+      maintenance: rooms.filter((r) => r.status === 'MAINTENANCE').length,
+      capacity: rooms.reduce((acc, r) => acc + (r.capacity ?? 0), 0),
     }),
-    [roomList],
+    [rooms],
   )
 
   function openCreate() {
@@ -192,95 +257,80 @@ function RoomsPage() {
     setIsFormOpen(true)
   }
 
-  function openEdit(room: RoomResponse) {
+  function openEdit(room: RoomDetailResponse) {
     setEditingRoom(room)
     setIsFormOpen(true)
   }
 
-  function openDelete(room: RoomResponse) {
+  function openDelete(room: RoomDetailResponse) {
     setRoomToDelete(room)
     setIsDeleteOpen(true)
   }
 
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-border px-4">
-        <div className="flex items-center gap-2">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
-          <DoorOpen className="size-5 text-primary" />
-          <h1 className="text-lg font-semibold">Gerenciamento de Salas</h1>
-        </div>
-        {isAdmin && (
-          <Button onClick={openCreate}>
-            <Plus className="mr-2 size-4" />
-            Nova Sala
-          </Button>
-        )}
-      </header>
+      {/* Stats */}
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                <DoorOpen className="size-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.total}</p>
+                <p className="text-sm text-muted-foreground">Total de Salas</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-lg bg-emerald-500/10">
+                <CheckCircle2 className="size-5 text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.available}</p>
+                <p className="text-sm text-muted-foreground">Disponíveis</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-lg bg-amber-500/10">
+                <Wrench className="size-5 text-amber-500" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.maintenance}</p>
+                <p className="text-sm text-muted-foreground">Em Manutenção</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex size-10 items-center justify-center rounded-lg bg-blue-500/10">
+                <Users className="size-5 text-blue-500" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.capacity}</p>
+                <p className="text-sm text-muted-foreground">Capacidade Total</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-      <main className="flex-1 overflow-auto p-6">
-        {/* Stats */}
-        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                  <DoorOpen className="size-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.total}</p>
-                  <p className="text-sm text-muted-foreground">Total de Salas</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-emerald-500/10">
-                  <Check className="size-5 text-emerald-500" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.active}</p>
-                  <p className="text-sm text-muted-foreground">Salas Ativas</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-blue-500/10">
-                  <Monitor className="size-5 text-blue-500" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.labs}</p>
-                  <p className="text-sm text-muted-foreground">Laboratórios</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex size-10 items-center justify-center rounded-lg bg-amber-500/10">
-                  <Users className="size-5 text-amber-500" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stats.capacity}</p>
-                  <p className="text-sm text-muted-foreground">Capacidade Total</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Filters */}
-        <Card className="mb-6">
-          <CardContent>
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="relative min-w-50 flex-1">
+      {/* Filters */}
+      <Card className="mb-6">
+        <CardContent className="pt-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-1 flex-wrap items-center gap-3">
+              <div className="relative min-w-52 flex-1">
                 <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   placeholder="Buscar por nome ou código..."
@@ -289,140 +339,152 @@ function RoomsPage() {
                   className="pl-9"
                 />
               </div>
-              <Select value={filterType} onValueChange={setFilterType}>
-                <SelectTrigger className="w-45">
-                  <SelectValue placeholder="Tipo" />
+              <Select value={filterStatus} onValueChange={setFilterStatus}>
+                <SelectTrigger className="w-44">
+                  <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos os tipos</SelectItem>
-                  {roomTypes.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>
-                      {t.label}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="all">Todos os status</SelectItem>
+                  <SelectItem value="AVAILABLE">Disponível</SelectItem>
+                  <SelectItem value="MAINTENANCE">Em Manutenção</SelectItem>
+                  <SelectItem value="INACTIVE">Inativa</SelectItem>
+                  <SelectItem value="ARCHIVED">Arquivada</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={filterBuilding} onValueChange={setFilterBuilding}>
-                <SelectTrigger className="w-37.5">
+                <SelectTrigger className="w-40">
                   <SelectValue placeholder="Prédio" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos os prédios</SelectItem>
                   {buildings.map((b) => (
-                    <SelectItem key={b} value={b}>
-                      {b}
+                    <SelectItem key={b.id} value={b.id!}>
+                      {b.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <Select value={filterStatus} onValueChange={setFilterStatus}>
-                <SelectTrigger className="w-37.5">
-                  <SelectValue placeholder="Status" />
+              <Select value={filterRoomType} onValueChange={setFilterRoomType}>
+                <SelectTrigger className="w-44">
+                  <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos</SelectItem>
-                  <SelectItem value="active">Ativas</SelectItem>
-                  <SelectItem value="inactive">Inativas</SelectItem>
+                  <SelectItem value="all">Todos os tipos</SelectItem>
+                  {roomTypes.map((rt) => (
+                    <SelectItem key={rt.id} value={rt.id!}>
+                      {rt.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
-          </CardContent>
-        </Card>
+            {isAdmin && (
+              <Button onClick={openCreate}>
+                <Plus className="mr-2 size-4" />
+                Nova Sala
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
-        {/* Room grid */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {paginatedRooms.map((room) => {
-            const TypeIcon = getRoomTypeIcon(room.type ?? '')
-            const typeColor = getRoomTypeColor(room.type ?? '')
-            const resources = parseResources(room.resources)
-            return (
-              <Card
-                key={room.id}
-                className={cn(
-                  'group transition-all hover:shadow-md',
-                  !room.isActive && 'opacity-60',
-                )}
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={cn(
-                          'flex size-10 items-center justify-center rounded-lg',
-                          typeColor.split(' ')[0],
-                        )}
-                      >
-                        <TypeIcon
-                          className={cn('size-5', typeColor.split(' ')[1])}
-                        />
-                      </div>
-                      <div>
-                        <CardTitle className="text-base">{room.name}</CardTitle>
-                        <CardDescription className="text-xs">
-                          {room.code}
-                        </CardDescription>
-                      </div>
+      {/* Room Grid */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {paginatedRooms.map((room) => {
+          const buildingName =
+            room.building?.name ??
+            buildingMap.get(room.buildingId ?? '')?.name ??
+            'N/A'
+          const roomTypeName =
+            room.roomType?.name ??
+            roomTypeMap.get(room.roomTypeId ?? '')?.name ??
+            room.type ??
+            'N/A'
+          const resources = room.resources ?? []
+
+          return (
+            <Card
+              key={room.id}
+              className={cn(
+                'group transition-all hover:shadow-md',
+                (room.status === 'INACTIVE' || room.status === 'ARCHIVED') &&
+                  'opacity-60',
+              )}
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                      <DoorOpen className="size-5 text-primary" />
                     </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="size-8">
-                          <MoreHorizontal className="size-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setViewRoom(room)}>
-                          <Eye className="mr-2 size-4" />
-                          Ver Ficha
-                        </DropdownMenuItem>
-                        {isAdmin && (
-                          <>
-                            <DropdownMenuItem onClick={() => openEdit(room)}>
-                              <Pencil className="mr-2 size-4" />
-                              Editar
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              onClick={() => openDelete(room)}
-                              className="text-destructive focus:text-destructive"
-                            >
-                              <Trash2 className="mr-2 size-4" />
-                              Excluir
-                            </DropdownMenuItem>
-                          </>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <Badge variant="outline" className={typeColor}>
-                      {getRoomTypeName(room.type ?? '')}
-                    </Badge>
-                    <Badge variant={room.isActive ? 'default' : 'secondary'}>
-                      {room.isActive ? 'Ativa' : 'Inativa'}
-                    </Badge>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Building2 className="size-4" />
-                      <span>{room.building}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="size-4" />
-                      <span>
-                        {room.floor === 0 ? 'Térreo' : `${room.floor}º Andar`}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Users className="size-4" />
-                      <span>{room.capacity} lugares</span>
+                    <div>
+                      <CardTitle className="text-base">{room.name}</CardTitle>
+                      <CardDescription className="text-xs">
+                        {room.code}
+                      </CardDescription>
                     </div>
                   </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon" className="size-8">
+                        <MoreHorizontal className="size-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => setViewRoom(room)}>
+                        <Eye className="mr-2 size-4" />
+                        Ver Ficha
+                      </DropdownMenuItem>
+                      {isAdmin && (
+                        <>
+                          <DropdownMenuItem onClick={() => openEdit(room)}>
+                            <Pencil className="mr-2 size-4" />
+                            Editar
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => openDelete(room)}
+                            className="text-destructive focus:text-destructive"
+                          >
+                            <Trash2 className="mr-2 size-4" />
+                            Excluir
+                          </DropdownMenuItem>
+                        </>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Badge variant="outline" className="text-xs">
+                    {roomTypeName}
+                  </Badge>
+                  <Badge variant={getRoomStatusVariant(room.status)}>
+                    {getRoomStatusLabel(room.status)}
+                  </Badge>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="size-4" />
+                    <span className="truncate">{buildingName}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="size-4" />
+                    <span>
+                      {room.floor === 0 ? 'Térreo' : `${room.floor}º Andar`}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="size-4" />
+                    <span>{room.capacity} lugares</span>
+                  </div>
+                </div>
+                {resources.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {resources.slice(0, 3).map((r) => (
-                      <Badge key={r} variant="secondary" className="text-xs">
-                        {r}
+                      <Badge key={r.id} variant="secondary" className="text-xs">
+                        {r.icon ? `${r.icon} ` : ''}{r.name}
                       </Badge>
                     ))}
                     {resources.length > 3 && (
@@ -431,120 +493,122 @@ function RoomsPage() {
                       </Badge>
                     )}
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full"
-                    onClick={() => setViewRoom(room)}
-                  >
-                    Ver Detalhes
-                    <ChevronRight className="ml-2 size-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            )
-          })}
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => setViewRoom(room)}
+                >
+                  Ver Detalhes
+                  <ChevronRight className="ml-2 size-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+
+      {filteredRooms.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <DoorOpen className="mb-4 size-12 text-muted-foreground" />
+          <h3 className="text-lg font-medium">Nenhuma sala encontrada</h3>
+          <p className="text-sm text-muted-foreground">
+            Tente ajustar os filtros ou criar uma nova sala.
+          </p>
         </div>
+      )}
 
-        {filteredRooms.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <DoorOpen className="mb-4 size-12 text-muted-foreground" />
-            <h3 className="text-lg font-medium">Nenhuma sala encontrada</h3>
-            <p className="text-sm text-muted-foreground">
-              Tente ajustar os filtros ou criar uma nova sala.
-            </p>
+      {/* Pagination */}
+      {filteredRooms.length > 0 && (
+        <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Mostrando</span>
+            <Select
+              value={String(itemsPerPage)}
+              onValueChange={(v) => {
+                setItemsPerPage(Number(v))
+                setCurrentPage(1)
+              }}
+            >
+              <SelectTrigger className="h-8 w-16">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {['6', '12', '24', '48'].map((n) => (
+                  <SelectItem key={n} value={n}>
+                    {n}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span>de {filteredRooms.length} sala(s)</span>
           </div>
-        )}
-
-        {/* Pagination */}
-        {filteredRooms.length > 0 && (
-          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>Mostrando</span>
-              <Select
-                value={String(itemsPerPage)}
-                onValueChange={(v) => {
-                  setItemsPerPage(Number(v))
-                  setCurrentPage(1)
-                }}
-              >
-                <SelectTrigger className="h-8 w-16">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {['6', '12', '24', '48'].map((n) => (
-                    <SelectItem key={n} value={n}>
-                      {n}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <span>de {filteredRooms.length} sala(s)</span>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+            >
+              <ChevronsLeft className="size-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="size-4" />
+            </Button>
+            <div className="flex items-center gap-1 px-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((page) => {
+                  if (totalPages <= 5) return true
+                  if (page === 1 || page === totalPages) return true
+                  return Math.abs(page - currentPage) <= 1
+                })
+                .map((page, index, arr) => (
+                  <span key={page} className="flex items-center">
+                    {index > 0 && page - arr[index - 1] > 1 && (
+                      <span className="px-1 text-muted-foreground">...</span>
+                    )}
+                    <Button
+                      variant={currentPage === page ? 'default' : 'outline'}
+                      size="icon"
+                      className="size-8"
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </Button>
+                  </span>
+                ))}
             </div>
-            <div className="flex items-center gap-1">
-              <Button
-                variant="outline"
-                size="icon"
-                className="size-8"
-                onClick={() => setCurrentPage(1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronsLeft className="size-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="size-8"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="size-4" />
-              </Button>
-              <div className="flex items-center gap-1 px-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1)
-                  .filter((page) => {
-                    if (totalPages <= 5) return true
-                    if (page === 1 || page === totalPages) return true
-                    return Math.abs(page - currentPage) <= 1
-                  })
-                  .map((page, index, arr) => (
-                    <span key={page} className="flex items-center">
-                      {index > 0 && page - arr[index - 1] > 1 && (
-                        <span className="px-1 text-muted-foreground">...</span>
-                      )}
-                      <Button
-                        variant={currentPage === page ? 'default' : 'outline'}
-                        size="icon"
-                        className="size-8"
-                        onClick={() => setCurrentPage(page)}
-                      >
-                        {page}
-                      </Button>
-                    </span>
-                  ))}
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="size-8"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight className="size-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="size-8"
-                onClick={() => setCurrentPage(totalPages)}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronsRight className="size-4" />
-              </Button>
-            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              onClick={() =>
+                setCurrentPage((p) => Math.min(totalPages, p + 1))
+              }
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRight className="size-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8"
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronsRight className="size-4" />
+            </Button>
           </div>
-        )}
-      </main>
+        </div>
+      )}
 
       {/* View Room Dialog */}
       <Dialog open={!!viewRoom} onOpenChange={() => setViewRoom(null)}>
@@ -553,20 +617,9 @@ function RoomsPage() {
             <>
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-3">
-                  {(() => {
-                    const Icon = getRoomTypeIcon(viewRoom.type ?? '')
-                    const color = getRoomTypeColor(viewRoom.type ?? '')
-                    return (
-                      <div
-                        className={cn(
-                          'flex size-10 items-center justify-center rounded-lg',
-                          color.split(' ')[0],
-                        )}
-                      >
-                        <Icon className={cn('size-5', color.split(' ')[1])} />
-                      </div>
-                    )
-                  })()}
+                  <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                    <DoorOpen className="size-5 text-primary" />
+                  </div>
                   <div>
                     <span>{viewRoom.name}</span>
                     <p className="text-sm font-normal text-muted-foreground">
@@ -579,22 +632,26 @@ function RoomsPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Tipo</p>
-                    <Badge
-                      variant="outline"
-                      className={getRoomTypeColor(viewRoom.type ?? '')}
-                    >
-                      {getRoomTypeName(viewRoom.type ?? '')}
+                    <Badge variant="outline">
+                      {viewRoom.roomType?.name ??
+                        roomTypeMap.get(viewRoom.roomTypeId ?? '')?.name ??
+                        viewRoom.type ??
+                        'N/A'}
                     </Badge>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Status</p>
-                    <Badge variant={viewRoom.isActive ? 'default' : 'secondary'}>
-                      {viewRoom.isActive ? 'Ativa' : 'Inativa'}
+                    <Badge variant={getRoomStatusVariant(viewRoom.status)}>
+                      {getRoomStatusLabel(viewRoom.status)}
                     </Badge>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Prédio</p>
-                    <p className="font-medium">{viewRoom.building}</p>
+                    <p className="font-medium">
+                      {viewRoom.building?.name ??
+                        buildingMap.get(viewRoom.buildingId ?? '')?.name ??
+                        'N/A'}
+                    </p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Andar</p>
@@ -610,19 +667,19 @@ function RoomsPage() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">Código</p>
-                    <p className="font-medium font-mono">{viewRoom.code}</p>
+                    <p className="font-mono font-medium">{viewRoom.code}</p>
                   </div>
                 </div>
                 <Separator />
                 <div className="space-y-3">
                   <p className="text-sm font-medium">Recursos Disponíveis</p>
                   <div className="flex flex-wrap gap-2">
-                    {parseResources(viewRoom.resources).map((r) => (
-                      <Badge key={r} variant="secondary" className="px-3 py-1">
-                        {r}
+                    {(viewRoom.resources ?? []).map((r) => (
+                      <Badge key={r.id} variant="secondary" className="px-3 py-1">
+                        {r.icon ? `${r.icon} ` : ''}{r.name}
                       </Badge>
                     ))}
-                    {parseResources(viewRoom.resources).length === 0 && (
+                    {(viewRoom.resources ?? []).length === 0 && (
                       <p className="text-sm text-muted-foreground">
                         Nenhum recurso cadastrado
                       </p>
@@ -662,6 +719,957 @@ function RoomsPage() {
         onOpenChange={setIsDeleteOpen}
         room={roomToDelete}
       />
+    </>
+  )
+}
+
+// ─── Buildings Tab ────────────────────────────────────────────────────────────
+
+const defaultBuildingForm = { name: '', address: '', totalFloors: '1' }
+
+function BuildingsTab({ isAdmin }: { isAdmin: boolean }) {
+  const { api } = useAPI()
+  const { data: raw = [] } = api.buildings.findAll5.useSuspenseQuery()
+  const buildings = (Array.isArray(raw) ? raw : []) as BuildingResponse[]
+
+  const createMutation = api.buildings.create4.useMutation()
+  const updateMutation = api.buildings.updateById3.useMutation()
+  const deleteMutation = api.buildings.deleteById4.useMutation()
+  const statusMutation = api.buildings.updateStatus3.useMutation()
+
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [editing, setEditing] = useState<BuildingResponse | null>(null)
+  const [form, setForm] = useState(defaultBuildingForm)
+  const [isSaving, setIsSaving] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [toDelete, setToDelete] = useState<BuildingResponse | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [search, setSearch] = useState('')
+
+  const filtered = useMemo(
+    () =>
+      buildings.filter(
+        (b) =>
+          b.name?.toLowerCase().includes(search.toLowerCase()) ||
+          b.address?.toLowerCase().includes(search.toLowerCase()),
+      ),
+    [buildings, search],
+  )
+
+  function openCreate() {
+    setEditing(null)
+    setForm(defaultBuildingForm)
+    setIsFormOpen(true)
+  }
+
+  function openEdit(b: BuildingResponse) {
+    setEditing(b)
+    setForm({
+      name: b.name ?? '',
+      address: b.address ?? '',
+      totalFloors: String(b.totalFloors ?? 1),
+    })
+    setIsFormOpen(true)
+  }
+
+  const handleSave = useCallback(async () => {
+    setIsSaving(true)
+    try {
+      const body = {
+        name: form.name,
+        address: form.address,
+        totalFloors: parseInt(form.totalFloors),
+      }
+      if (editing?.id) {
+        await updateMutation.mutateAsync({ path: { id: editing.id }, body })
+        toast.success('Prédio atualizado com sucesso.')
+      } else {
+        await createMutation.mutateAsync({ body })
+        toast.success('Prédio cadastrado com sucesso.')
+      }
+      await api.buildings.findAll5.invalidateQueries()
+      setIsFormOpen(false)
+    } catch {
+      toast.error(editing ? 'Erro ao atualizar prédio.' : 'Erro ao cadastrar prédio.')
+    } finally {
+      setTimeout(() => setIsSaving(false), 300)
+    }
+  }, [form, editing, createMutation, updateMutation, api])
+
+  const handleDelete = useCallback(async () => {
+    if (!toDelete?.id) return
+    setIsDeleting(true)
+    try {
+      await deleteMutation.mutateAsync({ path: { id: toDelete.id } })
+      await api.buildings.findAll5.invalidateQueries()
+      toast.success('Prédio excluído com sucesso.')
+      setIsDeleteOpen(false)
+    } catch {
+      toast.error('Erro ao excluir prédio.')
+    } finally {
+      setTimeout(() => setIsDeleting(false), 300)
+    }
+  }, [toDelete, deleteMutation, api])
+
+  const handleToggleStatus = useCallback(
+    async (b: BuildingResponse) => {
+      const next = b.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
+      try {
+        await statusMutation.mutateAsync({
+          path: { id: b.id! },
+          body: { status: next },
+        })
+        await api.buildings.findAll5.invalidateQueries()
+        toast.success(`Prédio ${next === 'ACTIVE' ? 'ativado' : 'desativado'}.`)
+      } catch {
+        toast.error('Erro ao atualizar status.')
+      }
+    },
+    [statusMutation, api],
+  )
+
+  return (
+    <>
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Buscar prédio..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        {isAdmin && (
+          <Button onClick={openCreate}>
+            <Plus className="mr-2 size-4" />
+            Novo Prédio
+          </Button>
+        )}
+      </div>
+
+      <Card>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nome</TableHead>
+              <TableHead>Endereço</TableHead>
+              <TableHead>Andares</TableHead>
+              <TableHead>Status</TableHead>
+              {isAdmin && <TableHead className="w-24">Ações</TableHead>}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filtered.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={isAdmin ? 5 : 4}
+                  className="py-8 text-center text-muted-foreground"
+                >
+                  Nenhum prédio encontrado.
+                </TableCell>
+              </TableRow>
+            ) : (
+              filtered.map((b) => (
+                <TableRow key={b.id}>
+                  <TableCell className="font-medium">{b.name}</TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {b.address || '—'}
+                  </TableCell>
+                  <TableCell>{b.totalFloors ?? '—'}</TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={b.status === 'ACTIVE' ? 'default' : 'secondary'}
+                    >
+                      {getBuildingStatusLabel(b.status)}
+                    </Badge>
+                  </TableCell>
+                  {isAdmin && (
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="size-8">
+                            <MoreHorizontal className="size-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => openEdit(b)}>
+                            <Pencil className="mr-2 size-4" />
+                            Editar
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleToggleStatus(b)}
+                          >
+                            {b.status === 'ACTIVE' ? (
+                              <XCircle className="mr-2 size-4" />
+                            ) : (
+                              <CheckCircle2 className="mr-2 size-4" />
+                            )}
+                            {b.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setToDelete(b)
+                              setIsDeleteOpen(true)
+                            }}
+                            className="text-destructive focus:text-destructive"
+                          >
+                            <Trash2 className="mr-2 size-4" />
+                            Excluir
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </Card>
+
+      {/* Form Dialog */}
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{editing ? 'Editar Prédio' : 'Novo Prédio'}</DialogTitle>
+            <DialogDescription>
+              {editing
+                ? 'Atualize as informações do prédio.'
+                : 'Cadastre um novo prédio.'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="b-name">Nome *</Label>
+              <Input
+                id="b-name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Ex: Bloco A"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="b-address">Endereço</Label>
+              <Input
+                id="b-address"
+                value={form.address}
+                onChange={(e) => setForm({ ...form, address: e.target.value })}
+                placeholder="Ex: Rua das Flores, 123"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="b-floors">Total de Andares</Label>
+              <Input
+                id="b-floors"
+                type="number"
+                value={form.totalFloors}
+                onChange={(e) =>
+                  setForm({ ...form, totalFloors: e.target.value })
+                }
+                min={1}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsFormOpen(false)}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={!form.name || isSaving}
+              className="min-w-32"
+            >
+              {isSaving ? 'Salvando...' : editing ? 'Salvar' : 'Criar'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Dialog */}
+      <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar Exclusão</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja excluir o prédio{' '}
+              <strong>{toDelete?.name}</strong>? Esta ação não pode ser
+              desfeita.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)}>
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              <Trash2 className="mr-2 size-4" />
+              {isDeleting ? 'Excluindo...' : 'Excluir'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+
+// ─── Room Types Tab ───────────────────────────────────────────────────────────
+
+const defaultRoomTypeForm = {
+  name: '',
+  description: '',
+  defaultCapacity: '',
+  color: '',
+  icon: '',
+}
+
+function RoomTypesTab({ isAdmin }: { isAdmin: boolean }) {
+  const { api } = useAPI()
+  const { data: raw = [] } = api.roomTypes.findAll2.useSuspenseQuery()
+  const roomTypes = (Array.isArray(raw) ? raw : []) as RoomTypeResponse[]
+
+  const createMutation = api.roomTypes.create2.useMutation()
+  const updateMutation = api.roomTypes.updateById1.useMutation()
+  const deleteMutation = api.roomTypes.deleteById2.useMutation()
+  const statusMutation = api.roomTypes.updateStatus1.useMutation()
+
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [editing, setEditing] = useState<RoomTypeResponse | null>(null)
+  const [form, setForm] = useState(defaultRoomTypeForm)
+  const [isSaving, setIsSaving] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [toDelete, setToDelete] = useState<RoomTypeResponse | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [search, setSearch] = useState('')
+
+  const filtered = useMemo(
+    () =>
+      roomTypes.filter(
+        (rt) =>
+          rt.name?.toLowerCase().includes(search.toLowerCase()) ||
+          rt.description?.toLowerCase().includes(search.toLowerCase()),
+      ),
+    [roomTypes, search],
+  )
+
+  function openCreate() {
+    setEditing(null)
+    setForm(defaultRoomTypeForm)
+    setIsFormOpen(true)
+  }
+
+  function openEdit(rt: RoomTypeResponse) {
+    setEditing(rt)
+    setForm({
+      name: rt.name ?? '',
+      description: rt.description ?? '',
+      defaultCapacity: rt.defaultCapacity ?? '',
+      color: rt.color ?? '',
+      icon: rt.icon ?? '',
+    })
+    setIsFormOpen(true)
+  }
+
+  const handleSave = useCallback(async () => {
+    setIsSaving(true)
+    try {
+      const body = {
+        name: form.name,
+        description: form.description || undefined,
+        defaultCapacity: form.defaultCapacity || undefined,
+        color: form.color || undefined,
+        icon: form.icon || undefined,
+      }
+      if (editing?.id) {
+        await updateMutation.mutateAsync({ path: { id: editing.id }, body })
+        toast.success('Tipo de sala atualizado com sucesso.')
+      } else {
+        await createMutation.mutateAsync({ body })
+        toast.success('Tipo de sala cadastrado com sucesso.')
+      }
+      await api.roomTypes.findAll2.invalidateQueries()
+      setIsFormOpen(false)
+    } catch {
+      toast.error(
+        editing ? 'Erro ao atualizar tipo.' : 'Erro ao cadastrar tipo.',
+      )
+    } finally {
+      setTimeout(() => setIsSaving(false), 300)
+    }
+  }, [form, editing, createMutation, updateMutation, api])
+
+  const handleDelete = useCallback(async () => {
+    if (!toDelete?.id) return
+    setIsDeleting(true)
+    try {
+      await deleteMutation.mutateAsync({ path: { id: toDelete.id } })
+      await api.roomTypes.findAll2.invalidateQueries()
+      toast.success('Tipo de sala excluído com sucesso.')
+      setIsDeleteOpen(false)
+    } catch {
+      toast.error('Erro ao excluir tipo de sala.')
+    } finally {
+      setTimeout(() => setIsDeleting(false), 300)
+    }
+  }, [toDelete, deleteMutation, api])
+
+  const handleToggleStatus = useCallback(
+    async (rt: RoomTypeResponse) => {
+      try {
+        await statusMutation.mutateAsync({
+          path: { id: rt.id! },
+          body: { active: !rt.active },
+        })
+        await api.roomTypes.findAll2.invalidateQueries()
+        toast.success(
+          `Tipo ${rt.active ? 'desativado' : 'ativado'} com sucesso.`,
+        )
+      } catch {
+        toast.error('Erro ao atualizar status.')
+      }
+    },
+    [statusMutation, api],
+  )
+
+  return (
+    <>
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Buscar tipo de sala..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        {isAdmin && (
+          <Button onClick={openCreate}>
+            <Plus className="mr-2 size-4" />
+            Novo Tipo
+          </Button>
+        )}
+      </div>
+
+      <Card>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nome</TableHead>
+              <TableHead>Descrição</TableHead>
+              <TableHead>Cap. Padrão</TableHead>
+              <TableHead>Ícone</TableHead>
+              <TableHead>Status</TableHead>
+              {isAdmin && <TableHead className="w-24">Ações</TableHead>}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filtered.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={isAdmin ? 6 : 5}
+                  className="py-8 text-center text-muted-foreground"
+                >
+                  Nenhum tipo de sala encontrado.
+                </TableCell>
+              </TableRow>
+            ) : (
+              filtered.map((rt) => (
+                <TableRow key={rt.id}>
+                  <TableCell className="font-medium">
+                    <div className="flex items-center gap-2">
+                      {rt.color && (
+                        <span
+                          className="inline-block size-3 rounded-full"
+                          style={{ backgroundColor: rt.color }}
+                        />
+                      )}
+                      {rt.name}
+                    </div>
+                  </TableCell>
+                  <TableCell className="max-w-48 truncate text-muted-foreground">
+                    {rt.description || '—'}
+                  </TableCell>
+                  <TableCell>{rt.defaultCapacity || '—'}</TableCell>
+                  <TableCell className="text-xl">
+                    {rt.icon || '—'}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={rt.active !== false ? 'default' : 'secondary'}
+                    >
+                      {rt.active !== false ? 'Ativo' : 'Inativo'}
+                    </Badge>
+                  </TableCell>
+                  {isAdmin && (
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="size-8">
+                            <MoreHorizontal className="size-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => openEdit(rt)}>
+                            <Pencil className="mr-2 size-4" />
+                            Editar
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleToggleStatus(rt)}
+                          >
+                            {rt.active !== false ? (
+                              <XCircle className="mr-2 size-4" />
+                            ) : (
+                              <CheckCircle2 className="mr-2 size-4" />
+                            )}
+                            {rt.active !== false ? 'Desativar' : 'Ativar'}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setToDelete(rt)
+                              setIsDeleteOpen(true)
+                            }}
+                            className="text-destructive focus:text-destructive"
+                          >
+                            <Trash2 className="mr-2 size-4" />
+                            Excluir
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </Card>
+
+      {/* Form Dialog */}
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {editing ? 'Editar Tipo de Sala' : 'Novo Tipo de Sala'}
+            </DialogTitle>
+            <DialogDescription>
+              {editing
+                ? 'Atualize as informações do tipo de sala.'
+                : 'Cadastre um novo tipo de sala.'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="rt-name">Nome *</Label>
+              <Input
+                id="rt-name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Ex: Laboratório"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="rt-desc">Descrição</Label>
+              <Input
+                id="rt-desc"
+                value={form.description}
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+                placeholder="Descrição do tipo de sala"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="rt-cap">Capacidade Padrão</Label>
+                <Input
+                  id="rt-cap"
+                  value={form.defaultCapacity}
+                  onChange={(e) =>
+                    setForm({ ...form, defaultCapacity: e.target.value })
+                  }
+                  placeholder="Ex: 30"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="rt-color">Cor (hex)</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="rt-color"
+                    value={form.color}
+                    onChange={(e) =>
+                      setForm({ ...form, color: e.target.value })
+                    }
+                    placeholder="#3b82f6"
+                  />
+                  {form.color && (
+                    <div
+                      className="size-10 shrink-0 rounded border"
+                      style={{ backgroundColor: form.color }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="rt-icon">Ícone (emoji)</Label>
+              <Input
+                id="rt-icon"
+                value={form.icon}
+                onChange={(e) => setForm({ ...form, icon: e.target.value })}
+                placeholder="Ex: 🔬"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsFormOpen(false)}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={!form.name || isSaving}
+              className="min-w-32"
+            >
+              {isSaving ? 'Salvando...' : editing ? 'Salvar' : 'Criar'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Dialog */}
+      <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar Exclusão</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja excluir o tipo{' '}
+              <strong>{toDelete?.name}</strong>? Esta ação não pode ser
+              desfeita.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)}>
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              <Trash2 className="mr-2 size-4" />
+              {isDeleting ? 'Excluindo...' : 'Excluir'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+
+// ─── Resources Tab ────────────────────────────────────────────────────────────
+
+const defaultResourceForm = { name: '', description: '', icon: '' }
+
+function ResourcesTab({ isAdmin }: { isAdmin: boolean }) {
+  const { api } = useAPI()
+  const { data: raw = [] } = api.resources.findAll3.useSuspenseQuery()
+  const resources = (Array.isArray(raw) ? raw : []) as ResourceResponse[]
+
+  const createMutation = api.resources.create3.useMutation()
+  const updateMutation = api.resources.updateById2.useMutation()
+  const deleteMutation = api.resources.deleteById3.useMutation()
+  const statusMutation = api.resources.updateStatus2.useMutation()
+
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [editing, setEditing] = useState<ResourceResponse | null>(null)
+  const [form, setForm] = useState(defaultResourceForm)
+  const [isSaving, setIsSaving] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [toDelete, setToDelete] = useState<ResourceResponse | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [search, setSearch] = useState('')
+
+  const filtered = useMemo(
+    () =>
+      resources.filter(
+        (r) =>
+          r.name?.toLowerCase().includes(search.toLowerCase()) ||
+          r.description?.toLowerCase().includes(search.toLowerCase()),
+      ),
+    [resources, search],
+  )
+
+  function openCreate() {
+    setEditing(null)
+    setForm(defaultResourceForm)
+    setIsFormOpen(true)
+  }
+
+  function openEdit(r: ResourceResponse) {
+    setEditing(r)
+    setForm({
+      name: r.name ?? '',
+      description: r.description ?? '',
+      icon: r.icon ?? '',
+    })
+    setIsFormOpen(true)
+  }
+
+  const handleSave = useCallback(async () => {
+    setIsSaving(true)
+    try {
+      const body = {
+        name: form.name,
+        description: form.description || undefined,
+        icon: form.icon || undefined,
+      }
+      if (editing?.id) {
+        await updateMutation.mutateAsync({ path: { id: editing.id }, body })
+        toast.success('Recurso atualizado com sucesso.')
+      } else {
+        await createMutation.mutateAsync({ body })
+        toast.success('Recurso cadastrado com sucesso.')
+      }
+      await api.resources.findAll3.invalidateQueries()
+      setIsFormOpen(false)
+    } catch {
+      toast.error(
+        editing ? 'Erro ao atualizar recurso.' : 'Erro ao cadastrar recurso.',
+      )
+    } finally {
+      setTimeout(() => setIsSaving(false), 300)
+    }
+  }, [form, editing, createMutation, updateMutation, api])
+
+  const handleDelete = useCallback(async () => {
+    if (!toDelete?.id) return
+    setIsDeleting(true)
+    try {
+      await deleteMutation.mutateAsync({ path: { id: toDelete.id } })
+      await api.resources.findAll3.invalidateQueries()
+      toast.success('Recurso excluído com sucesso.')
+      setIsDeleteOpen(false)
+    } catch {
+      toast.error('Erro ao excluir recurso.')
+    } finally {
+      setTimeout(() => setIsDeleting(false), 300)
+    }
+  }, [toDelete, deleteMutation, api])
+
+  const handleToggleStatus = useCallback(
+    async (r: ResourceResponse) => {
+      try {
+        await statusMutation.mutateAsync({
+          path: { id: r.id! },
+          body: { active: !r.active },
+        })
+        await api.resources.findAll3.invalidateQueries()
+        toast.success(`Recurso ${r.active ? 'desativado' : 'ativado'} com sucesso.`)
+      } catch {
+        toast.error('Erro ao atualizar status.')
+      }
+    },
+    [statusMutation, api],
+  )
+
+  return (
+    <>
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Buscar recurso..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        {isAdmin && (
+          <Button onClick={openCreate}>
+            <Plus className="mr-2 size-4" />
+            Novo Recurso
+          </Button>
+        )}
+      </div>
+
+      <Card>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Ícone</TableHead>
+              <TableHead>Nome</TableHead>
+              <TableHead>Descrição</TableHead>
+              <TableHead>Status</TableHead>
+              {isAdmin && <TableHead className="w-24">Ações</TableHead>}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filtered.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={isAdmin ? 5 : 4}
+                  className="py-8 text-center text-muted-foreground"
+                >
+                  Nenhum recurso encontrado.
+                </TableCell>
+              </TableRow>
+            ) : (
+              filtered.map((r) => (
+                <TableRow key={r.id}>
+                  <TableCell className="text-2xl">
+                    {r.icon || <Archive className="size-5 text-muted-foreground" />}
+                  </TableCell>
+                  <TableCell className="font-medium">{r.name}</TableCell>
+                  <TableCell className="max-w-48 truncate text-muted-foreground">
+                    {r.description || '—'}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={r.active !== false ? 'default' : 'secondary'}
+                    >
+                      {r.active !== false ? 'Ativo' : 'Inativo'}
+                    </Badge>
+                  </TableCell>
+                  {isAdmin && (
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="size-8">
+                            <MoreHorizontal className="size-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => openEdit(r)}>
+                            <Pencil className="mr-2 size-4" />
+                            Editar
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleToggleStatus(r)}
+                          >
+                            {r.active !== false ? (
+                              <XCircle className="mr-2 size-4" />
+                            ) : (
+                              <CheckCircle2 className="mr-2 size-4" />
+                            )}
+                            {r.active !== false ? 'Desativar' : 'Ativar'}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setToDelete(r)
+                              setIsDeleteOpen(true)
+                            }}
+                            className="text-destructive focus:text-destructive"
+                          >
+                            <Trash2 className="mr-2 size-4" />
+                            Excluir
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </Card>
+
+      {/* Form Dialog */}
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {editing ? 'Editar Recurso' : 'Novo Recurso'}
+            </DialogTitle>
+            <DialogDescription>
+              {editing
+                ? 'Atualize as informações do recurso.'
+                : 'Cadastre um novo recurso.'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="r-name">Nome *</Label>
+              <Input
+                id="r-name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Ex: Projetor"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="r-desc">Descrição</Label>
+              <Input
+                id="r-desc"
+                value={form.description}
+                onChange={(e) =>
+                  setForm({ ...form, description: e.target.value })
+                }
+                placeholder="Descrição do recurso"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="r-icon">Ícone (emoji)</Label>
+              <div className="flex items-center gap-3">
+                <Input
+                  id="r-icon"
+                  value={form.icon}
+                  onChange={(e) => setForm({ ...form, icon: e.target.value })}
+                  placeholder="Ex: 📽️"
+                />
+                {form.icon && (
+                  <span className="text-3xl">{form.icon}</span>
+                )}
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsFormOpen(false)}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={!form.name || isSaving}
+              className="min-w-32"
+            >
+              {isSaving ? 'Salvando...' : editing ? 'Salvar' : 'Criar'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Dialog */}
+      <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar Exclusão</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja excluir o recurso{' '}
+              <strong>{toDelete?.name}</strong>? Esta ação não pode ser
+              desfeita.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)}>
+              Cancelar
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              <Trash2 className="mr-2 size-4" />
+              {isDeleting ? 'Excluindo...' : 'Excluir'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

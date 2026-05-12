@@ -76,7 +76,7 @@ export const Route = createFileRoute("/_authenticated/grade/")({
   component: GradePage,
 })
 
-type RoomResponse = components["schemas"]["RoomResponse"]
+type RoomResponse = components["schemas"]["RoomDetailResponse"]
 type EventResponse = components["schemas"]["EventResponse"]
 
 interface EditAction {
@@ -125,7 +125,7 @@ function GradePage() {
   const { api } = useAPI()
 
   const { data: rooms = [], isLoading: loadingRooms } = api.rooms.findAll1.useQuery()
-  const { data: eventsa = [], isLoading: loadingEvents, refetch: refetchEvents } = api.events.findAll2.useQuery()
+  const { data: eventsa = [], isLoading: loadingEvents, refetch: refetchEvents } = api.events.findAll4.useQuery()
 
 
   const events = eventsa.filter(event => typeof event.deletedAt !== `string`)
@@ -147,7 +147,7 @@ function GradePage() {
   }, [roomList])
 
   const allBuildings = React.useMemo(() => {
-    const set = new Set(roomList.map((r) => r.building ?? "").filter(Boolean))
+    const set = new Set(roomList.map((r) => r.building?.name ?? r.buildingId ?? "").filter(Boolean))
     return Array.from(set).sort()
   }, [roomList])
 
@@ -166,14 +166,14 @@ function GradePage() {
   const filteredRooms = React.useMemo(() => {
     return roomList
       .filter((r) => selectedRoomTypes.length === 0 || selectedRoomTypes.includes(r.type ?? ""))
-      .filter((r) => selectedBuildings.length === 0 || selectedBuildings.includes(r.building ?? ""))
+      .filter((r) => selectedBuildings.length === 0 || selectedBuildings.includes(r.building?.name ?? r.buildingId ?? ""))
       .filter((r) => {
         if (!searchQuery) return true
         const q = searchQuery.toLowerCase()
         return (
           r.name?.toLowerCase().includes(q) ||
           r.code?.toLowerCase().includes(q) ||
-          r.building?.toLowerCase().includes(q)
+          r.building?.name?.toLowerCase().includes(q)
         )
       })
   }, [roomList, selectedRoomTypes, selectedBuildings, searchQuery])
@@ -438,7 +438,7 @@ function GradePage() {
                     >
                       <span className="flex-1">{building}</span>
                       <span className="text-xs text-muted-foreground ml-2">
-                        ({roomList.filter((r) => r.building === building).length})
+                        ({roomList.filter((r) => (r.building?.name ?? r.buildingId ?? "") === building).length})
                       </span>
                     </DropdownMenuCheckboxItem>
                   ))}
@@ -620,7 +620,7 @@ function GradePage() {
                 <SelectContent>
                   {roomList.map((room) => (
                     <SelectItem key={room.id} value={room.id!}>
-                      {room.name} — {room.building}
+                      {room.name} — {room.building?.name ?? room.buildingId}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -670,7 +670,7 @@ function GradePage() {
                 <SelectContent>
                   {roomList.map((room) => (
                     <SelectItem key={room.id} value={room.id!}>
-                      {room.name} — {room.building}
+                      {room.name} — {room.building?.name ?? room.buildingId}
                     </SelectItem>
                   ))}
                 </SelectContent>
