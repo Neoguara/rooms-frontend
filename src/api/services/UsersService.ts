@@ -7,18 +7,20 @@ import type { paths } from "../schema";
 import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey, MutationFiltersByParameters, MutationVariables, OperationError, OperationInfiniteData, PartialParameters, QueryFiltersByParameters, QueryFiltersByQueryKey, QueryFnOptionsByParameters, QueryFnOptionsByQueryKey, RequestFnResponse, ServiceOperationEnsureInfiniteQueryDataOptions, ServiceOperationEnsureQueryDataOptions, ServiceOperationFetchInfiniteQueryOptions, ServiceOperationFetchQueryOptions, ServiceOperationInfiniteQueryKey, ServiceOperationMutationFnOptions, ServiceOperationMutationKey, ServiceOperationQueryKey, ServiceOperationUseMutationOptions, UseQueryOptionsForUseQueries, UseQueryOptionsForUseSuspenseQuery, WithOptional, QraftServiceOperationsToken } from "@openapi-qraft/tanstack-query-react-types";
 import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface UsersService {
+    /** @description Retorna os dados de um usuário pelo seu ID. */
     findById: {
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindByIdSchema, FindByIdParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindByIdParameters, TMeta, TSignal>), client?: (schema: FindByIdSchema, options: {
             parameters: FindByIdParameters;
             signal?: TSignal;
             meta?: TMeta;
         }) => Promise<RequestFnResponse<FindByIdData, FindByIdError>>): Promise<RequestFnResponse<FindByIdData, FindByIdError>>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         getQueryKey(parameters: DeepReadonly<FindByIdParameters>): ServiceOperationQueryKey<FindByIdSchema, FindByIdParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
@@ -33,6 +35,7 @@ export interface UsersService {
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
@@ -44,12 +47,13 @@ export interface UsersService {
          * ```
          */
         useQuery<TData = FindByIdData>(parameters: ServiceOperationQueryKey<FindByIdSchema, FindByIdParameters> | (DeepReadonly<FindByIdParameters>), options: Omit<DefinedInitialDataOptions<FindByIdData, FindByIdError, TData, ServiceOperationQueryKey<FindByIdSchema, FindByIdParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindByIdError>>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         getInfiniteQueryKey(parameters: DeepReadonly<FindByIdParameters>): ServiceOperationInfiniteQueryKey<FindByIdSchema, FindByIdParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
@@ -72,6 +76,7 @@ export interface UsersService {
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
@@ -94,6 +99,7 @@ export interface UsersService {
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
@@ -116,6 +122,7 @@ export interface UsersService {
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
@@ -163,6 +170,7 @@ export interface UsersService {
          * Performs asynchronous data fetching with Suspense support.
          * Similar to useQuery but integrates with React Suspense for loading states.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
@@ -179,6 +187,7 @@ export interface UsersService {
          * Manages paginated data and provides utilities for fetching additional pages.
          * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
          *
          * @example Suspense Infinite Query
@@ -201,6 +210,7 @@ export interface UsersService {
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
          *
+         * @description Retorna os dados de um usuário pelo seu ID.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
@@ -244,23 +254,23 @@ export interface UsersService {
             queries: T;
             combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindByIdData, FindByIdError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         fetchQuery(options: ServiceOperationFetchQueryOptions<FindByIdSchema, FindByIdData, FindByIdParameters, FindByIdError>): Promise<FindByIdData>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         prefetchQuery(options: ServiceOperationFetchQueryOptions<FindByIdSchema, FindByIdData, FindByIdParameters, FindByIdError>): Promise<void>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindByIdSchema, FindByIdData, FindByIdParameters, FindByIdError>): Promise<FindByIdData>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         fetchInfiniteQuery<TPageParam extends FindByIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindByIdSchema, FindByIdData, FindByIdParameters, DeepReadonly<TPageParam>, FindByIdError>): Promise<OperationInfiniteData<FindByIdData, FindByIdParameters>>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         prefetchInfiniteQuery<TPageParam extends FindByIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindByIdSchema, FindByIdData, FindByIdParameters, DeepReadonly<TPageParam>, FindByIdError>): Promise<void>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         ensureInfiniteQueryData<TPageParam extends FindByIdParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindByIdSchema, FindByIdData, FindByIdParameters, DeepReadonly<TPageParam>, FindByIdError>): Promise<OperationInfiniteData<FindByIdData, FindByIdParameters>>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         getQueryData(parameters: ServiceOperationQueryKey<FindByIdSchema, FindByIdParameters> | (DeepReadonly<FindByIdParameters>)): FindByIdData | undefined;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindByIdSchema, FindByIdParameters> | (DeepReadonly<FindByIdParameters>)): OperationInfiniteData<FindByIdData, FindByIdParameters> | undefined;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError> | QueryFiltersByQueryKey<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>): TInfinite extends true ? Array<[
             queryKey: ServiceOperationInfiniteQueryKey<FindByIdSchema, FindByIdParameters>,
             data: NoInfer<OperationInfiniteData<FindByIdData, FindByIdParameters>> | undefined
@@ -268,27 +278,27 @@ export interface UsersService {
             queryKey: ServiceOperationQueryKey<FindByIdSchema, FindByIdParameters>,
             data: FindByIdData | undefined
         ]>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         getQueryState(parameters: ServiceOperationQueryKey<FindByIdSchema, FindByIdParameters> | (DeepReadonly<FindByIdParameters>)): QueryState<FindByIdData, FindByIdError> | undefined;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         getInfiniteQueryState(parameters: DeepReadonly<FindByIdParameters> | ServiceOperationInfiniteQueryKey<FindByIdSchema, FindByIdParameters>): QueryState<OperationInfiniteData<FindByIdData, FindByIdParameters>, FindByIdError> | undefined;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         setQueryData(parameters: (DeepReadonly<FindByIdParameters>) | ServiceOperationQueryKey<FindByIdSchema, FindByIdParameters>, updater: Updater<NoInfer<FindByIdData> | undefined, NoInfer<DeepReadonly<FindByIdData>> | undefined>, options?: SetDataOptions): FindByIdData | undefined;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         setInfiniteQueryData(parameters: (DeepReadonly<FindByIdParameters>) | ServiceOperationInfiniteQueryKey<FindByIdSchema, FindByIdParameters>, updater: Updater<NoInfer<OperationInfiniteData<FindByIdData, FindByIdParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindByIdData, FindByIdParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindByIdData, FindByIdParameters> | undefined;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError> | QueryFiltersByQueryKey<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>, updater: Updater<NoInfer<FindByIdData> | undefined, NoInfer<FindByIdData> | undefined>, options?: SetDataOptions): Array<FindByIdData | undefined>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>, options?: InvalidateOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError> | QueryFiltersByQueryKey<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>, options?: RefetchOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError> | QueryFiltersByQueryKey<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>, options?: CancelOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError> | QueryFiltersByQueryKey<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>): void;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError> | QueryFiltersByQueryKey<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>, options?: ResetOptions): Promise<void>;
-        /**/
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError> | QueryFiltersByQueryKey<FindByIdSchema, FindByIdData, TInfinite, FindByIdParameters, FindByIdError>): number;
         schema: FindByIdSchema;
         types: {
@@ -297,15 +307,17 @@ export interface UsersService {
             error: FindByIdError;
         };
     };
+    /** @description Atualiza nome, email, senha e papel do usuário. */
     update: {
-        /**/
+        /** @description Atualiza nome, email, senha e papel do usuário. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateBody, UpdateParameters, TMeta, TSignal>, client?: (schema: UpdateSchema, options: ServiceOperationMutationFnOptions<UpdateBody, UpdateParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateData, UpdateError>>): Promise<RequestFnResponse<UpdateData, UpdateError>>;
-        /**/
+        /** @description Atualiza nome, email, senha e papel do usuário. */
         getMutationKey(parameters: DeepReadonly<UpdateParameters> | void): ServiceOperationMutationKey<UpdateSchema, UpdateParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Atualiza nome, email, senha e papel do usuário.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -332,6 +344,7 @@ export interface UsersService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Atualiza nome, email, senha e papel do usuário.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -357,6 +370,7 @@ export interface UsersService {
         /**
          * Returns the count of currently in-progress mutations.
          *
+         * @description Atualiza nome, email, senha e papel do usuário.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -377,6 +391,7 @@ export interface UsersService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
+         * @description Atualiza nome, email, senha e papel do usuário.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -405,12 +420,13 @@ export interface UsersService {
             filters?: MutationFiltersByParameters<UpdateBody, UpdateData, UpdateParameters, OperationError<UpdateError>, TContext> | MutationFiltersByMutationKey<UpdateSchema, UpdateBody, UpdateData, UpdateParameters, OperationError<UpdateError>, TContext>;
             select?: (mutation: Mutation<UpdateData, OperationError<UpdateError>, MutationVariables<UpdateBody, UpdateParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /**/
+        /** @description Atualiza nome, email, senha e papel do usuário. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateBody, UpdateData, UpdateParameters, OperationError<UpdateError>, TContext> | MutationFiltersByMutationKey<UpdateSchema, UpdateBody, UpdateData, UpdateParameters, OperationError<UpdateError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
+         * @description Atualiza nome, email, senha e papel do usuário.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -443,15 +459,17 @@ export interface UsersService {
             body: UpdateBody;
         };
     };
+    /** @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível. */
     deleteById: {
-        /**/
+        /** @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteByIdBody, DeleteByIdParameters, TMeta, TSignal>, client?: (schema: DeleteByIdSchema, options: ServiceOperationMutationFnOptions<DeleteByIdBody, DeleteByIdParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteByIdData, DeleteByIdError>>): Promise<RequestFnResponse<DeleteByIdData, DeleteByIdError>>;
-        /**/
+        /** @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível. */
         getMutationKey(parameters: DeepReadonly<DeleteByIdParameters> | void): ServiceOperationMutationKey<DeleteByIdSchema, DeleteByIdParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -478,6 +496,7 @@ export interface UsersService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -503,6 +522,7 @@ export interface UsersService {
         /**
          * Returns the count of currently in-progress mutations.
          *
+         * @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -523,6 +543,7 @@ export interface UsersService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
+         * @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -551,12 +572,13 @@ export interface UsersService {
             filters?: MutationFiltersByParameters<DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext> | MutationFiltersByMutationKey<DeleteByIdSchema, DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext>;
             select?: (mutation: Mutation<DeleteByIdData, OperationError<DeleteByIdError>, MutationVariables<DeleteByIdBody, DeleteByIdParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /**/
+        /** @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext> | MutationFiltersByMutationKey<DeleteByIdSchema, DeleteByIdBody, DeleteByIdData, DeleteByIdParameters, OperationError<DeleteByIdError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
+         * @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -589,18 +611,20 @@ export interface UsersService {
             body: DeleteByIdBody;
         };
     };
+    /** @description Retorna todos os usuários cadastrados. */
     findAll: {
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAllSchema, FindAllParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAllParameters, TMeta, TSignal> | void), client?: (schema: FindAllSchema, options: {
             parameters: FindAllParameters;
             signal?: TSignal;
             meta?: TMeta;
         }) => Promise<RequestFnResponse<FindAllData, FindAllError>>): Promise<RequestFnResponse<FindAllData, FindAllError>>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         getQueryKey(parameters: DeepReadonly<FindAllParameters> | void): ServiceOperationQueryKey<FindAllSchema, FindAllParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
@@ -611,6 +635,7 @@ export interface UsersService {
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
@@ -618,12 +643,13 @@ export interface UsersService {
          * ```
          */
         useQuery<TData = FindAllData>(parameters: ServiceOperationQueryKey<FindAllSchema, FindAllParameters> | (DeepReadonly<FindAllParameters> | void), options: Omit<DefinedInitialDataOptions<FindAllData, FindAllError, TData, ServiceOperationQueryKey<FindAllSchema, FindAllParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAllError>>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         getInfiniteQueryKey(parameters: DeepReadonly<FindAllParameters> | void): ServiceOperationInfiniteQueryKey<FindAllSchema, FindAllParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
@@ -642,6 +668,7 @@ export interface UsersService {
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
@@ -660,6 +687,7 @@ export interface UsersService {
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
@@ -671,6 +699,7 @@ export interface UsersService {
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
@@ -702,6 +731,7 @@ export interface UsersService {
          * Performs asynchronous data fetching with Suspense support.
          * Similar to useQuery but integrates with React Suspense for loading states.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
@@ -714,6 +744,7 @@ export interface UsersService {
          * Manages paginated data and provides utilities for fetching additional pages.
          * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
          *
          * @example Suspense Infinite Query
@@ -732,6 +763,7 @@ export interface UsersService {
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
          *
+         * @description Retorna todos os usuários cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
@@ -759,23 +791,23 @@ export interface UsersService {
             queries: T;
             combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAllData, FindAllError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         fetchQuery(options: ServiceOperationFetchQueryOptions<FindAllSchema, FindAllData, FindAllParameters, FindAllError> | void): Promise<FindAllData>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAllSchema, FindAllData, FindAllParameters, FindAllError> | void): Promise<void>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAllSchema, FindAllData, FindAllParameters, FindAllError> | void): Promise<FindAllData>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         fetchInfiniteQuery<TPageParam extends FindAllParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAllSchema, FindAllData, FindAllParameters, DeepReadonly<TPageParam>, FindAllError> | void): Promise<OperationInfiniteData<FindAllData, FindAllParameters>>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         prefetchInfiniteQuery<TPageParam extends FindAllParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAllSchema, FindAllData, FindAllParameters, DeepReadonly<TPageParam>, FindAllError> | void): Promise<void>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         ensureInfiniteQueryData<TPageParam extends FindAllParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAllSchema, FindAllData, FindAllParameters, DeepReadonly<TPageParam>, FindAllError> | void): Promise<OperationInfiniteData<FindAllData, FindAllParameters>>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         getQueryData(parameters: ServiceOperationQueryKey<FindAllSchema, FindAllParameters> | (DeepReadonly<FindAllParameters> | void)): FindAllData | undefined;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAllSchema, FindAllParameters> | (DeepReadonly<FindAllParameters> | void)): OperationInfiniteData<FindAllData, FindAllParameters> | undefined;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError> | QueryFiltersByQueryKey<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>): TInfinite extends true ? Array<[
             queryKey: ServiceOperationInfiniteQueryKey<FindAllSchema, FindAllParameters>,
             data: NoInfer<OperationInfiniteData<FindAllData, FindAllParameters>> | undefined
@@ -783,27 +815,27 @@ export interface UsersService {
             queryKey: ServiceOperationQueryKey<FindAllSchema, FindAllParameters>,
             data: FindAllData | undefined
         ]>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         getQueryState(parameters: ServiceOperationQueryKey<FindAllSchema, FindAllParameters> | (DeepReadonly<FindAllParameters> | void)): QueryState<FindAllData, FindAllError> | undefined;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         getInfiniteQueryState(parameters: DeepReadonly<FindAllParameters> | ServiceOperationInfiniteQueryKey<FindAllSchema, FindAllParameters> | void): QueryState<OperationInfiniteData<FindAllData, FindAllParameters>, FindAllError> | undefined;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         setQueryData(parameters: (DeepReadonly<FindAllParameters> | undefined) | ServiceOperationQueryKey<FindAllSchema, FindAllParameters>, updater: Updater<NoInfer<FindAllData> | undefined, NoInfer<DeepReadonly<FindAllData>> | undefined>, options?: SetDataOptions): FindAllData | undefined;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         setInfiniteQueryData(parameters: (DeepReadonly<FindAllParameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAllSchema, FindAllParameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAllData, FindAllParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAllData, FindAllParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAllData, FindAllParameters> | undefined;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError> | QueryFiltersByQueryKey<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>, updater: Updater<NoInfer<FindAllData> | undefined, NoInfer<FindAllData> | undefined>, options?: SetDataOptions): Array<FindAllData | undefined>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>, options?: InvalidateOptions): Promise<void>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError> | QueryFiltersByQueryKey<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>, options?: RefetchOptions): Promise<void>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError> | QueryFiltersByQueryKey<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>, options?: CancelOptions): Promise<void>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError> | QueryFiltersByQueryKey<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>): void;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError> | QueryFiltersByQueryKey<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>, options?: ResetOptions): Promise<void>;
-        /**/
+        /** @description Retorna todos os usuários cadastrados. */
         isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError> | QueryFiltersByQueryKey<FindAllSchema, FindAllData, TInfinite, FindAllParameters, FindAllError>): number;
         schema: FindAllSchema;
         types: {
@@ -812,15 +844,17 @@ export interface UsersService {
             error: FindAllError;
         };
     };
+    /** @description Cadastra um novo usuário com status inicial ACTIVE. */
     create: {
-        /**/
+        /** @description Cadastra um novo usuário com status inicial ACTIVE. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<CreateBody, CreateParameters, TMeta, TSignal>, client?: (schema: CreateSchema, options: ServiceOperationMutationFnOptions<CreateBody, CreateParameters, TMeta, TSignal>) => Promise<RequestFnResponse<CreateData, CreateError>>): Promise<RequestFnResponse<CreateData, CreateError>>;
-        /**/
+        /** @description Cadastra um novo usuário com status inicial ACTIVE. */
         getMutationKey(parameters: DeepReadonly<CreateParameters> | void): ServiceOperationMutationKey<CreateSchema, CreateParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Cadastra um novo usuário com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -840,6 +874,7 @@ export interface UsersService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
+         * @description Cadastra um novo usuário com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -858,6 +893,7 @@ export interface UsersService {
         /**
          * Returns the count of currently in-progress mutations.
          *
+         * @description Cadastra um novo usuário com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -874,6 +910,7 @@ export interface UsersService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
+         * @description Cadastra um novo usuário com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -898,12 +935,13 @@ export interface UsersService {
             filters?: MutationFiltersByParameters<CreateBody, CreateData, CreateParameters, OperationError<CreateError>, TContext> | MutationFiltersByMutationKey<CreateSchema, CreateBody, CreateData, CreateParameters, OperationError<CreateError>, TContext>;
             select?: (mutation: Mutation<CreateData, OperationError<CreateError>, MutationVariables<CreateBody, CreateParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /**/
+        /** @description Cadastra um novo usuário com status inicial ACTIVE. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<CreateBody, CreateData, CreateParameters, OperationError<CreateError>, TContext> | MutationFiltersByMutationKey<CreateSchema, CreateBody, CreateData, CreateParameters, OperationError<CreateError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
+         * @description Cadastra um novo usuário com status inicial ACTIVE.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -932,7 +970,222 @@ export interface UsersService {
             body: CreateBody;
         };
     };
+    /**
+     * @description Altera o status do usuário. Transições permitidas:
+     * - **ACTIVE**: ativa um usuário INACTIVE.
+     * - **INACTIVE**: desativa um usuário ACTIVE.
+     *
+     * Usuários com status DELETED não podem ser modificados.
+     * Para remover permanentemente um usuário use DELETE /users/{id}.
+     *
+     */
+    updateStatus: {
+        /**
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateStatusBody, UpdateStatusParameters, TMeta, TSignal>, client?: (schema: UpdateStatusSchema, options: ServiceOperationMutationFnOptions<UpdateStatusBody, UpdateStatusParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateStatusData, UpdateStatusError>>): Promise<RequestFnResponse<UpdateStatusData, UpdateStatusError>>;
+        /**
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         */
+        getMutationKey(parameters: DeepReadonly<UpdateStatusParameters> | void): ServiceOperationMutationKey<UpdateStatusSchema, UpdateStatusParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.users.updateStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.users.updateStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends UpdateStatusBody, TContext = unknown>(parameters: DeepReadonly<UpdateStatusParameters>, options?: ServiceOperationUseMutationOptions<UpdateStatusSchema, UpdateStatusData, UpdateStatusParameters, TVariables, OperationError<UpdateStatusError>, TContext>): UseMutationResult<UpdateStatusData, OperationError<UpdateStatusError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.users.updateStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.users.updateStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateStatusSchema, UpdateStatusData, UpdateStatusParameters, TVariables, OperationError<UpdateStatusError>, TContext>): UseMutationResult<UpdateStatusData, OperationError<UpdateStatusError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const updateStatusTotal = qraft.users.updateStatus.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const updateStatusTotal = qraft.users.updateStatus.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const updateStatusPendingMutationVariables = qraft.users.updateStatus.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const updateStatusMutationData = qraft.users.updateStatus.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 id: id
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateStatusData, OperationError<UpdateStatusError>, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>;
+            select?: (mutation: Mutation<UpdateStatusData, OperationError<UpdateStatusError>, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @description Altera o status do usuário. Transições permitidas:
+         * - **ACTIVE**: ativa um usuário INACTIVE.
+         * - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         * Usuários com status DELETED não podem ser modificados.
+         * Para remover permanentemente um usuário use DELETE /users/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.users.updateStatus.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.users.updateStatus.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): Mutation<UpdateStatusData, UpdateStatusError, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext> | MutationFiltersByMutationKey<UpdateStatusSchema, UpdateStatusBody, UpdateStatusData, UpdateStatusParameters, OperationError<UpdateStatusError>, TContext>): Array<Mutation<UpdateStatusData, UpdateStatusError, MutationVariables<UpdateStatusBody, UpdateStatusParameters>, TContext>>;
+        };
+        schema: UpdateStatusSchema;
+        types: {
+            parameters: UpdateStatusParameters;
+            data: UpdateStatusData;
+            error: UpdateStatusError;
+            body: UpdateStatusBody;
+        };
+    };
 }
+/** @description Retorna os dados de um usuário pelo seu ID. */
 export const findById = {
     schema: {
         method: "get",
@@ -942,6 +1195,7 @@ export const findById = {
     schema: FindByIdSchema;
     [QraftServiceOperationsToken]: UsersService["findById"];
 };
+/** @description Atualiza nome, email, senha e papel do usuário. */
 export const update = {
     schema: {
         method: "put",
@@ -952,6 +1206,7 @@ export const update = {
     schema: UpdateSchema;
     [QraftServiceOperationsToken]: UsersService["update"];
 };
+/** @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível. */
 export const deleteById = {
     schema: {
         method: "delete",
@@ -961,6 +1216,7 @@ export const deleteById = {
     schema: DeleteByIdSchema;
     [QraftServiceOperationsToken]: UsersService["deleteById"];
 };
+/** @description Retorna todos os usuários cadastrados. */
 export const findAll = {
     schema: {
         method: "get",
@@ -970,6 +1226,7 @@ export const findAll = {
     schema: FindAllSchema;
     [QraftServiceOperationsToken]: UsersService["findAll"];
 };
+/** @description Cadastra um novo usuário com status inicial ACTIVE. */
 export const create = {
     schema: {
         method: "post",
@@ -980,12 +1237,32 @@ export const create = {
     schema: CreateSchema;
     [QraftServiceOperationsToken]: UsersService["create"];
 };
+/**
+ * @description Altera o status do usuário. Transições permitidas:
+ * - **ACTIVE**: ativa um usuário INACTIVE.
+ * - **INACTIVE**: desativa um usuário ACTIVE.
+ *
+ * Usuários com status DELETED não podem ser modificados.
+ * Para remover permanentemente um usuário use DELETE /users/{id}.
+ *
+ */
+export const updateStatus = {
+    schema: {
+        method: "patch",
+        url: "/users/{id}/status",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: UpdateStatusSchema;
+    [QraftServiceOperationsToken]: UsersService["updateStatus"];
+};
 export const usersService = {
     findById,
     update,
     deleteById,
     findAll,
-    create
+    create,
+    updateStatus
 } as const;
 type FindByIdSchema = {
     method: "get";
@@ -1032,6 +1309,17 @@ type CreateParameters = {
     header?: never;
     path?: never;
 };
-type CreateData = paths["/users"]["post"]["responses"]["200"]["content"]["*/*"];
+type CreateData = paths["/users"]["post"]["responses"]["201"]["content"]["*/*"];
 type CreateError = paths["/users"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/users"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/users"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/users"]["post"]["responses"]["422"]["content"]["*/*"];
 type CreateBody = paths["/users"]["post"]["requestBody"]["content"]["application/json"];
+type UpdateStatusSchema = {
+    method: "patch";
+    url: "/users/{id}/status";
+    mediaType: [
+        "application/json"
+    ];
+};
+type UpdateStatusParameters = paths["/users/{id}/status"]["patch"]["parameters"];
+type UpdateStatusData = paths["/users/{id}/status"]["patch"]["responses"]["200"]["content"]["*/*"];
+type UpdateStatusError = paths["/users/{id}/status"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/users/{id}/status"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/users/{id}/status"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/users/{id}/status"]["patch"]["responses"]["422"]["content"]["*/*"];
+type UpdateStatusBody = paths["/users/{id}/status"]["patch"]["requestBody"]["content"]["application/json"];

@@ -27,7 +27,7 @@ export const DeleteRoomDialog = memo(function DeleteRoomDialog({
   room,
 }: DeleteRoomDialogProps) {
   const { api } = useAPI()
-  const deleteMutation = api.rooms.deleteById1.useMutation()
+  const deleteMutation = api.rooms.deleteRoom.useMutation()
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = useCallback(async () => {
@@ -35,7 +35,7 @@ export const DeleteRoomDialog = memo(function DeleteRoomDialog({
     setIsDeleting(true)
     try {
       await deleteMutation.mutateAsync({ path: { id: room.id } })
-      await api.rooms.findAll1.invalidateQueries()
+      await api.rooms.listRooms.invalidateQueries()
       toast.success('Sala excluída com sucesso.')
       onOpenChange(false)
     } catch (e) {

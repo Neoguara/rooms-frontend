@@ -8,15 +8,15 @@ import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey
 import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface ResourcesService {
     /** @description Retorna os dados de um recurso pelo seu ID. */
-    findById3: {
+    getResource: {
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindById3Schema, FindById3Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindById3Parameters, TMeta, TSignal>), client?: (schema: FindById3Schema, options: {
-            parameters: FindById3Parameters;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetResourceSchema, GetResourceParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetResourceParameters, TMeta, TSignal>), client?: (schema: GetResourceSchema, options: {
+            parameters: GetResourceParameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindById3Data, FindById3Error>>): Promise<RequestFnResponse<FindById3Data, FindById3Error>>;
+        }) => Promise<RequestFnResponse<GetResourceData, GetResourceError>>): Promise<RequestFnResponse<GetResourceData, GetResourceError>>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        getQueryKey(parameters: DeepReadonly<FindById3Parameters>): ServiceOperationQueryKey<FindById3Schema, FindById3Parameters>;
+        getQueryKey(parameters: DeepReadonly<GetResourceParameters>): ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -24,14 +24,14 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.resources.findById3.useQuery({
+         * const { data, isLoading } = qraft.resources.getResource.useQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useQuery<TData = FindById3Data>(parameters: ServiceOperationQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>), options?: Omit<UndefinedInitialDataOptions<FindById3Data, FindById3Error, TData, ServiceOperationQueryKey<FindById3Schema, FindById3Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindById3Error>>;
+        useQuery<TData = GetResourceData>(parameters: ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>), options?: Omit<UndefinedInitialDataOptions<GetResourceData, GetResourceError, TData, ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetResourceError>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -39,16 +39,16 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.resources.findById3.useQuery({
+         * const { data, isLoading } = qraft.resources.getResource.useQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useQuery<TData = FindById3Data>(parameters: ServiceOperationQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>), options: Omit<DefinedInitialDataOptions<FindById3Data, FindById3Error, TData, ServiceOperationQueryKey<FindById3Schema, FindById3Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindById3Error>>;
+        useQuery<TData = GetResourceData>(parameters: ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>), options: Omit<DefinedInitialDataOptions<GetResourceData, GetResourceError, TData, ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetResourceError>>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        getInfiniteQueryKey(parameters: DeepReadonly<FindById3Parameters>): ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters>;
+        getInfiniteQueryKey(parameters: DeepReadonly<GetResourceParameters>): ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -58,7 +58,7 @@ export interface ResourcesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.resources.findById3.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.resources.getResource.useInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -71,7 +71,7 @@ export interface ResourcesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindById3Parameters, TQueryFnData = FindById3Data, TData = OperationInfiniteData<TQueryFnData, FindById3Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindById3Error, TData, ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindById3Error>>;
+        useInfiniteQuery<TPageParam extends GetResourceParameters, TQueryFnData = GetResourceData, TData = OperationInfiniteData<TQueryFnData, GetResourceParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetResourceError, TData, ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetResourceError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -81,7 +81,7 @@ export interface ResourcesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.resources.findById3.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.resources.getResource.useInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -94,7 +94,7 @@ export interface ResourcesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindById3Parameters, TQueryFnData = FindById3Data, TData = OperationInfiniteData<TQueryFnData, FindById3Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindById3Error, TData, ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindById3Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindById3Error>>;
+        useInfiniteQuery<TPageParam extends GetResourceParameters, TQueryFnData = GetResourceData, TData = OperationInfiniteData<TQueryFnData, GetResourceParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetResourceError, TData, ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetResourceData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetResourceError>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
@@ -104,11 +104,11 @@ export interface ResourcesService {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findById3Total = qraft.resources.findById3.useIsFetching()
+         * const getResourceTotal = qraft.resources.getResource.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const findById3ByParametersTotal = qraft.resources.findById3.useIsFetching({
+         * const getResourceByParametersTotal = qraft.resources.getResource.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -118,7 +118,7 @@ export interface ResourcesService {
          * })
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
@@ -126,7 +126,7 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findById3Results = qraft.resources.findById3.useQueries({
+         * const getResourceResults = qraft.resources.getResource.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -140,11 +140,11 @@ export interface ResourcesService {
          *         }
          *     ]
          * });
-         * findById3Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * getResourceResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findById3CombinedResults = qraft.resources.findById3.useQueries({
+         * const getResourceCombinedResults = qraft.resources.getResource.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -159,12 +159,12 @@ export interface ResourcesService {
          *         }
          *     ]
          * });
-         * findById3CombinedResults.forEach(data => console.log({ data }));
+         * getResourceCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindById3Schema, FindById3Parameters, FindById3Data, FindById3Error>>, TCombinedResult = Array<UseQueryResult<FindById3Data, FindById3Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetResourceSchema, GetResourceParameters, GetResourceData, GetResourceError>>, TCombinedResult = Array<UseQueryResult<GetResourceData, GetResourceError>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindById3Data, FindById3Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<GetResourceData, GetResourceError>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
@@ -174,14 +174,14 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.resources.findById3.useSuspenseQuery({
+         * const data = qraft.resources.getResource.useSuspenseQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useSuspenseQuery<TData = FindById3Data>(parameters: ServiceOperationQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>), options?: Omit<UseSuspenseQueryOptions<FindById3Data, FindById3Error, TData, ServiceOperationQueryKey<FindById3Schema, FindById3Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindById3Error>>;
+        useSuspenseQuery<TData = GetResourceData>(parameters: ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>), options?: Omit<UseSuspenseQueryOptions<GetResourceData, GetResourceError, TData, ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetResourceError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -192,7 +192,7 @@ export interface ResourcesService {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.resources.findById3.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.resources.getResource.useSuspenseInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -205,7 +205,7 @@ export interface ResourcesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindById3Parameters, TData = FindById3Data>(parameters: ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>), options: Omit<UseSuspenseInfiniteQueryOptions<FindById3Data, FindById3Error, OperationInfiniteData<TData, FindById3Parameters>, ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindById3Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindById3Parameters>, OperationError<FindById3Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends GetResourceParameters, TData = GetResourceData>(parameters: ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetResourceData, GetResourceError, OperationInfiniteData<TData, GetResourceParameters>, ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetResourceData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetResourceParameters>, OperationError<GetResourceError>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
@@ -214,7 +214,7 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findById3Data = qraft.resources.findById3.useSuspenseQueries({
+         * const getResourceData = qraft.resources.getResource.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -228,11 +228,11 @@ export interface ResourcesService {
          *         }
          *     ]
          * });
-         * findById3Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * getResourceResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findById3CombinedData = qraft.resources.findById3.useSuspenseQueries({
+         * const getResourceCombinedData = qraft.resources.getResource.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -247,72 +247,72 @@ export interface ResourcesService {
          *         }
          *     ]
          * });
-         * findById3CombinedData.forEach(data => console.log({ data }));
+         * getResourceCombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindById3Schema, FindById3Parameters, FindById3Data, FindById3Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindById3Data, FindById3Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetResourceSchema, GetResourceParameters, GetResourceData, GetResourceError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetResourceData, GetResourceError>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindById3Data, FindById3Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetResourceData, GetResourceError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindById3Schema, FindById3Data, FindById3Parameters, FindById3Error>): Promise<FindById3Data>;
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetResourceSchema, GetResourceData, GetResourceParameters, GetResourceError>): Promise<GetResourceData>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindById3Schema, FindById3Data, FindById3Parameters, FindById3Error>): Promise<void>;
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetResourceSchema, GetResourceData, GetResourceParameters, GetResourceError>): Promise<void>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindById3Schema, FindById3Data, FindById3Parameters, FindById3Error>): Promise<FindById3Data>;
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetResourceSchema, GetResourceData, GetResourceParameters, GetResourceError>): Promise<GetResourceData>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        fetchInfiniteQuery<TPageParam extends FindById3Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById3Schema, FindById3Data, FindById3Parameters, DeepReadonly<TPageParam>, FindById3Error>): Promise<OperationInfiniteData<FindById3Data, FindById3Parameters>>;
+        fetchInfiniteQuery<TPageParam extends GetResourceParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetResourceSchema, GetResourceData, GetResourceParameters, DeepReadonly<TPageParam>, GetResourceError>): Promise<OperationInfiniteData<GetResourceData, GetResourceParameters>>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        prefetchInfiniteQuery<TPageParam extends FindById3Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById3Schema, FindById3Data, FindById3Parameters, DeepReadonly<TPageParam>, FindById3Error>): Promise<void>;
+        prefetchInfiniteQuery<TPageParam extends GetResourceParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetResourceSchema, GetResourceData, GetResourceParameters, DeepReadonly<TPageParam>, GetResourceError>): Promise<void>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        ensureInfiniteQueryData<TPageParam extends FindById3Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindById3Schema, FindById3Data, FindById3Parameters, DeepReadonly<TPageParam>, FindById3Error>): Promise<OperationInfiniteData<FindById3Data, FindById3Parameters>>;
+        ensureInfiniteQueryData<TPageParam extends GetResourceParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetResourceSchema, GetResourceData, GetResourceParameters, DeepReadonly<TPageParam>, GetResourceError>): Promise<OperationInfiniteData<GetResourceData, GetResourceParameters>>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        getQueryData(parameters: ServiceOperationQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>)): FindById3Data | undefined;
+        getQueryData(parameters: ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>)): GetResourceData | undefined;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>)): OperationInfiniteData<FindById3Data, FindById3Parameters> | undefined;
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>)): OperationInfiniteData<GetResourceData, GetResourceParameters> | undefined;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters>,
-            data: NoInfer<OperationInfiniteData<FindById3Data, FindById3Parameters>> | undefined
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters>,
+            data: NoInfer<OperationInfiniteData<GetResourceData, GetResourceParameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindById3Schema, FindById3Parameters>,
-            data: FindById3Data | undefined
+            queryKey: ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters>,
+            data: GetResourceData | undefined
         ]>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        getQueryState(parameters: ServiceOperationQueryKey<FindById3Schema, FindById3Parameters> | (DeepReadonly<FindById3Parameters>)): QueryState<FindById3Data, FindById3Error> | undefined;
+        getQueryState(parameters: ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters> | (DeepReadonly<GetResourceParameters>)): QueryState<GetResourceData, GetResourceError> | undefined;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        getInfiniteQueryState(parameters: DeepReadonly<FindById3Parameters> | ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters>): QueryState<OperationInfiniteData<FindById3Data, FindById3Parameters>, FindById3Error> | undefined;
+        getInfiniteQueryState(parameters: DeepReadonly<GetResourceParameters> | ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters>): QueryState<OperationInfiniteData<GetResourceData, GetResourceParameters>, GetResourceError> | undefined;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        setQueryData(parameters: (DeepReadonly<FindById3Parameters>) | ServiceOperationQueryKey<FindById3Schema, FindById3Parameters>, updater: Updater<NoInfer<FindById3Data> | undefined, NoInfer<DeepReadonly<FindById3Data>> | undefined>, options?: SetDataOptions): FindById3Data | undefined;
+        setQueryData(parameters: (DeepReadonly<GetResourceParameters>) | ServiceOperationQueryKey<GetResourceSchema, GetResourceParameters>, updater: Updater<NoInfer<GetResourceData> | undefined, NoInfer<DeepReadonly<GetResourceData>> | undefined>, options?: SetDataOptions): GetResourceData | undefined;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        setInfiniteQueryData(parameters: (DeepReadonly<FindById3Parameters>) | ServiceOperationInfiniteQueryKey<FindById3Schema, FindById3Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindById3Data, FindById3Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindById3Data, FindById3Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindById3Data, FindById3Parameters> | undefined;
+        setInfiniteQueryData(parameters: (DeepReadonly<GetResourceParameters>) | ServiceOperationInfiniteQueryKey<GetResourceSchema, GetResourceParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetResourceData, GetResourceParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetResourceData, GetResourceParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetResourceData, GetResourceParameters> | undefined;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>, updater: Updater<NoInfer<FindById3Data> | undefined, NoInfer<FindById3Data> | undefined>, options?: SetDataOptions): Array<FindById3Data | undefined>;
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>, updater: Updater<NoInfer<GetResourceData> | undefined, NoInfer<GetResourceData> | undefined>, options?: SetDataOptions): Array<GetResourceData | undefined>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>, options?: InvalidateOptions): Promise<void>;
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>, options?: InvalidateOptions): Promise<void>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>, options?: RefetchOptions): Promise<void>;
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>, options?: RefetchOptions): Promise<void>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>, options?: CancelOptions): Promise<void>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>, options?: CancelOptions): Promise<void>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>): void;
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>): void;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>, options?: ResetOptions): Promise<void>;
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>, options?: ResetOptions): Promise<void>;
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error> | QueryFiltersByQueryKey<FindById3Schema, FindById3Data, TInfinite, FindById3Parameters, FindById3Error>): number;
-        schema: FindById3Schema;
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError> | QueryFiltersByQueryKey<GetResourceSchema, GetResourceData, TInfinite, GetResourceParameters, GetResourceError>): number;
+        schema: GetResourceSchema;
         types: {
-            parameters: FindById3Parameters;
-            data: FindById3Data;
-            error: FindById3Error;
+            parameters: GetResourceParameters;
+            data: GetResourceData;
+            error: GetResourceError;
         };
     };
     /** @description Atualiza nome, descrição e ícone do recurso. */
-    updateById2: {
+    updateResource: {
         /** @description Atualiza nome, descrição e ícone do recurso. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateById2Body, UpdateById2Parameters, TMeta, TSignal>, client?: (schema: UpdateById2Schema, options: ServiceOperationMutationFnOptions<UpdateById2Body, UpdateById2Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateById2Data, UpdateById2Error>>): Promise<RequestFnResponse<UpdateById2Data, UpdateById2Error>>;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateResourceBody, UpdateResourceParameters, TMeta, TSignal>, client?: (schema: UpdateResourceSchema, options: ServiceOperationMutationFnOptions<UpdateResourceBody, UpdateResourceParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateResourceData, UpdateResourceError>>): Promise<RequestFnResponse<UpdateResourceData, UpdateResourceError>>;
         /** @description Atualiza nome, descrição e ícone do recurso. */
-        getMutationKey(parameters: DeepReadonly<UpdateById2Parameters> | void): ServiceOperationMutationKey<UpdateById2Schema, UpdateById2Parameters>;
+        getMutationKey(parameters: DeepReadonly<UpdateResourceParameters> | void): ServiceOperationMutationKey<UpdateResourceSchema, UpdateResourceParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -321,7 +321,7 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.updateById2.useMutation({
+         * const { mutate, isPending } = qraft.resources.updateResource.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -330,7 +330,7 @@ export interface ResourcesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.updateById2.useMutation()
+         * const { mutate, isPending } = qraft.resources.updateResource.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -339,7 +339,7 @@ export interface ResourcesService {
          * });
          * ```
          */
-        useMutation<TVariables extends UpdateById2Body, TContext = unknown>(parameters: DeepReadonly<UpdateById2Parameters>, options?: ServiceOperationUseMutationOptions<UpdateById2Schema, UpdateById2Data, UpdateById2Parameters, TVariables, OperationError<UpdateById2Error>, TContext>): UseMutationResult<UpdateById2Data, OperationError<UpdateById2Error>, TVariables, TContext>;
+        useMutation<TVariables extends UpdateResourceBody, TContext = unknown>(parameters: DeepReadonly<UpdateResourceParameters>, options?: ServiceOperationUseMutationOptions<UpdateResourceSchema, UpdateResourceData, UpdateResourceParameters, TVariables, OperationError<UpdateResourceError>, TContext>): UseMutationResult<UpdateResourceData, OperationError<UpdateResourceError>, TVariables, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -348,7 +348,7 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.updateById2.useMutation({
+         * const { mutate, isPending } = qraft.resources.updateResource.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -357,7 +357,7 @@ export interface ResourcesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.updateById2.useMutation()
+         * const { mutate, isPending } = qraft.resources.updateResource.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -366,7 +366,7 @@ export interface ResourcesService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<UpdateById2Body, UpdateById2Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateById2Schema, UpdateById2Data, UpdateById2Parameters, TVariables, OperationError<UpdateById2Error>, TContext>): UseMutationResult<UpdateById2Data, OperationError<UpdateById2Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<UpdateResourceBody, UpdateResourceParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateResourceSchema, UpdateResourceData, UpdateResourceParameters, TVariables, OperationError<UpdateResourceError>, TContext>): UseMutationResult<UpdateResourceData, OperationError<UpdateResourceError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
@@ -374,11 +374,11 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const updateById2Total = qraft.resources.updateById2.useIsMutating()
+         * const updateResourceTotal = qraft.resources.updateResource.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const updateById2Total = qraft.resources.updateById2.useIsMutating({
+         * const updateResourceTotal = qraft.resources.updateResource.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -387,7 +387,7 @@ export interface ResourcesService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext> | MutationFiltersByMutationKey<UpdateById2Schema, UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext> | MutationFiltersByMutationKey<UpdateResourceSchema, UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
@@ -395,7 +395,7 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const updateById2PendingMutationVariables = qraft.resources.updateById2.useMutationState({
+         * const updateResourcePendingMutationVariables = qraft.resources.updateResource.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -404,7 +404,7 @@ export interface ResourcesService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const updateById2MutationData = qraft.resources.updateById2.useMutationState({
+         * const updateResourceMutationData = qraft.resources.updateResource.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -416,12 +416,12 @@ export interface ResourcesService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<UpdateById2Data, OperationError<UpdateById2Error>, MutationVariables<UpdateById2Body, UpdateById2Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext> | MutationFiltersByMutationKey<UpdateById2Schema, UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext>;
-            select?: (mutation: Mutation<UpdateById2Data, OperationError<UpdateById2Error>, MutationVariables<UpdateById2Body, UpdateById2Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateResourceData, OperationError<UpdateResourceError>, MutationVariables<UpdateResourceBody, UpdateResourceParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext> | MutationFiltersByMutationKey<UpdateResourceSchema, UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext>;
+            select?: (mutation: Mutation<UpdateResourceData, OperationError<UpdateResourceError>, MutationVariables<UpdateResourceBody, UpdateResourceParameters>, TContext>) => TResult;
         }): Array<TResult>;
         /** @description Atualiza nome, descrição e ícone do recurso. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext> | MutationFiltersByMutationKey<UpdateById2Schema, UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext>): number;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext> | MutationFiltersByMutationKey<UpdateResourceSchema, UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
@@ -431,7 +431,7 @@ export interface ResourcesService {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.resources.updateById2.getMutationCache();
+         * const mutationCache = qraft.resources.updateResource.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -443,37 +443,37 @@ export interface ResourcesService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.resources.updateById2.getMutationCache();
+         * const mutationCache = qraft.resources.updateResource.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext> | MutationFiltersByMutationKey<UpdateById2Schema, UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext>): Mutation<UpdateById2Data, UpdateById2Error, MutationVariables<UpdateById2Body, UpdateById2Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext> | MutationFiltersByMutationKey<UpdateById2Schema, UpdateById2Body, UpdateById2Data, UpdateById2Parameters, OperationError<UpdateById2Error>, TContext>): Array<Mutation<UpdateById2Data, UpdateById2Error, MutationVariables<UpdateById2Body, UpdateById2Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext> | MutationFiltersByMutationKey<UpdateResourceSchema, UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext>): Mutation<UpdateResourceData, UpdateResourceError, MutationVariables<UpdateResourceBody, UpdateResourceParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext> | MutationFiltersByMutationKey<UpdateResourceSchema, UpdateResourceBody, UpdateResourceData, UpdateResourceParameters, OperationError<UpdateResourceError>, TContext>): Array<Mutation<UpdateResourceData, UpdateResourceError, MutationVariables<UpdateResourceBody, UpdateResourceParameters>, TContext>>;
         };
-        schema: UpdateById2Schema;
+        schema: UpdateResourceSchema;
         types: {
-            parameters: UpdateById2Parameters;
-            data: UpdateById2Data;
-            error: UpdateById2Error;
-            body: UpdateById2Body;
+            parameters: UpdateResourceParameters;
+            data: UpdateResourceData;
+            error: UpdateResourceError;
+            body: UpdateResourceBody;
         };
     };
-    /** @description Desativa um recurso pelo seu ID (soft delete). */
-    deleteById3: {
-        /** @description Desativa um recurso pelo seu ID (soft delete). */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteById3Body, DeleteById3Parameters, TMeta, TSignal>, client?: (schema: DeleteById3Schema, options: ServiceOperationMutationFnOptions<DeleteById3Body, DeleteById3Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteById3Data, DeleteById3Error>>): Promise<RequestFnResponse<DeleteById3Data, DeleteById3Error>>;
-        /** @description Desativa um recurso pelo seu ID (soft delete). */
-        getMutationKey(parameters: DeepReadonly<DeleteById3Parameters> | void): ServiceOperationMutationKey<DeleteById3Schema, DeleteById3Parameters>;
+    /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+    deleteResource: {
+        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteResourceBody, DeleteResourceParameters, TMeta, TSignal>, client?: (schema: DeleteResourceSchema, options: ServiceOperationMutationFnOptions<DeleteResourceBody, DeleteResourceParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteResourceData, DeleteResourceError>>): Promise<RequestFnResponse<DeleteResourceData, DeleteResourceError>>;
+        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        getMutationKey(parameters: DeepReadonly<DeleteResourceParameters> | void): ServiceOperationMutationKey<DeleteResourceSchema, DeleteResourceParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Desativa um recurso pelo seu ID (soft delete).
+         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.deleteById3.useMutation({
+         * const { mutate, isPending } = qraft.resources.deleteResource.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -482,7 +482,7 @@ export interface ResourcesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.deleteById3.useMutation()
+         * const { mutate, isPending } = qraft.resources.deleteResource.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -491,16 +491,16 @@ export interface ResourcesService {
          * });
          * ```
          */
-        useMutation<TVariables extends DeleteById3Body, TContext = unknown>(parameters: DeepReadonly<DeleteById3Parameters>, options?: ServiceOperationUseMutationOptions<DeleteById3Schema, DeleteById3Data, DeleteById3Parameters, TVariables, OperationError<DeleteById3Error>, TContext>): UseMutationResult<DeleteById3Data, OperationError<DeleteById3Error>, TVariables | void, TContext>;
+        useMutation<TVariables extends DeleteResourceBody, TContext = unknown>(parameters: DeepReadonly<DeleteResourceParameters>, options?: ServiceOperationUseMutationOptions<DeleteResourceSchema, DeleteResourceData, DeleteResourceParameters, TVariables, OperationError<DeleteResourceError>, TContext>): UseMutationResult<DeleteResourceData, OperationError<DeleteResourceError>, TVariables | void, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Desativa um recurso pelo seu ID (soft delete).
+         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.deleteById3.useMutation({
+         * const { mutate, isPending } = qraft.resources.deleteResource.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -509,7 +509,7 @@ export interface ResourcesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.deleteById3.useMutation()
+         * const { mutate, isPending } = qraft.resources.deleteResource.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -518,19 +518,19 @@ export interface ResourcesService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<DeleteById3Body, DeleteById3Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteById3Schema, DeleteById3Data, DeleteById3Parameters, TVariables, OperationError<DeleteById3Error>, TContext>): UseMutationResult<DeleteById3Data, OperationError<DeleteById3Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<DeleteResourceBody, DeleteResourceParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteResourceSchema, DeleteResourceData, DeleteResourceParameters, TVariables, OperationError<DeleteResourceError>, TContext>): UseMutationResult<DeleteResourceData, OperationError<DeleteResourceError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Desativa um recurso pelo seu ID (soft delete).
+         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteById3Total = qraft.resources.deleteById3.useIsMutating()
+         * const deleteResourceTotal = qraft.resources.deleteResource.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteById3Total = qraft.resources.deleteById3.useIsMutating({
+         * const deleteResourceTotal = qraft.resources.deleteResource.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -539,15 +539,15 @@ export interface ResourcesService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext> | MutationFiltersByMutationKey<DeleteById3Schema, DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext> | MutationFiltersByMutationKey<DeleteResourceSchema, DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Desativa um recurso pelo seu ID (soft delete).
+         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteById3PendingMutationVariables = qraft.resources.deleteById3.useMutationState({
+         * const deleteResourcePendingMutationVariables = qraft.resources.deleteResource.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -556,7 +556,7 @@ export interface ResourcesService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteById3MutationData = qraft.resources.deleteById3.useMutationState({
+         * const deleteResourceMutationData = qraft.resources.deleteResource.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -568,22 +568,22 @@ export interface ResourcesService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<DeleteById3Data, OperationError<DeleteById3Error>, MutationVariables<DeleteById3Body, DeleteById3Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext> | MutationFiltersByMutationKey<DeleteById3Schema, DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext>;
-            select?: (mutation: Mutation<DeleteById3Data, OperationError<DeleteById3Error>, MutationVariables<DeleteById3Body, DeleteById3Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<DeleteResourceData, OperationError<DeleteResourceError>, MutationVariables<DeleteResourceBody, DeleteResourceParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext> | MutationFiltersByMutationKey<DeleteResourceSchema, DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext>;
+            select?: (mutation: Mutation<DeleteResourceData, OperationError<DeleteResourceError>, MutationVariables<DeleteResourceBody, DeleteResourceParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Desativa um recurso pelo seu ID (soft delete). */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext> | MutationFiltersByMutationKey<DeleteById3Schema, DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext>): number;
+        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext> | MutationFiltersByMutationKey<DeleteResourceSchema, DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Desativa um recurso pelo seu ID (soft delete).
+         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.resources.deleteById3.getMutationCache();
+         * const mutationCache = qraft.resources.deleteResource.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -595,184 +595,32 @@ export interface ResourcesService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.resources.deleteById3.getMutationCache();
+         * const mutationCache = qraft.resources.deleteResource.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext> | MutationFiltersByMutationKey<DeleteById3Schema, DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext>): Mutation<DeleteById3Data, DeleteById3Error, MutationVariables<DeleteById3Body, DeleteById3Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext> | MutationFiltersByMutationKey<DeleteById3Schema, DeleteById3Body, DeleteById3Data, DeleteById3Parameters, OperationError<DeleteById3Error>, TContext>): Array<Mutation<DeleteById3Data, DeleteById3Error, MutationVariables<DeleteById3Body, DeleteById3Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext> | MutationFiltersByMutationKey<DeleteResourceSchema, DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext>): Mutation<DeleteResourceData, DeleteResourceError, MutationVariables<DeleteResourceBody, DeleteResourceParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext> | MutationFiltersByMutationKey<DeleteResourceSchema, DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext>): Array<Mutation<DeleteResourceData, DeleteResourceError, MutationVariables<DeleteResourceBody, DeleteResourceParameters>, TContext>>;
         };
-        schema: DeleteById3Schema;
+        schema: DeleteResourceSchema;
         types: {
-            parameters: DeleteById3Parameters;
-            data: DeleteById3Data;
-            error: DeleteById3Error;
-            body: DeleteById3Body;
-        };
-    };
-    /** @description Ativa ou desativa um recurso pelo seu ID. */
-    updateStatus2: {
-        /** @description Ativa ou desativa um recurso pelo seu ID. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateStatus2Body, UpdateStatus2Parameters, TMeta, TSignal>, client?: (schema: UpdateStatus2Schema, options: ServiceOperationMutationFnOptions<UpdateStatus2Body, UpdateStatus2Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateStatus2Data, UpdateStatus2Error>>): Promise<RequestFnResponse<UpdateStatus2Data, UpdateStatus2Error>>;
-        /** @description Ativa ou desativa um recurso pelo seu ID. */
-        getMutationKey(parameters: DeepReadonly<UpdateStatus2Parameters> | void): ServiceOperationMutationKey<UpdateStatus2Schema, UpdateStatus2Parameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @description Ativa ou desativa um recurso pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.resources.updateStatus2.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.resources.updateStatus2.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends UpdateStatus2Body, TContext = unknown>(parameters: DeepReadonly<UpdateStatus2Parameters>, options?: ServiceOperationUseMutationOptions<UpdateStatus2Schema, UpdateStatus2Data, UpdateStatus2Parameters, TVariables, OperationError<UpdateStatus2Error>, TContext>): UseMutationResult<UpdateStatus2Data, OperationError<UpdateStatus2Error>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @description Ativa ou desativa um recurso pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.resources.updateStatus2.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.resources.updateStatus2.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<UpdateStatus2Body, UpdateStatus2Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateStatus2Schema, UpdateStatus2Data, UpdateStatus2Parameters, TVariables, OperationError<UpdateStatus2Error>, TContext>): UseMutationResult<UpdateStatus2Data, OperationError<UpdateStatus2Error>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @description Ativa ou desativa um recurso pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const updateStatus2Total = qraft.resources.updateStatus2.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const updateStatus2Total = qraft.resources.updateStatus2.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus2Schema, UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @description Ativa ou desativa um recurso pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const updateStatus2PendingMutationVariables = qraft.resources.updateStatus2.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const updateStatus2MutationData = qraft.resources.updateStatus2.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 id: id
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<UpdateStatus2Data, OperationError<UpdateStatus2Error>, MutationVariables<UpdateStatus2Body, UpdateStatus2Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus2Schema, UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext>;
-            select?: (mutation: Mutation<UpdateStatus2Data, OperationError<UpdateStatus2Error>, MutationVariables<UpdateStatus2Body, UpdateStatus2Parameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /** @description Ativa ou desativa um recurso pelo seu ID. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus2Schema, UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @description Ativa ou desativa um recurso pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.resources.updateStatus2.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.resources.updateStatus2.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus2Schema, UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext>): Mutation<UpdateStatus2Data, UpdateStatus2Error, MutationVariables<UpdateStatus2Body, UpdateStatus2Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus2Schema, UpdateStatus2Body, UpdateStatus2Data, UpdateStatus2Parameters, OperationError<UpdateStatus2Error>, TContext>): Array<Mutation<UpdateStatus2Data, UpdateStatus2Error, MutationVariables<UpdateStatus2Body, UpdateStatus2Parameters>, TContext>>;
-        };
-        schema: UpdateStatus2Schema;
-        types: {
-            parameters: UpdateStatus2Parameters;
-            data: UpdateStatus2Data;
-            error: UpdateStatus2Error;
-            body: UpdateStatus2Body;
+            parameters: DeleteResourceParameters;
+            data: DeleteResourceData;
+            error: DeleteResourceError;
+            body: DeleteResourceBody;
         };
     };
     /** @description Retorna todos os recursos cadastrados. */
-    findAll3: {
+    listResources: {
         /** @description Retorna todos os recursos cadastrados. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAll3Schema, FindAll3Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAll3Parameters, TMeta, TSignal> | void), client?: (schema: FindAll3Schema, options: {
-            parameters: FindAll3Parameters;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<ListResourcesSchema, ListResourcesParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<ListResourcesParameters, TMeta, TSignal> | void), client?: (schema: ListResourcesSchema, options: {
+            parameters: ListResourcesParameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindAll3Data, FindAll3Error>>): Promise<RequestFnResponse<FindAll3Data, FindAll3Error>>;
+        }) => Promise<RequestFnResponse<ListResourcesData, ListResourcesError>>): Promise<RequestFnResponse<ListResourcesData, ListResourcesError>>;
         /** @description Retorna todos os recursos cadastrados. */
-        getQueryKey(parameters: DeepReadonly<FindAll3Parameters> | void): ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters>;
+        getQueryKey(parameters: DeepReadonly<ListResourcesParameters> | void): ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -780,10 +628,10 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.resources.findAll3.useQuery()
+         * const { data, isLoading } = qraft.resources.listResources.useQuery()
          * ```
          */
-        useQuery<TData = FindAll3Data>(parameters: ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAll3Data, FindAll3Error, TData, ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAll3Error>>;
+        useQuery<TData = ListResourcesData>(parameters: ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void), options?: Omit<UndefinedInitialDataOptions<ListResourcesData, ListResourcesError, TData, ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters>>, "queryKey">): UseQueryResult<TData, OperationError<ListResourcesError>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -791,12 +639,12 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.resources.findAll3.useQuery()
+         * const { data, isLoading } = qraft.resources.listResources.useQuery()
          * ```
          */
-        useQuery<TData = FindAll3Data>(parameters: ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void), options: Omit<DefinedInitialDataOptions<FindAll3Data, FindAll3Error, TData, ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAll3Error>>;
+        useQuery<TData = ListResourcesData>(parameters: ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void), options: Omit<DefinedInitialDataOptions<ListResourcesData, ListResourcesError, TData, ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<ListResourcesError>>;
         /** @description Retorna todos os recursos cadastrados. */
-        getInfiniteQueryKey(parameters: DeepReadonly<FindAll3Parameters> | void): ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters>;
+        getInfiniteQueryKey(parameters: DeepReadonly<ListResourcesParameters> | void): ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -806,7 +654,7 @@ export interface ResourcesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.resources.findAll3.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.resources.listResources.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -815,7 +663,7 @@ export interface ResourcesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll3Parameters, TQueryFnData = FindAll3Data, TData = OperationInfiniteData<TQueryFnData, FindAll3Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAll3Error, TData, ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAll3Error>>;
+        useInfiniteQuery<TPageParam extends ListResourcesParameters, TQueryFnData = ListResourcesData, TData = OperationInfiniteData<TQueryFnData, ListResourcesParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, ListResourcesError, TData, ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<ListResourcesError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -825,7 +673,7 @@ export interface ResourcesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.resources.findAll3.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.resources.listResources.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -834,7 +682,7 @@ export interface ResourcesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll3Parameters, TQueryFnData = FindAll3Data, TData = OperationInfiniteData<TQueryFnData, FindAll3Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAll3Error, TData, ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll3Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAll3Error>>;
+        useInfiniteQuery<TPageParam extends ListResourcesParameters, TQueryFnData = ListResourcesData, TData = OperationInfiniteData<TQueryFnData, ListResourcesParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, ListResourcesError, TData, ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListResourcesData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<ListResourcesError>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
@@ -844,10 +692,10 @@ export interface ResourcesService {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findAll3Total = qraft.resources.findAll3.useIsFetching()
+         * const listResourcesTotal = qraft.resources.listResources.useIsFetching()
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
@@ -855,29 +703,29 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findAll3Results = qraft.resources.findAll3.useQueries({
+         * const listResourcesResults = qraft.resources.listResources.useQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll3Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listResourcesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findAll3CombinedResults = qraft.resources.findAll3.useQueries({
+         * const listResourcesCombinedResults = qraft.resources.listResources.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll3CombinedResults.forEach(data => console.log({ data }));
+         * listResourcesCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAll3Schema, FindAll3Parameters, FindAll3Data, FindAll3Error>>, TCombinedResult = Array<UseQueryResult<FindAll3Data, FindAll3Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<ListResourcesSchema, ListResourcesParameters, ListResourcesData, ListResourcesError>>, TCombinedResult = Array<UseQueryResult<ListResourcesData, ListResourcesError>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindAll3Data, FindAll3Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<ListResourcesData, ListResourcesError>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
@@ -887,10 +735,10 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.resources.findAll3.useSuspenseQuery()
+         * const data = qraft.resources.listResources.useSuspenseQuery()
          * ```
          */
-        useSuspenseQuery<TData = FindAll3Data>(parameters: ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAll3Data, FindAll3Error, TData, ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAll3Error>>;
+        useSuspenseQuery<TData = ListResourcesData>(parameters: ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void), options?: Omit<UseSuspenseQueryOptions<ListResourcesData, ListResourcesError, TData, ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<ListResourcesError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -901,7 +749,7 @@ export interface ResourcesService {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.resources.findAll3.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.resources.listResources.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -910,7 +758,7 @@ export interface ResourcesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindAll3Parameters, TData = FindAll3Data>(parameters: ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAll3Data, FindAll3Error, OperationInfiniteData<TData, FindAll3Parameters>, ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll3Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAll3Parameters>, OperationError<FindAll3Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends ListResourcesParameters, TData = ListResourcesData>(parameters: ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<ListResourcesData, ListResourcesError, OperationInfiniteData<TData, ListResourcesParameters>, ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListResourcesData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, ListResourcesParameters>, OperationError<ListResourcesError>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
@@ -919,89 +767,89 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findAll3Data = qraft.resources.findAll3.useSuspenseQueries({
+         * const listResourcesData = qraft.resources.listResources.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll3Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listResourcesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findAll3CombinedData = qraft.resources.findAll3.useSuspenseQueries({
+         * const listResourcesCombinedData = qraft.resources.listResources.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll3CombinedData.forEach(data => console.log({ data }));
+         * listResourcesCombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAll3Schema, FindAll3Parameters, FindAll3Data, FindAll3Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAll3Data, FindAll3Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<ListResourcesSchema, ListResourcesParameters, ListResourcesData, ListResourcesError>>, TCombinedResult = Array<UseSuspenseQueryResult<ListResourcesData, ListResourcesError>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAll3Data, FindAll3Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<ListResourcesData, ListResourcesError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
         /** @description Retorna todos os recursos cadastrados. */
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAll3Schema, FindAll3Data, FindAll3Parameters, FindAll3Error> | void): Promise<FindAll3Data>;
+        fetchQuery(options: ServiceOperationFetchQueryOptions<ListResourcesSchema, ListResourcesData, ListResourcesParameters, ListResourcesError> | void): Promise<ListResourcesData>;
         /** @description Retorna todos os recursos cadastrados. */
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAll3Schema, FindAll3Data, FindAll3Parameters, FindAll3Error> | void): Promise<void>;
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<ListResourcesSchema, ListResourcesData, ListResourcesParameters, ListResourcesError> | void): Promise<void>;
         /** @description Retorna todos os recursos cadastrados. */
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAll3Schema, FindAll3Data, FindAll3Parameters, FindAll3Error> | void): Promise<FindAll3Data>;
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<ListResourcesSchema, ListResourcesData, ListResourcesParameters, ListResourcesError> | void): Promise<ListResourcesData>;
         /** @description Retorna todos os recursos cadastrados. */
-        fetchInfiniteQuery<TPageParam extends FindAll3Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll3Schema, FindAll3Data, FindAll3Parameters, DeepReadonly<TPageParam>, FindAll3Error> | void): Promise<OperationInfiniteData<FindAll3Data, FindAll3Parameters>>;
+        fetchInfiniteQuery<TPageParam extends ListResourcesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListResourcesSchema, ListResourcesData, ListResourcesParameters, DeepReadonly<TPageParam>, ListResourcesError> | void): Promise<OperationInfiniteData<ListResourcesData, ListResourcesParameters>>;
         /** @description Retorna todos os recursos cadastrados. */
-        prefetchInfiniteQuery<TPageParam extends FindAll3Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll3Schema, FindAll3Data, FindAll3Parameters, DeepReadonly<TPageParam>, FindAll3Error> | void): Promise<void>;
+        prefetchInfiniteQuery<TPageParam extends ListResourcesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListResourcesSchema, ListResourcesData, ListResourcesParameters, DeepReadonly<TPageParam>, ListResourcesError> | void): Promise<void>;
         /** @description Retorna todos os recursos cadastrados. */
-        ensureInfiniteQueryData<TPageParam extends FindAll3Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAll3Schema, FindAll3Data, FindAll3Parameters, DeepReadonly<TPageParam>, FindAll3Error> | void): Promise<OperationInfiniteData<FindAll3Data, FindAll3Parameters>>;
+        ensureInfiniteQueryData<TPageParam extends ListResourcesParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<ListResourcesSchema, ListResourcesData, ListResourcesParameters, DeepReadonly<TPageParam>, ListResourcesError> | void): Promise<OperationInfiniteData<ListResourcesData, ListResourcesParameters>>;
         /** @description Retorna todos os recursos cadastrados. */
-        getQueryData(parameters: ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void)): FindAll3Data | undefined;
+        getQueryData(parameters: ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void)): ListResourcesData | undefined;
         /** @description Retorna todos os recursos cadastrados. */
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void)): OperationInfiniteData<FindAll3Data, FindAll3Parameters> | undefined;
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void)): OperationInfiniteData<ListResourcesData, ListResourcesParameters> | undefined;
         /** @description Retorna todos os recursos cadastrados. */
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters>,
-            data: NoInfer<OperationInfiniteData<FindAll3Data, FindAll3Parameters>> | undefined
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters>,
+            data: NoInfer<OperationInfiniteData<ListResourcesData, ListResourcesParameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters>,
-            data: FindAll3Data | undefined
+            queryKey: ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters>,
+            data: ListResourcesData | undefined
         ]>;
         /** @description Retorna todos os recursos cadastrados. */
-        getQueryState(parameters: ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters> | (DeepReadonly<FindAll3Parameters> | void)): QueryState<FindAll3Data, FindAll3Error> | undefined;
+        getQueryState(parameters: ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters> | (DeepReadonly<ListResourcesParameters> | void)): QueryState<ListResourcesData, ListResourcesError> | undefined;
         /** @description Retorna todos os recursos cadastrados. */
-        getInfiniteQueryState(parameters: DeepReadonly<FindAll3Parameters> | ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters> | void): QueryState<OperationInfiniteData<FindAll3Data, FindAll3Parameters>, FindAll3Error> | undefined;
+        getInfiniteQueryState(parameters: DeepReadonly<ListResourcesParameters> | ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters> | void): QueryState<OperationInfiniteData<ListResourcesData, ListResourcesParameters>, ListResourcesError> | undefined;
         /** @description Retorna todos os recursos cadastrados. */
-        setQueryData(parameters: (DeepReadonly<FindAll3Parameters> | undefined) | ServiceOperationQueryKey<FindAll3Schema, FindAll3Parameters>, updater: Updater<NoInfer<FindAll3Data> | undefined, NoInfer<DeepReadonly<FindAll3Data>> | undefined>, options?: SetDataOptions): FindAll3Data | undefined;
+        setQueryData(parameters: (DeepReadonly<ListResourcesParameters> | undefined) | ServiceOperationQueryKey<ListResourcesSchema, ListResourcesParameters>, updater: Updater<NoInfer<ListResourcesData> | undefined, NoInfer<DeepReadonly<ListResourcesData>> | undefined>, options?: SetDataOptions): ListResourcesData | undefined;
         /** @description Retorna todos os recursos cadastrados. */
-        setInfiniteQueryData(parameters: (DeepReadonly<FindAll3Parameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAll3Schema, FindAll3Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAll3Data, FindAll3Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAll3Data, FindAll3Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAll3Data, FindAll3Parameters> | undefined;
+        setInfiniteQueryData(parameters: (DeepReadonly<ListResourcesParameters> | undefined) | ServiceOperationInfiniteQueryKey<ListResourcesSchema, ListResourcesParameters>, updater: Updater<NoInfer<OperationInfiniteData<ListResourcesData, ListResourcesParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<ListResourcesData, ListResourcesParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<ListResourcesData, ListResourcesParameters> | undefined;
         /** @description Retorna todos os recursos cadastrados. */
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>, updater: Updater<NoInfer<FindAll3Data> | undefined, NoInfer<FindAll3Data> | undefined>, options?: SetDataOptions): Array<FindAll3Data | undefined>;
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>, updater: Updater<NoInfer<ListResourcesData> | undefined, NoInfer<ListResourcesData> | undefined>, options?: SetDataOptions): Array<ListResourcesData | undefined>;
         /** @description Retorna todos os recursos cadastrados. */
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>, options?: InvalidateOptions): Promise<void>;
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>, options?: InvalidateOptions): Promise<void>;
         /** @description Retorna todos os recursos cadastrados. */
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>, options?: RefetchOptions): Promise<void>;
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>, options?: RefetchOptions): Promise<void>;
         /** @description Retorna todos os recursos cadastrados. */
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>, options?: CancelOptions): Promise<void>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>, options?: CancelOptions): Promise<void>;
         /** @description Retorna todos os recursos cadastrados. */
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>): void;
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>): void;
         /** @description Retorna todos os recursos cadastrados. */
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>, options?: ResetOptions): Promise<void>;
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>, options?: ResetOptions): Promise<void>;
         /** @description Retorna todos os recursos cadastrados. */
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error> | QueryFiltersByQueryKey<FindAll3Schema, FindAll3Data, TInfinite, FindAll3Parameters, FindAll3Error>): number;
-        schema: FindAll3Schema;
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError> | QueryFiltersByQueryKey<ListResourcesSchema, ListResourcesData, TInfinite, ListResourcesParameters, ListResourcesError>): number;
+        schema: ListResourcesSchema;
         types: {
-            parameters: FindAll3Parameters;
-            data: FindAll3Data;
-            error: FindAll3Error;
+            parameters: ListResourcesParameters;
+            data: ListResourcesData;
+            error: ListResourcesError;
         };
     };
     /** @description Cadastra um novo recurso. */
-    create3: {
+    createResource: {
         /** @description Cadastra um novo recurso. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<Create3Body, Create3Parameters, TMeta, TSignal>, client?: (schema: Create3Schema, options: ServiceOperationMutationFnOptions<Create3Body, Create3Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<Create3Data, Create3Error>>): Promise<RequestFnResponse<Create3Data, Create3Error>>;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<CreateResourceBody, CreateResourceParameters, TMeta, TSignal>, client?: (schema: CreateResourceSchema, options: ServiceOperationMutationFnOptions<CreateResourceBody, CreateResourceParameters, TMeta, TSignal>) => Promise<RequestFnResponse<CreateResourceData, CreateResourceError>>): Promise<RequestFnResponse<CreateResourceData, CreateResourceError>>;
         /** @description Cadastra um novo recurso. */
-        getMutationKey(parameters: DeepReadonly<Create3Parameters> | void): ServiceOperationMutationKey<Create3Schema, Create3Parameters>;
+        getMutationKey(parameters: DeepReadonly<CreateResourceParameters> | void): ServiceOperationMutationKey<CreateResourceSchema, CreateResourceParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -1010,18 +858,18 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.create3.useMutation({})
+         * const { mutate, isPending } = qraft.resources.createResource.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.create3.useMutation()
+         * const { mutate, isPending } = qraft.resources.createResource.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
          * ```
          */
-        useMutation<TVariables extends Create3Body, TContext = unknown>(parameters: DeepReadonly<Create3Parameters>, options?: ServiceOperationUseMutationOptions<Create3Schema, Create3Data, Create3Parameters, TVariables, OperationError<Create3Error>, TContext>): UseMutationResult<Create3Data, OperationError<Create3Error>, TVariables, TContext>;
+        useMutation<TVariables extends CreateResourceBody, TContext = unknown>(parameters: DeepReadonly<CreateResourceParameters>, options?: ServiceOperationUseMutationOptions<CreateResourceSchema, CreateResourceData, CreateResourceParameters, TVariables, OperationError<CreateResourceError>, TContext>): UseMutationResult<CreateResourceData, OperationError<CreateResourceError>, TVariables, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -1030,18 +878,18 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.create3.useMutation({})
+         * const { mutate, isPending } = qraft.resources.createResource.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.resources.create3.useMutation()
+         * const { mutate, isPending } = qraft.resources.createResource.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<Create3Body, Create3Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<Create3Schema, Create3Data, Create3Parameters, TVariables, OperationError<Create3Error>, TContext>): UseMutationResult<Create3Data, OperationError<Create3Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<CreateResourceBody, CreateResourceParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<CreateResourceSchema, CreateResourceData, CreateResourceParameters, TVariables, OperationError<CreateResourceError>, TContext>): UseMutationResult<CreateResourceData, OperationError<CreateResourceError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
@@ -1049,16 +897,16 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const create3Total = qraft.resources.create3.useIsMutating()
+         * const createResourceTotal = qraft.resources.createResource.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const create3Total = qraft.resources.create3.useIsMutating({
+         * const createResourceTotal = qraft.resources.createResource.useIsMutating({
          *     parameters: {}
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext> | MutationFiltersByMutationKey<Create3Schema, Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext> | MutationFiltersByMutationKey<CreateResourceSchema, CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
@@ -1066,7 +914,7 @@ export interface ResourcesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const create3PendingMutationVariables = qraft.resources.create3.useMutationState({
+         * const createResourcePendingMutationVariables = qraft.resources.createResource.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -1075,7 +923,7 @@ export interface ResourcesService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const create3MutationData = qraft.resources.create3.useMutationState({
+         * const createResourceMutationData = qraft.resources.createResource.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -1083,12 +931,12 @@ export interface ResourcesService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<Create3Data, OperationError<Create3Error>, MutationVariables<Create3Body, Create3Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext> | MutationFiltersByMutationKey<Create3Schema, Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext>;
-            select?: (mutation: Mutation<Create3Data, OperationError<Create3Error>, MutationVariables<Create3Body, Create3Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<CreateResourceData, OperationError<CreateResourceError>, MutationVariables<CreateResourceBody, CreateResourceParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext> | MutationFiltersByMutationKey<CreateResourceSchema, CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext>;
+            select?: (mutation: Mutation<CreateResourceData, OperationError<CreateResourceError>, MutationVariables<CreateResourceBody, CreateResourceParameters>, TContext>) => TResult;
         }): Array<TResult>;
         /** @description Cadastra um novo recurso. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext> | MutationFiltersByMutationKey<Create3Schema, Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext>): number;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext> | MutationFiltersByMutationKey<CreateResourceSchema, CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
@@ -1098,7 +946,7 @@ export interface ResourcesService {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.resources.create3.getMutationCache();
+         * const mutationCache = qraft.resources.createResource.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -1106,150 +954,302 @@ export interface ResourcesService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.resources.create3.getMutationCache();
+         * const mutationCache = qraft.resources.createResource.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext> | MutationFiltersByMutationKey<Create3Schema, Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext>): Mutation<Create3Data, Create3Error, MutationVariables<Create3Body, Create3Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext> | MutationFiltersByMutationKey<Create3Schema, Create3Body, Create3Data, Create3Parameters, OperationError<Create3Error>, TContext>): Array<Mutation<Create3Data, Create3Error, MutationVariables<Create3Body, Create3Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext> | MutationFiltersByMutationKey<CreateResourceSchema, CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext>): Mutation<CreateResourceData, CreateResourceError, MutationVariables<CreateResourceBody, CreateResourceParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext> | MutationFiltersByMutationKey<CreateResourceSchema, CreateResourceBody, CreateResourceData, CreateResourceParameters, OperationError<CreateResourceError>, TContext>): Array<Mutation<CreateResourceData, CreateResourceError, MutationVariables<CreateResourceBody, CreateResourceParameters>, TContext>>;
         };
-        schema: Create3Schema;
+        schema: CreateResourceSchema;
         types: {
-            parameters: Create3Parameters;
-            data: Create3Data;
-            error: Create3Error;
-            body: Create3Body;
+            parameters: CreateResourceParameters;
+            data: CreateResourceData;
+            error: CreateResourceError;
+            body: CreateResourceBody;
+        };
+    };
+    /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+    updateResourceStatus: {
+        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateResourceStatusBody, UpdateResourceStatusParameters, TMeta, TSignal>, client?: (schema: UpdateResourceStatusSchema, options: ServiceOperationMutationFnOptions<UpdateResourceStatusBody, UpdateResourceStatusParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateResourceStatusData, UpdateResourceStatusError>>): Promise<RequestFnResponse<UpdateResourceStatusData, UpdateResourceStatusError>>;
+        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        getMutationKey(parameters: DeepReadonly<UpdateResourceStatusParameters> | void): ServiceOperationMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.resources.updateResourceStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.resources.updateResourceStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends UpdateResourceStatusBody, TContext = unknown>(parameters: DeepReadonly<UpdateResourceStatusParameters>, options?: ServiceOperationUseMutationOptions<UpdateResourceStatusSchema, UpdateResourceStatusData, UpdateResourceStatusParameters, TVariables, OperationError<UpdateResourceStatusError>, TContext>): UseMutationResult<UpdateResourceStatusData, OperationError<UpdateResourceStatusError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.resources.updateResourceStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.resources.updateResourceStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<UpdateResourceStatusBody, UpdateResourceStatusParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateResourceStatusSchema, UpdateResourceStatusData, UpdateResourceStatusParameters, TVariables, OperationError<UpdateResourceStatusError>, TContext>): UseMutationResult<UpdateResourceStatusData, OperationError<UpdateResourceStatusError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const updateResourceStatusTotal = qraft.resources.updateResourceStatus.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const updateResourceStatusTotal = qraft.resources.updateResourceStatus.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext> | MutationFiltersByMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const updateResourceStatusPendingMutationVariables = qraft.resources.updateResourceStatus.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const updateResourceStatusMutationData = qraft.resources.updateResourceStatus.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 id: id
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateResourceStatusData, OperationError<UpdateResourceStatusError>, MutationVariables<UpdateResourceStatusBody, UpdateResourceStatusParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext> | MutationFiltersByMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext>;
+            select?: (mutation: Mutation<UpdateResourceStatusData, OperationError<UpdateResourceStatusError>, MutationVariables<UpdateResourceStatusBody, UpdateResourceStatusParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext> | MutationFiltersByMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.resources.updateResourceStatus.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.resources.updateResourceStatus.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext> | MutationFiltersByMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext>): Mutation<UpdateResourceStatusData, UpdateResourceStatusError, MutationVariables<UpdateResourceStatusBody, UpdateResourceStatusParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext> | MutationFiltersByMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext>): Array<Mutation<UpdateResourceStatusData, UpdateResourceStatusError, MutationVariables<UpdateResourceStatusBody, UpdateResourceStatusParameters>, TContext>>;
+        };
+        schema: UpdateResourceStatusSchema;
+        types: {
+            parameters: UpdateResourceStatusParameters;
+            data: UpdateResourceStatusData;
+            error: UpdateResourceStatusError;
+            body: UpdateResourceStatusBody;
         };
     };
 }
 /** @description Retorna os dados de um recurso pelo seu ID. */
-export const findById3 = {
+export const getResource = {
     schema: {
         method: "get",
         url: "/resources/{id}"
     }
 } as {
-    schema: FindById3Schema;
-    [QraftServiceOperationsToken]: ResourcesService["findById3"];
+    schema: GetResourceSchema;
+    [QraftServiceOperationsToken]: ResourcesService["getResource"];
 };
 /** @description Atualiza nome, descrição e ícone do recurso. */
-export const updateById2 = {
+export const updateResource = {
     schema: {
         method: "put",
         url: "/resources/{id}",
         mediaType: ["application/json"]
     }
 } as {
-    schema: UpdateById2Schema;
-    [QraftServiceOperationsToken]: ResourcesService["updateById2"];
+    schema: UpdateResourceSchema;
+    [QraftServiceOperationsToken]: ResourcesService["updateResource"];
 };
-/** @description Desativa um recurso pelo seu ID (soft delete). */
-export const deleteById3 = {
+/** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+export const deleteResource = {
     schema: {
         method: "delete",
         url: "/resources/{id}"
     }
 } as {
-    schema: DeleteById3Schema;
-    [QraftServiceOperationsToken]: ResourcesService["deleteById3"];
-};
-/** @description Ativa ou desativa um recurso pelo seu ID. */
-export const updateStatus2 = {
-    schema: {
-        method: "patch",
-        url: "/resources/{id}",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: UpdateStatus2Schema;
-    [QraftServiceOperationsToken]: ResourcesService["updateStatus2"];
+    schema: DeleteResourceSchema;
+    [QraftServiceOperationsToken]: ResourcesService["deleteResource"];
 };
 /** @description Retorna todos os recursos cadastrados. */
-export const findAll3 = {
+export const listResources = {
     schema: {
         method: "get",
         url: "/resources"
     }
 } as {
-    schema: FindAll3Schema;
-    [QraftServiceOperationsToken]: ResourcesService["findAll3"];
+    schema: ListResourcesSchema;
+    [QraftServiceOperationsToken]: ResourcesService["listResources"];
 };
 /** @description Cadastra um novo recurso. */
-export const create3 = {
+export const createResource = {
     schema: {
         method: "post",
         url: "/resources",
         mediaType: ["application/json"]
     }
 } as {
-    schema: Create3Schema;
-    [QraftServiceOperationsToken]: ResourcesService["create3"];
+    schema: CreateResourceSchema;
+    [QraftServiceOperationsToken]: ResourcesService["createResource"];
+};
+/** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+export const updateResourceStatus = {
+    schema: {
+        method: "patch",
+        url: "/resources/{id}/status",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: UpdateResourceStatusSchema;
+    [QraftServiceOperationsToken]: ResourcesService["updateResourceStatus"];
 };
 export const resourcesService = {
-    findById3,
-    updateById2,
-    deleteById3,
-    updateStatus2,
-    findAll3,
-    create3
+    getResource,
+    updateResource,
+    deleteResource,
+    listResources,
+    createResource,
+    updateResourceStatus
 } as const;
-type FindById3Schema = {
+type GetResourceSchema = {
     method: "get";
     url: "/resources/{id}";
 };
-type FindById3Parameters = paths["/resources/{id}"]["get"]["parameters"];
-type FindById3Data = paths["/resources/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindById3Error = paths["/resources/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
-type UpdateById2Schema = {
+type GetResourceParameters = paths["/resources/{id}"]["get"]["parameters"];
+type GetResourceData = paths["/resources/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
+type GetResourceError = paths["/resources/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
+type UpdateResourceSchema = {
     method: "put";
     url: "/resources/{id}";
     mediaType: [
         "application/json"
     ];
 };
-type UpdateById2Parameters = paths["/resources/{id}"]["put"]["parameters"];
-type UpdateById2Data = paths["/resources/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
-type UpdateById2Error = paths["/resources/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
-type UpdateById2Body = paths["/resources/{id}"]["put"]["requestBody"]["content"]["application/json"];
-type DeleteById3Schema = {
+type UpdateResourceParameters = paths["/resources/{id}"]["put"]["parameters"];
+type UpdateResourceData = paths["/resources/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
+type UpdateResourceError = paths["/resources/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
+type UpdateResourceBody = paths["/resources/{id}"]["put"]["requestBody"]["content"]["application/json"];
+type DeleteResourceSchema = {
     method: "delete";
     url: "/resources/{id}";
 };
-type DeleteById3Parameters = paths["/resources/{id}"]["delete"]["parameters"];
-type DeleteById3Data = null;
-type DeleteById3Error = paths["/resources/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
-type DeleteById3Body = undefined;
-type UpdateStatus2Schema = {
-    method: "patch";
-    url: "/resources/{id}";
-    mediaType: [
-        "application/json"
-    ];
-};
-type UpdateStatus2Parameters = paths["/resources/{id}"]["patch"]["parameters"];
-type UpdateStatus2Data = paths["/resources/{id}"]["patch"]["responses"]["200"]["content"]["*/*"];
-type UpdateStatus2Error = paths["/resources/{id}"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}"]["patch"]["responses"]["422"]["content"]["*/*"];
-type UpdateStatus2Body = paths["/resources/{id}"]["patch"]["requestBody"]["content"]["application/json"];
-type FindAll3Schema = {
+type DeleteResourceParameters = paths["/resources/{id}"]["delete"]["parameters"];
+type DeleteResourceData = null;
+type DeleteResourceError = paths["/resources/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
+type DeleteResourceBody = undefined;
+type ListResourcesSchema = {
     method: "get";
     url: "/resources";
 };
-type FindAll3Parameters = undefined;
-type FindAll3Data = paths["/resources"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAll3Error = paths["/resources"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/resources"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/resources"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/resources"]["get"]["responses"]["422"]["content"]["*/*"];
-type Create3Schema = {
+type ListResourcesParameters = undefined;
+type ListResourcesData = paths["/resources"]["get"]["responses"]["200"]["content"]["*/*"];
+type ListResourcesError = paths["/resources"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/resources"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/resources"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/resources"]["get"]["responses"]["422"]["content"]["*/*"];
+type CreateResourceSchema = {
     method: "post";
     url: "/resources";
     mediaType: [
         "application/json"
     ];
 };
-type Create3Parameters = {
+type CreateResourceParameters = {
     query?: never;
     header?: never;
     path?: never;
 };
-type Create3Data = paths["/resources"]["post"]["responses"]["201"]["content"]["*/*"];
-type Create3Error = paths["/resources"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/resources"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/resources"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/resources"]["post"]["responses"]["422"]["content"]["*/*"];
-type Create3Body = paths["/resources"]["post"]["requestBody"]["content"]["application/json"];
+type CreateResourceData = paths["/resources"]["post"]["responses"]["201"]["content"]["*/*"];
+type CreateResourceError = paths["/resources"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/resources"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/resources"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/resources"]["post"]["responses"]["422"]["content"]["*/*"];
+type CreateResourceBody = paths["/resources"]["post"]["requestBody"]["content"]["application/json"];
+type UpdateResourceStatusSchema = {
+    method: "patch";
+    url: "/resources/{id}/status";
+    mediaType: [
+        "application/json"
+    ];
+};
+type UpdateResourceStatusParameters = paths["/resources/{id}/status"]["patch"]["parameters"];
+type UpdateResourceStatusData = paths["/resources/{id}/status"]["patch"]["responses"]["200"]["content"]["*/*"];
+type UpdateResourceStatusError = paths["/resources/{id}/status"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/resources/{id}/status"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/resources/{id}/status"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/resources/{id}/status"]["patch"]["responses"]["422"]["content"]["*/*"];
+type UpdateResourceStatusBody = paths["/resources/{id}/status"]["patch"]["requestBody"]["content"]["application/json"];

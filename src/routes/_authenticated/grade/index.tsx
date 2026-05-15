@@ -124,15 +124,15 @@ function generateLocalId() {
 function GradePage() {
   const { api } = useAPI()
 
-  const { data: rooms = [], isLoading: loadingRooms } = api.rooms.findAll1.useQuery()
-  const { data: eventsa = [], isLoading: loadingEvents, refetch: refetchEvents } = api.events.findAll4.useQuery()
+  const { data: rooms = [], isLoading: loadingRooms } = api.rooms.listRooms.useQuery({ query: { expand: ['building', 'roomType', 'resources'] } })
+  const { data: eventsa = [], isLoading: loadingEvents, refetch: refetchEvents } = api.events.listEvents.useQuery()
 
 
-  const events = eventsa.filter(event => typeof event.deletedAt !== `string`)
+  const events = eventsa.filter(event => event.status !== 'DELETED')
 
-  const requestCreationMutation = api.events.requestCreation.useMutation()
-  const requestUpdateMutation = api.events.requestUpdate.useMutation()
-  const requestDeletionMutation = api.events.requestDeletion.useMutation()
+  const requestCreationMutation = api.eventRequests.requestEventCreation.useMutation()
+  const requestUpdateMutation = api.eventRequests.requestEventUpdate.useMutation()
+  const requestDeletionMutation = api.eventRequests.requestEventCancellation.useMutation()
 
   const roomList: RoomResponse[] = Array.isArray(rooms) ? rooms : []
   const eventList: EventResponse[] = Array.isArray(events) ? events : []
@@ -142,7 +142,7 @@ function GradePage() {
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const allRoomTypes = React.useMemo(() => {
-    const set = new Set(roomList.map((r) => r.type ?? "").filter(Boolean))
+    const set = new Set(roomList.map((r) => r.roomType?.name ?? "").filter(Boolean))
     return Array.from(set).sort()
   }, [roomList])
 
@@ -165,7 +165,7 @@ function GradePage() {
 
   const filteredRooms = React.useMemo(() => {
     return roomList
-      .filter((r) => selectedRoomTypes.length === 0 || selectedRoomTypes.includes(r.type ?? ""))
+      .filter((r) => selectedRoomTypes.length === 0 || selectedRoomTypes.includes(r.roomType?.name ?? ""))
       .filter((r) => selectedBuildings.length === 0 || selectedBuildings.includes(r.building?.name ?? r.buildingId ?? ""))
       .filter((r) => {
         if (!searchQuery) return true
@@ -323,6 +323,7 @@ function GradePage() {
       } else if (action.type === "edit" && action.originalEvent?.id && !action.originalEvent.id.startsWith("local-")) {
         await requestUpdateMutation.mutateAsync({
           body: {
+            eventId: action.originalEvent.id,
             title: action.event.title,
             description: action.event.description,
             startAt: action.event.startAt,
@@ -331,12 +332,10 @@ function GradePage() {
             justification: submitMessage || undefined,
             userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
           },
-          path: { id: action.originalEvent.id },
         })
       } else if (action.type === "delete" && action.event.id && !action.event.id.startsWith("local-")) {
         await requestDeletionMutation.mutateAsync({
-          body: { justification: submitMessage || undefined, userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6" },
-          path: { id: action.event.id },
+          body: { eventId: action.event.id, justification: submitMessage || undefined, userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6" },
         })
       }
     }
@@ -477,7 +476,7 @@ function GradePage() {
                     >
                       <span className="flex-1">{type}</span>
                       <span className="text-xs text-muted-foreground ml-2">
-                        ({roomList.filter((r) => r.type === type).length})
+                        ({roomList.filter((r) => r.roomType?.name === type).length})
                       </span>
                     </DropdownMenuCheckboxItem>
                   ))}

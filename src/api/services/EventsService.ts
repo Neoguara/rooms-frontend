@@ -4,341 +4,53 @@
  */
 
 import type { paths } from "../schema";
-import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey, MutationFiltersByParameters, MutationVariables, OperationError, OperationInfiniteData, PartialParameters, QueryFiltersByParameters, QueryFiltersByQueryKey, QueryFnOptionsByParameters, QueryFnOptionsByQueryKey, RequestFnResponse, ServiceOperationEnsureInfiniteQueryDataOptions, ServiceOperationEnsureQueryDataOptions, ServiceOperationFetchInfiniteQueryOptions, ServiceOperationFetchQueryOptions, ServiceOperationInfiniteQueryKey, ServiceOperationMutationFnOptions, ServiceOperationMutationKey, ServiceOperationQueryKey, ServiceOperationUseMutationOptions, UseQueryOptionsForUseQueries, UseQueryOptionsForUseSuspenseQuery, WithOptional, QraftServiceOperationsToken } from "@openapi-qraft/tanstack-query-react-types";
-import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
+import type { DeepReadonly, InvalidateQueryFilters, OperationError, OperationInfiniteData, PartialParameters, QueryFiltersByParameters, QueryFiltersByQueryKey, QueryFnOptionsByParameters, QueryFnOptionsByQueryKey, RequestFnResponse, ServiceOperationEnsureInfiniteQueryDataOptions, ServiceOperationEnsureQueryDataOptions, ServiceOperationFetchInfiniteQueryOptions, ServiceOperationFetchQueryOptions, ServiceOperationInfiniteQueryKey, ServiceOperationQueryKey, UseQueryOptionsForUseQueries, UseQueryOptionsForUseSuspenseQuery, WithOptional, QraftServiceOperationsToken } from "@openapi-qraft/tanstack-query-react-types";
+import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface EventsService {
-    requestUpdate: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<RequestUpdateBody, RequestUpdateParameters, TMeta, TSignal>, client?: (schema: RequestUpdateSchema, options: ServiceOperationMutationFnOptions<RequestUpdateBody, RequestUpdateParameters, TMeta, TSignal>) => Promise<RequestFnResponse<RequestUpdateData, RequestUpdateError>>): Promise<RequestFnResponse<RequestUpdateData, RequestUpdateError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<RequestUpdateParameters> | void): ServiceOperationMutationKey<RequestUpdateSchema, RequestUpdateParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestUpdate.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestUpdate.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends RequestUpdateBody, TContext = unknown>(parameters: DeepReadonly<RequestUpdateParameters>, options?: ServiceOperationUseMutationOptions<RequestUpdateSchema, RequestUpdateData, RequestUpdateParameters, TVariables, OperationError<RequestUpdateError>, TContext>): UseMutationResult<RequestUpdateData, OperationError<RequestUpdateError>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestUpdate.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestUpdate.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<RequestUpdateBody, RequestUpdateParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<RequestUpdateSchema, RequestUpdateData, RequestUpdateParameters, TVariables, OperationError<RequestUpdateError>, TContext>): UseMutationResult<RequestUpdateData, OperationError<RequestUpdateError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const requestUpdateTotal = qraft.events.requestUpdate.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const requestUpdateTotal = qraft.events.requestUpdate.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext> | MutationFiltersByMutationKey<RequestUpdateSchema, RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const requestUpdatePendingMutationVariables = qraft.events.requestUpdate.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const requestUpdateMutationData = qraft.events.requestUpdate.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 id: id
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<RequestUpdateData, OperationError<RequestUpdateError>, MutationVariables<RequestUpdateBody, RequestUpdateParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext> | MutationFiltersByMutationKey<RequestUpdateSchema, RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext>;
-            select?: (mutation: Mutation<RequestUpdateData, OperationError<RequestUpdateError>, MutationVariables<RequestUpdateBody, RequestUpdateParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext> | MutationFiltersByMutationKey<RequestUpdateSchema, RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.events.requestUpdate.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.events.requestUpdate.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext> | MutationFiltersByMutationKey<RequestUpdateSchema, RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext>): Mutation<RequestUpdateData, RequestUpdateError, MutationVariables<RequestUpdateBody, RequestUpdateParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext> | MutationFiltersByMutationKey<RequestUpdateSchema, RequestUpdateBody, RequestUpdateData, RequestUpdateParameters, OperationError<RequestUpdateError>, TContext>): Array<Mutation<RequestUpdateData, RequestUpdateError, MutationVariables<RequestUpdateBody, RequestUpdateParameters>, TContext>>;
-        };
-        schema: RequestUpdateSchema;
-        types: {
-            parameters: RequestUpdateParameters;
-            data: RequestUpdateData;
-            error: RequestUpdateError;
-            body: RequestUpdateBody;
-        };
-    };
-    requestDeletion: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<RequestDeletionBody, RequestDeletionParameters, TMeta, TSignal>, client?: (schema: RequestDeletionSchema, options: ServiceOperationMutationFnOptions<RequestDeletionBody, RequestDeletionParameters, TMeta, TSignal>) => Promise<RequestFnResponse<RequestDeletionData, RequestDeletionError>>): Promise<RequestFnResponse<RequestDeletionData, RequestDeletionError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<RequestDeletionParameters> | void): ServiceOperationMutationKey<RequestDeletionSchema, RequestDeletionParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestDeletion.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestDeletion.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends RequestDeletionBody, TContext = unknown>(parameters: DeepReadonly<RequestDeletionParameters>, options?: ServiceOperationUseMutationOptions<RequestDeletionSchema, RequestDeletionData, RequestDeletionParameters, TVariables, OperationError<RequestDeletionError>, TContext>): UseMutationResult<RequestDeletionData, OperationError<RequestDeletionError>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestDeletion.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestDeletion.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<RequestDeletionBody, RequestDeletionParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<RequestDeletionSchema, RequestDeletionData, RequestDeletionParameters, TVariables, OperationError<RequestDeletionError>, TContext>): UseMutationResult<RequestDeletionData, OperationError<RequestDeletionError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const requestDeletionTotal = qraft.events.requestDeletion.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const requestDeletionTotal = qraft.events.requestDeletion.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext> | MutationFiltersByMutationKey<RequestDeletionSchema, RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const requestDeletionPendingMutationVariables = qraft.events.requestDeletion.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const requestDeletionMutationData = qraft.events.requestDeletion.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 id: id
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<RequestDeletionData, OperationError<RequestDeletionError>, MutationVariables<RequestDeletionBody, RequestDeletionParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext> | MutationFiltersByMutationKey<RequestDeletionSchema, RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext>;
-            select?: (mutation: Mutation<RequestDeletionData, OperationError<RequestDeletionError>, MutationVariables<RequestDeletionBody, RequestDeletionParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext> | MutationFiltersByMutationKey<RequestDeletionSchema, RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.events.requestDeletion.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.events.requestDeletion.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext> | MutationFiltersByMutationKey<RequestDeletionSchema, RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext>): Mutation<RequestDeletionData, RequestDeletionError, MutationVariables<RequestDeletionBody, RequestDeletionParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext> | MutationFiltersByMutationKey<RequestDeletionSchema, RequestDeletionBody, RequestDeletionData, RequestDeletionParameters, OperationError<RequestDeletionError>, TContext>): Array<Mutation<RequestDeletionData, RequestDeletionError, MutationVariables<RequestDeletionBody, RequestDeletionParameters>, TContext>>;
-        };
-        schema: RequestDeletionSchema;
-        types: {
-            parameters: RequestDeletionParameters;
-            data: RequestDeletionData;
-            error: RequestDeletionError;
-            body: RequestDeletionBody;
-        };
-    };
-    findAll4: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAll4Schema, FindAll4Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAll4Parameters, TMeta, TSignal> | void), client?: (schema: FindAll4Schema, options: {
-            parameters: FindAll4Parameters;
+    /** @description Retorna todos os eventos cadastrados. */
+    listEvents: {
+        /** @description Retorna todos os eventos cadastrados. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<ListEventsSchema, ListEventsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<ListEventsParameters, TMeta, TSignal> | void), client?: (schema: ListEventsSchema, options: {
+            parameters: ListEventsParameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindAll4Data, FindAll4Error>>): Promise<RequestFnResponse<FindAll4Data, FindAll4Error>>;
-        /**/
-        getQueryKey(parameters: DeepReadonly<FindAll4Parameters> | void): ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>;
+        }) => Promise<RequestFnResponse<ListEventsData, ListEventsError>>): Promise<RequestFnResponse<ListEventsData, ListEventsError>>;
+        /** @description Retorna todos os eventos cadastrados. */
+        getQueryKey(parameters: DeepReadonly<ListEventsParameters> | void): ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.events.findAll4.useQuery()
+         * const { data, isLoading } = qraft.events.listEvents.useQuery()
          * ```
          */
-        useQuery<TData = FindAll4Data>(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAll4Data, FindAll4Error, TData, ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAll4Error>>;
+        useQuery<TData = ListEventsData>(parameters: ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void), options?: Omit<UndefinedInitialDataOptions<ListEventsData, ListEventsError, TData, ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<ListEventsError>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.events.findAll4.useQuery()
+         * const { data, isLoading } = qraft.events.listEvents.useQuery()
          * ```
          */
-        useQuery<TData = FindAll4Data>(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<DefinedInitialDataOptions<FindAll4Data, FindAll4Error, TData, ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAll4Error>>;
-        /**/
-        getInfiniteQueryKey(parameters: DeepReadonly<FindAll4Parameters> | void): ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>;
+        useQuery<TData = ListEventsData>(parameters: ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void), options: Omit<DefinedInitialDataOptions<ListEventsData, ListEventsError, TData, ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<ListEventsError>>;
+        /** @description Retorna todos os eventos cadastrados. */
+        getInfiniteQueryKey(parameters: DeepReadonly<ListEventsParameters> | void): ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAll4.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.events.listEvents.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -347,16 +59,17 @@ export interface EventsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll4Parameters, TQueryFnData = FindAll4Data, TData = OperationInfiniteData<TQueryFnData, FindAll4Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAll4Error, TData, ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAll4Error>>;
+        useInfiniteQuery<TPageParam extends ListEventsParameters, TQueryFnData = ListEventsData, TData = OperationInfiniteData<TQueryFnData, ListEventsParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, ListEventsError, TData, ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<ListEventsError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAll4.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.events.listEvents.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -365,70 +78,74 @@ export interface EventsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll4Parameters, TQueryFnData = FindAll4Data, TData = OperationInfiniteData<TQueryFnData, FindAll4Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAll4Error, TData, ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll4Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAll4Error>>;
+        useInfiniteQuery<TPageParam extends ListEventsParameters, TQueryFnData = ListEventsData, TData = OperationInfiniteData<TQueryFnData, ListEventsParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, ListEventsError, TData, ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListEventsData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<ListEventsError>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findAll4Total = qraft.events.findAll4.useIsFetching()
+         * const listEventsTotal = qraft.events.listEvents.useIsFetching()
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findAll4Results = qraft.events.findAll4.useQueries({
+         * const listEventsResults = qraft.events.listEvents.useQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll4Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listEventsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findAll4CombinedResults = qraft.events.findAll4.useQueries({
+         * const listEventsCombinedResults = qraft.events.listEvents.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll4CombinedResults.forEach(data => console.log({ data }));
+         * listEventsCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAll4Schema, FindAll4Parameters, FindAll4Data, FindAll4Error>>, TCombinedResult = Array<UseQueryResult<FindAll4Data, FindAll4Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<ListEventsSchema, ListEventsParameters, ListEventsData, ListEventsError>>, TCombinedResult = Array<UseQueryResult<ListEventsData, ListEventsError>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindAll4Data, FindAll4Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<ListEventsData, ListEventsError>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
          * Similar to useQuery but integrates with React Suspense for loading states.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.events.findAll4.useSuspenseQuery()
+         * const data = qraft.events.listEvents.useSuspenseQuery()
          * ```
          */
-        useSuspenseQuery<TData = FindAll4Data>(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAll4Data, FindAll4Error, TData, ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAll4Error>>;
+        useSuspenseQuery<TData = ListEventsData>(parameters: ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void), options?: Omit<UseSuspenseQueryOptions<ListEventsData, ListEventsError, TData, ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<ListEventsError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
          * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAll4.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.events.listEvents.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -437,866 +154,110 @@ export interface EventsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindAll4Parameters, TData = FindAll4Data>(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAll4Data, FindAll4Error, OperationInfiniteData<TData, FindAll4Parameters>, ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll4Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAll4Parameters>, OperationError<FindAll4Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends ListEventsParameters, TData = ListEventsData>(parameters: ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<ListEventsData, ListEventsError, OperationInfiniteData<TData, ListEventsParameters>, ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListEventsData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, ListEventsParameters>, OperationError<ListEventsError>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
          *
+         * @description Retorna todos os eventos cadastrados.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findAll4Data = qraft.events.findAll4.useSuspenseQueries({
+         * const listEventsData = qraft.events.listEvents.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll4Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listEventsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findAll4CombinedData = qraft.events.findAll4.useSuspenseQueries({
+         * const listEventsCombinedData = qraft.events.listEvents.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll4CombinedData.forEach(data => console.log({ data }));
+         * listEventsCombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAll4Schema, FindAll4Parameters, FindAll4Data, FindAll4Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAll4Data, FindAll4Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<ListEventsSchema, ListEventsParameters, ListEventsData, ListEventsError>>, TCombinedResult = Array<UseSuspenseQueryResult<ListEventsData, ListEventsError>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAll4Data, FindAll4Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<ListEventsData, ListEventsError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
-        /**/
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, FindAll4Error> | void): Promise<FindAll4Data>;
-        /**/
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, FindAll4Error> | void): Promise<void>;
-        /**/
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, FindAll4Error> | void): Promise<FindAll4Data>;
-        /**/
-        fetchInfiniteQuery<TPageParam extends FindAll4Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, DeepReadonly<TPageParam>, FindAll4Error> | void): Promise<OperationInfiniteData<FindAll4Data, FindAll4Parameters>>;
-        /**/
-        prefetchInfiniteQuery<TPageParam extends FindAll4Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, DeepReadonly<TPageParam>, FindAll4Error> | void): Promise<void>;
-        /**/
-        ensureInfiniteQueryData<TPageParam extends FindAll4Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAll4Schema, FindAll4Data, FindAll4Parameters, DeepReadonly<TPageParam>, FindAll4Error> | void): Promise<OperationInfiniteData<FindAll4Data, FindAll4Parameters>>;
-        /**/
-        getQueryData(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void)): FindAll4Data | undefined;
-        /**/
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void)): OperationInfiniteData<FindAll4Data, FindAll4Parameters> | undefined;
-        /**/
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>,
-            data: NoInfer<OperationInfiniteData<FindAll4Data, FindAll4Parameters>> | undefined
+        /** @description Retorna todos os eventos cadastrados. */
+        fetchQuery(options: ServiceOperationFetchQueryOptions<ListEventsSchema, ListEventsData, ListEventsParameters, ListEventsError> | void): Promise<ListEventsData>;
+        /** @description Retorna todos os eventos cadastrados. */
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<ListEventsSchema, ListEventsData, ListEventsParameters, ListEventsError> | void): Promise<void>;
+        /** @description Retorna todos os eventos cadastrados. */
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<ListEventsSchema, ListEventsData, ListEventsParameters, ListEventsError> | void): Promise<ListEventsData>;
+        /** @description Retorna todos os eventos cadastrados. */
+        fetchInfiniteQuery<TPageParam extends ListEventsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListEventsSchema, ListEventsData, ListEventsParameters, DeepReadonly<TPageParam>, ListEventsError> | void): Promise<OperationInfiniteData<ListEventsData, ListEventsParameters>>;
+        /** @description Retorna todos os eventos cadastrados. */
+        prefetchInfiniteQuery<TPageParam extends ListEventsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListEventsSchema, ListEventsData, ListEventsParameters, DeepReadonly<TPageParam>, ListEventsError> | void): Promise<void>;
+        /** @description Retorna todos os eventos cadastrados. */
+        ensureInfiniteQueryData<TPageParam extends ListEventsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<ListEventsSchema, ListEventsData, ListEventsParameters, DeepReadonly<TPageParam>, ListEventsError> | void): Promise<OperationInfiniteData<ListEventsData, ListEventsParameters>>;
+        /** @description Retorna todos os eventos cadastrados. */
+        getQueryData(parameters: ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void)): ListEventsData | undefined;
+        /** @description Retorna todos os eventos cadastrados. */
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void)): OperationInfiniteData<ListEventsData, ListEventsParameters> | undefined;
+        /** @description Retorna todos os eventos cadastrados. */
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters>,
+            data: NoInfer<OperationInfiniteData<ListEventsData, ListEventsParameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>,
-            data: FindAll4Data | undefined
+            queryKey: ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters>,
+            data: ListEventsData | undefined
         ]>;
-        /**/
-        getQueryState(parameters: ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters> | (DeepReadonly<FindAll4Parameters> | void)): QueryState<FindAll4Data, FindAll4Error> | undefined;
-        /**/
-        getInfiniteQueryState(parameters: DeepReadonly<FindAll4Parameters> | ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters> | void): QueryState<OperationInfiniteData<FindAll4Data, FindAll4Parameters>, FindAll4Error> | undefined;
-        /**/
-        setQueryData(parameters: (DeepReadonly<FindAll4Parameters> | undefined) | ServiceOperationQueryKey<FindAll4Schema, FindAll4Parameters>, updater: Updater<NoInfer<FindAll4Data> | undefined, NoInfer<DeepReadonly<FindAll4Data>> | undefined>, options?: SetDataOptions): FindAll4Data | undefined;
-        /**/
-        setInfiniteQueryData(parameters: (DeepReadonly<FindAll4Parameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAll4Schema, FindAll4Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAll4Data, FindAll4Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAll4Data, FindAll4Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAll4Data, FindAll4Parameters> | undefined;
-        /**/
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, updater: Updater<NoInfer<FindAll4Data> | undefined, NoInfer<FindAll4Data> | undefined>, options?: SetDataOptions): Array<FindAll4Data | undefined>;
-        /**/
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: InvalidateOptions): Promise<void>;
-        /**/
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: RefetchOptions): Promise<void>;
-        /**/
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: CancelOptions): Promise<void>;
-        /**/
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): void;
-        /**/
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>, options?: ResetOptions): Promise<void>;
-        /**/
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error> | QueryFiltersByQueryKey<FindAll4Schema, FindAll4Data, TInfinite, FindAll4Parameters, FindAll4Error>): number;
-        schema: FindAll4Schema;
+        /** @description Retorna todos os eventos cadastrados. */
+        getQueryState(parameters: ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters> | (DeepReadonly<ListEventsParameters> | void)): QueryState<ListEventsData, ListEventsError> | undefined;
+        /** @description Retorna todos os eventos cadastrados. */
+        getInfiniteQueryState(parameters: DeepReadonly<ListEventsParameters> | ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters> | void): QueryState<OperationInfiniteData<ListEventsData, ListEventsParameters>, ListEventsError> | undefined;
+        /** @description Retorna todos os eventos cadastrados. */
+        setQueryData(parameters: (DeepReadonly<ListEventsParameters> | undefined) | ServiceOperationQueryKey<ListEventsSchema, ListEventsParameters>, updater: Updater<NoInfer<ListEventsData> | undefined, NoInfer<DeepReadonly<ListEventsData>> | undefined>, options?: SetDataOptions): ListEventsData | undefined;
+        /** @description Retorna todos os eventos cadastrados. */
+        setInfiniteQueryData(parameters: (DeepReadonly<ListEventsParameters> | undefined) | ServiceOperationInfiniteQueryKey<ListEventsSchema, ListEventsParameters>, updater: Updater<NoInfer<OperationInfiniteData<ListEventsData, ListEventsParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<ListEventsData, ListEventsParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<ListEventsData, ListEventsParameters> | undefined;
+        /** @description Retorna todos os eventos cadastrados. */
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>, updater: Updater<NoInfer<ListEventsData> | undefined, NoInfer<ListEventsData> | undefined>, options?: SetDataOptions): Array<ListEventsData | undefined>;
+        /** @description Retorna todos os eventos cadastrados. */
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>, options?: InvalidateOptions): Promise<void>;
+        /** @description Retorna todos os eventos cadastrados. */
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>, options?: RefetchOptions): Promise<void>;
+        /** @description Retorna todos os eventos cadastrados. */
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>, options?: CancelOptions): Promise<void>;
+        /** @description Retorna todos os eventos cadastrados. */
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>): void;
+        /** @description Retorna todos os eventos cadastrados. */
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>, options?: ResetOptions): Promise<void>;
+        /** @description Retorna todos os eventos cadastrados. */
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError> | QueryFiltersByQueryKey<ListEventsSchema, ListEventsData, TInfinite, ListEventsParameters, ListEventsError>): number;
+        schema: ListEventsSchema;
         types: {
-            parameters: FindAll4Parameters;
-            data: FindAll4Data;
-            error: FindAll4Error;
-        };
-    };
-    requestCreation: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<RequestCreationBody, RequestCreationParameters, TMeta, TSignal>, client?: (schema: RequestCreationSchema, options: ServiceOperationMutationFnOptions<RequestCreationBody, RequestCreationParameters, TMeta, TSignal>) => Promise<RequestFnResponse<RequestCreationData, RequestCreationError>>): Promise<RequestFnResponse<RequestCreationData, RequestCreationError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<RequestCreationParameters> | void): ServiceOperationMutationKey<RequestCreationSchema, RequestCreationParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestCreation.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestCreation.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends RequestCreationBody, TContext = unknown>(parameters: DeepReadonly<RequestCreationParameters>, options?: ServiceOperationUseMutationOptions<RequestCreationSchema, RequestCreationData, RequestCreationParameters, TVariables, OperationError<RequestCreationError>, TContext>): UseMutationResult<RequestCreationData, OperationError<RequestCreationError>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestCreation.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.requestCreation.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<RequestCreationBody, RequestCreationParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<RequestCreationSchema, RequestCreationData, RequestCreationParameters, TVariables, OperationError<RequestCreationError>, TContext>): UseMutationResult<RequestCreationData, OperationError<RequestCreationError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const requestCreationTotal = qraft.events.requestCreation.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const requestCreationTotal = qraft.events.requestCreation.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext> | MutationFiltersByMutationKey<RequestCreationSchema, RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const requestCreationPendingMutationVariables = qraft.events.requestCreation.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const requestCreationMutationData = qraft.events.requestCreation.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<RequestCreationData, OperationError<RequestCreationError>, MutationVariables<RequestCreationBody, RequestCreationParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext> | MutationFiltersByMutationKey<RequestCreationSchema, RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext>;
-            select?: (mutation: Mutation<RequestCreationData, OperationError<RequestCreationError>, MutationVariables<RequestCreationBody, RequestCreationParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext> | MutationFiltersByMutationKey<RequestCreationSchema, RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.events.requestCreation.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {}
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.events.requestCreation.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext> | MutationFiltersByMutationKey<RequestCreationSchema, RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext>): Mutation<RequestCreationData, RequestCreationError, MutationVariables<RequestCreationBody, RequestCreationParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext> | MutationFiltersByMutationKey<RequestCreationSchema, RequestCreationBody, RequestCreationData, RequestCreationParameters, OperationError<RequestCreationError>, TContext>): Array<Mutation<RequestCreationData, RequestCreationError, MutationVariables<RequestCreationBody, RequestCreationParameters>, TContext>>;
-        };
-        schema: RequestCreationSchema;
-        types: {
-            parameters: RequestCreationParameters;
-            data: RequestCreationData;
-            error: RequestCreationError;
-            body: RequestCreationBody;
-        };
-    };
-    reject: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<RejectBody, RejectParameters, TMeta, TSignal>, client?: (schema: RejectSchema, options: ServiceOperationMutationFnOptions<RejectBody, RejectParameters, TMeta, TSignal>) => Promise<RequestFnResponse<RejectData, RejectError>>): Promise<RequestFnResponse<RejectData, RejectError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<RejectParameters> | void): ServiceOperationMutationKey<RejectSchema, RejectParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.reject.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.reject.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends RejectBody, TContext = unknown>(parameters: DeepReadonly<RejectParameters>, options?: ServiceOperationUseMutationOptions<RejectSchema, RejectData, RejectParameters, TVariables, OperationError<RejectError>, TContext>): UseMutationResult<RejectData, OperationError<RejectError>, TVariables | void, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.reject.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.reject.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<RejectBody, RejectParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<RejectSchema, RejectData, RejectParameters, TVariables, OperationError<RejectError>, TContext>): UseMutationResult<RejectData, OperationError<RejectError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const rejectTotal = qraft.events.reject.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const rejectTotal = qraft.events.reject.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext> | MutationFiltersByMutationKey<RejectSchema, RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const rejectPendingMutationVariables = qraft.events.reject.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const rejectMutationData = qraft.events.reject.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 id: id
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<RejectData, OperationError<RejectError>, MutationVariables<RejectBody, RejectParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext> | MutationFiltersByMutationKey<RejectSchema, RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext>;
-            select?: (mutation: Mutation<RejectData, OperationError<RejectError>, MutationVariables<RejectBody, RejectParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext> | MutationFiltersByMutationKey<RejectSchema, RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.events.reject.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.events.reject.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext> | MutationFiltersByMutationKey<RejectSchema, RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext>): Mutation<RejectData, RejectError, MutationVariables<RejectBody, RejectParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext> | MutationFiltersByMutationKey<RejectSchema, RejectBody, RejectData, RejectParameters, OperationError<RejectError>, TContext>): Array<Mutation<RejectData, RejectError, MutationVariables<RejectBody, RejectParameters>, TContext>>;
-        };
-        schema: RejectSchema;
-        types: {
-            parameters: RejectParameters;
-            data: RejectData;
-            error: RejectError;
-            body: RejectBody;
-        };
-    };
-    approve: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<ApproveBody, ApproveParameters, TMeta, TSignal>, client?: (schema: ApproveSchema, options: ServiceOperationMutationFnOptions<ApproveBody, ApproveParameters, TMeta, TSignal>) => Promise<RequestFnResponse<ApproveData, ApproveError>>): Promise<RequestFnResponse<ApproveData, ApproveError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<ApproveParameters> | void): ServiceOperationMutationKey<ApproveSchema, ApproveParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.approve.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.approve.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends ApproveBody, TContext = unknown>(parameters: DeepReadonly<ApproveParameters>, options?: ServiceOperationUseMutationOptions<ApproveSchema, ApproveData, ApproveParameters, TVariables, OperationError<ApproveError>, TContext>): UseMutationResult<ApproveData, OperationError<ApproveError>, TVariables | void, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.approve.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.events.approve.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<ApproveBody, ApproveParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<ApproveSchema, ApproveData, ApproveParameters, TVariables, OperationError<ApproveError>, TContext>): UseMutationResult<ApproveData, OperationError<ApproveError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const approveTotal = qraft.events.approve.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const approveTotal = qraft.events.approve.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext> | MutationFiltersByMutationKey<ApproveSchema, ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const approvePendingMutationVariables = qraft.events.approve.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const approveMutationData = qraft.events.approve.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 id: id
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<ApproveData, OperationError<ApproveError>, MutationVariables<ApproveBody, ApproveParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext> | MutationFiltersByMutationKey<ApproveSchema, ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext>;
-            select?: (mutation: Mutation<ApproveData, OperationError<ApproveError>, MutationVariables<ApproveBody, ApproveParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext> | MutationFiltersByMutationKey<ApproveSchema, ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.events.approve.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.events.approve.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext> | MutationFiltersByMutationKey<ApproveSchema, ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext>): Mutation<ApproveData, ApproveError, MutationVariables<ApproveBody, ApproveParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext> | MutationFiltersByMutationKey<ApproveSchema, ApproveBody, ApproveData, ApproveParameters, OperationError<ApproveError>, TContext>): Array<Mutation<ApproveData, ApproveError, MutationVariables<ApproveBody, ApproveParameters>, TContext>>;
-        };
-        schema: ApproveSchema;
-        types: {
-            parameters: ApproveParameters;
-            data: ApproveData;
-            error: ApproveError;
-            body: ApproveBody;
-        };
-    };
-    findAllRequests: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAllRequestsSchema, FindAllRequestsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAllRequestsParameters, TMeta, TSignal> | void), client?: (schema: FindAllRequestsSchema, options: {
-            parameters: FindAllRequestsParameters;
-            signal?: TSignal;
-            meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindAllRequestsData, FindAllRequestsError>>): Promise<RequestFnResponse<FindAllRequestsData, FindAllRequestsError>>;
-        /**/
-        getQueryKey(parameters: DeepReadonly<FindAllRequestsParameters> | void): ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query without parameters
-         * ```ts
-         * const { data, isLoading } = qraft.events.findAllRequests.useQuery()
-         * ```
-         */
-        useQuery<TData = FindAllRequestsData>(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAllRequestsData, FindAllRequestsError, TData, ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAllRequestsError>>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query without parameters
-         * ```ts
-         * const { data, isLoading } = qraft.events.findAllRequests.useQuery()
-         * ```
-         */
-        useQuery<TData = FindAllRequestsData>(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<DefinedInitialDataOptions<FindAllRequestsData, FindAllRequestsError, TData, ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAllRequestsError>>;
-        /**/
-        getInfiniteQueryKey(parameters: DeepReadonly<FindAllRequestsParameters> | void): ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAllRequests.useInfiniteQuery({}, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends FindAllRequestsParameters, TQueryFnData = FindAllRequestsData, TData = OperationInfiniteData<TQueryFnData, FindAllRequestsParameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAllRequestsError, TData, ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAllRequestsError>>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAllRequests.useInfiniteQuery({}, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends FindAllRequestsParameters, TQueryFnData = FindAllRequestsData, TData = OperationInfiniteData<TQueryFnData, FindAllRequestsParameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAllRequestsError, TData, ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAllRequestsData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAllRequestsError>>;
-        /**
-         * Monitors the number of queries currently fetching, matching the provided filters.
-         * Useful for creating loading indicators or performing actions based on active requests.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
-         * @example Checks the total number of queries fetching from the specified service method,
-         * both normal and infinite. If no parameters are provided, no filtering is applied.
-         * ```ts
-         * const findAllRequestsTotal = qraft.events.findAllRequests.useIsFetching()
-         * ```
-         */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): number;
-        /**
-         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
-         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
-         * ```ts
-         * const findAllRequestsResults = qraft.events.findAllRequests.useQueries({
-         *     queries: [
-         *         {},
-         *         {}
-         *     ]
-         * });
-         * findAllRequestsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
-         * ```
-         * @example Combined results. Only the data will be returned.
-         * ```ts
-         * const findAllRequestsCombinedResults = qraft.events.findAllRequests.useQueries({
-         *     combine: results => results.map(result => result.data),
-         *     queries: [
-         *         {},
-         *         {}
-         *     ]
-         * });
-         * findAllRequestsCombinedResults.forEach(data => console.log({ data }));
-         * ```
-         */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAllRequestsSchema, FindAllRequestsParameters, FindAllRequestsData, FindAllRequestsError>>, TCombinedResult = Array<UseQueryResult<FindAllRequestsData, FindAllRequestsError>>>(options: {
-            queries: T;
-            combine?: (results: Array<UseQueryResult<FindAllRequestsData, FindAllRequestsError>>) => TCombinedResult;
-        }): TCombinedResult;
-        /**
-         * Performs asynchronous data fetching with Suspense support.
-         * Similar to useQuery but integrates with React Suspense for loading states.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
-         * @example Suspense Query without parameters
-         * ```ts
-         * const data = qraft.events.findAllRequests.useSuspenseQuery()
-         * ```
-         */
-        useSuspenseQuery<TData = FindAllRequestsData>(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAllRequestsData, FindAllRequestsError, TData, ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAllRequestsError>>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
-         *
-         * @example Suspense Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.events.findAllRequests.useSuspenseInfiniteQuery({}, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useSuspenseInfiniteQuery<TPageParam extends FindAllRequestsParameters, TData = FindAllRequestsData>(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAllRequestsData, FindAllRequestsError, OperationInfiniteData<TData, FindAllRequestsParameters>, ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAllRequestsData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAllRequestsParameters>, OperationError<FindAllRequestsError>>;
-        /**
-         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
-         * Similar to useQueries but integrates with React Suspense for loading states.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
-         * @example Basic usage with Suspense
-         * ```ts
-         * const findAllRequestsData = qraft.events.findAllRequests.useSuspenseQueries({
-         *     queries: [
-         *         {},
-         *         {}
-         *     ]
-         * });
-         * findAllRequestsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
-         * ```
-         * @example With data transformation using combine
-         * ```ts
-         * const findAllRequestsCombinedData = qraft.events.findAllRequests.useSuspenseQueries({
-         *     combine: results => results.map(result => result.data),
-         *     queries: [
-         *         {},
-         *         {}
-         *     ]
-         * });
-         * findAllRequestsCombinedData.forEach(data => console.log({ data }));
-         * ```
-         */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAllRequestsSchema, FindAllRequestsParameters, FindAllRequestsData, FindAllRequestsError>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAllRequestsData, FindAllRequestsError>>>(options: {
-            queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAllRequestsData, FindAllRequestsError>, "data">>) => TCombinedResult;
-        }): TCombinedResult;
-        /**/
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, FindAllRequestsError> | void): Promise<FindAllRequestsData>;
-        /**/
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, FindAllRequestsError> | void): Promise<void>;
-        /**/
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, FindAllRequestsError> | void): Promise<FindAllRequestsData>;
-        /**/
-        fetchInfiniteQuery<TPageParam extends FindAllRequestsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, DeepReadonly<TPageParam>, FindAllRequestsError> | void): Promise<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>>;
-        /**/
-        prefetchInfiniteQuery<TPageParam extends FindAllRequestsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, DeepReadonly<TPageParam>, FindAllRequestsError> | void): Promise<void>;
-        /**/
-        ensureInfiniteQueryData<TPageParam extends FindAllRequestsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAllRequestsSchema, FindAllRequestsData, FindAllRequestsParameters, DeepReadonly<TPageParam>, FindAllRequestsError> | void): Promise<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>>;
-        /**/
-        getQueryData(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void)): FindAllRequestsData | undefined;
-        /**/
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void)): OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters> | undefined;
-        /**/
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>,
-            data: NoInfer<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>> | undefined
-        ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>,
-            data: FindAllRequestsData | undefined
-        ]>;
-        /**/
-        getQueryState(parameters: ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | (DeepReadonly<FindAllRequestsParameters> | void)): QueryState<FindAllRequestsData, FindAllRequestsError> | undefined;
-        /**/
-        getInfiniteQueryState(parameters: DeepReadonly<FindAllRequestsParameters> | ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters> | void): QueryState<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>, FindAllRequestsError> | undefined;
-        /**/
-        setQueryData(parameters: (DeepReadonly<FindAllRequestsParameters> | undefined) | ServiceOperationQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, updater: Updater<NoInfer<FindAllRequestsData> | undefined, NoInfer<DeepReadonly<FindAllRequestsData>> | undefined>, options?: SetDataOptions): FindAllRequestsData | undefined;
-        /**/
-        setInfiniteQueryData(parameters: (DeepReadonly<FindAllRequestsParameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAllRequestsSchema, FindAllRequestsParameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAllRequestsData, FindAllRequestsParameters> | undefined;
-        /**/
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, updater: Updater<NoInfer<FindAllRequestsData> | undefined, NoInfer<FindAllRequestsData> | undefined>, options?: SetDataOptions): Array<FindAllRequestsData | undefined>;
-        /**/
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: InvalidateOptions): Promise<void>;
-        /**/
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: RefetchOptions): Promise<void>;
-        /**/
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: CancelOptions): Promise<void>;
-        /**/
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): void;
-        /**/
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>, options?: ResetOptions): Promise<void>;
-        /**/
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError> | QueryFiltersByQueryKey<FindAllRequestsSchema, FindAllRequestsData, TInfinite, FindAllRequestsParameters, FindAllRequestsError>): number;
-        schema: FindAllRequestsSchema;
-        types: {
-            parameters: FindAllRequestsParameters;
-            data: FindAllRequestsData;
-            error: FindAllRequestsError;
+            parameters: ListEventsParameters;
+            data: ListEventsData;
+            error: ListEventsError;
         };
     };
 }
-export const requestUpdate = {
-    schema: {
-        method: "put",
-        url: "/events/{id}",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: RequestUpdateSchema;
-    [QraftServiceOperationsToken]: EventsService["requestUpdate"];
-};
-export const requestDeletion = {
-    schema: {
-        method: "delete",
-        url: "/events/{id}",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: RequestDeletionSchema;
-    [QraftServiceOperationsToken]: EventsService["requestDeletion"];
-};
-export const findAll4 = {
+/** @description Retorna todos os eventos cadastrados. */
+export const listEvents = {
     schema: {
         method: "get",
         url: "/events"
     }
 } as {
-    schema: FindAll4Schema;
-    [QraftServiceOperationsToken]: EventsService["findAll4"];
-};
-export const requestCreation = {
-    schema: {
-        method: "post",
-        url: "/events",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: RequestCreationSchema;
-    [QraftServiceOperationsToken]: EventsService["requestCreation"];
-};
-export const reject = {
-    schema: {
-        method: "post",
-        url: "/events/requests/{id}/reject"
-    }
-} as {
-    schema: RejectSchema;
-    [QraftServiceOperationsToken]: EventsService["reject"];
-};
-export const approve = {
-    schema: {
-        method: "post",
-        url: "/events/requests/{id}/approve"
-    }
-} as {
-    schema: ApproveSchema;
-    [QraftServiceOperationsToken]: EventsService["approve"];
-};
-export const findAllRequests = {
-    schema: {
-        method: "get",
-        url: "/events/requests"
-    }
-} as {
-    schema: FindAllRequestsSchema;
-    [QraftServiceOperationsToken]: EventsService["findAllRequests"];
+    schema: ListEventsSchema;
+    [QraftServiceOperationsToken]: EventsService["listEvents"];
 };
 export const eventsService = {
-    requestUpdate,
-    requestDeletion,
-    findAll4,
-    requestCreation,
-    reject,
-    approve,
-    findAllRequests
+    listEvents
 } as const;
-type RequestUpdateSchema = {
-    method: "put";
-    url: "/events/{id}";
-    mediaType: [
-        "application/json"
-    ];
-};
-type RequestUpdateParameters = paths["/events/{id}"]["put"]["parameters"];
-type RequestUpdateData = paths["/events/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
-type RequestUpdateError = paths["/events/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/events/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/events/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/events/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
-type RequestUpdateBody = paths["/events/{id}"]["put"]["requestBody"]["content"]["application/json"];
-type RequestDeletionSchema = {
-    method: "delete";
-    url: "/events/{id}";
-    mediaType: [
-        "application/json"
-    ];
-};
-type RequestDeletionParameters = paths["/events/{id}"]["delete"]["parameters"];
-type RequestDeletionData = paths["/events/{id}"]["delete"]["responses"]["200"]["content"]["*/*"];
-type RequestDeletionError = paths["/events/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/events/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/events/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/events/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
-type RequestDeletionBody = paths["/events/{id}"]["delete"]["requestBody"]["content"]["application/json"];
-type FindAll4Schema = {
+type ListEventsSchema = {
     method: "get";
     url: "/events";
 };
-type FindAll4Parameters = undefined;
-type FindAll4Data = paths["/events"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAll4Error = paths["/events"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["422"]["content"]["*/*"];
-type RequestCreationSchema = {
-    method: "post";
-    url: "/events";
-    mediaType: [
-        "application/json"
-    ];
-};
-type RequestCreationParameters = {
-    query?: never;
-    header?: never;
-    path?: never;
-};
-type RequestCreationData = paths["/events"]["post"]["responses"]["200"]["content"]["*/*"];
-type RequestCreationError = paths["/events"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/events"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/events"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/events"]["post"]["responses"]["422"]["content"]["*/*"];
-type RequestCreationBody = paths["/events"]["post"]["requestBody"]["content"]["application/json"];
-type RejectSchema = {
-    method: "post";
-    url: "/events/requests/{id}/reject";
-};
-type RejectParameters = paths["/events/requests/{id}/reject"]["post"]["parameters"];
-type RejectData = null;
-type RejectError = paths["/events/requests/{id}/reject"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/events/requests/{id}/reject"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/events/requests/{id}/reject"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/events/requests/{id}/reject"]["post"]["responses"]["422"]["content"]["*/*"];
-type RejectBody = undefined;
-type ApproveSchema = {
-    method: "post";
-    url: "/events/requests/{id}/approve";
-};
-type ApproveParameters = paths["/events/requests/{id}/approve"]["post"]["parameters"];
-type ApproveData = null;
-type ApproveError = paths["/events/requests/{id}/approve"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/events/requests/{id}/approve"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/events/requests/{id}/approve"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/events/requests/{id}/approve"]["post"]["responses"]["422"]["content"]["*/*"];
-type ApproveBody = undefined;
-type FindAllRequestsSchema = {
-    method: "get";
-    url: "/events/requests";
-};
-type FindAllRequestsParameters = undefined;
-type FindAllRequestsData = paths["/events/requests"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAllRequestsError = paths["/events/requests"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/events/requests"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/events/requests"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/events/requests"]["get"]["responses"]["422"]["content"]["*/*"];
+type ListEventsParameters = undefined;
+type ListEventsData = paths["/events"]["get"]["responses"]["200"]["content"]["*/*"];
+type ListEventsError = paths["/events"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/events"]["get"]["responses"]["422"]["content"]["*/*"];

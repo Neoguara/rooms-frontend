@@ -84,10 +84,10 @@ export const Route = createFileRoute('/_authenticated/rooms/')({
   component: RoomsPage,
   loader: async ({ context: { api } }) => {
     await Promise.all([
-      api.rooms.findAll1.prefetchQuery(),
-      api.buildings.findAll5.prefetchQuery(),
-      api.roomTypes.findAll2.prefetchQuery(),
-      api.resources.findAll3.prefetchQuery(),
+      api.rooms.listRooms.prefetchQuery(),
+      api.buildings.listBuildings.prefetchQuery(),
+      api.roomTypes.listRoomTypes.prefetchQuery(),
+      api.resources.listResources.prefetchQuery(),
     ])
   },
   pendingComponent: LoadingAuthenticated,
@@ -179,14 +179,14 @@ function RoomsPage() {
 function RoomsTab({ isAdmin }: { isAdmin: boolean }) {
   const { api } = useAPI()
 
-  const { data: roomsRaw = [] } = api.rooms.findAll1.useSuspenseQuery({
+  const { data: roomsRaw = [] } = api.rooms.listRooms.useSuspenseQuery({
     query: {
       expand: ['building', 'roomType', 'resources']
     }
   })
-  const { data: buildingsRaw = [] } = api.buildings.findAll5.useSuspenseQuery()
+  const { data: buildingsRaw = [] } = api.buildings.listBuildings.useSuspenseQuery()
   const { data: roomTypesRaw = [] } =
-    api.roomTypes.findAll2.useSuspenseQuery()
+    api.roomTypes.listRoomTypes.useSuspenseQuery()
 
   const rooms = (Array.isArray(roomsRaw) ? roomsRaw : []) as RoomDetailResponse[]
   const buildings = (Array.isArray(buildingsRaw) ? buildingsRaw : []) as BuildingResponse[]
@@ -398,7 +398,6 @@ function RoomsTab({ isAdmin }: { isAdmin: boolean }) {
           const roomTypeName =
             room.roomType?.name ??
             roomTypeMap.get(room.roomTypeId ?? '')?.name ??
-            room.type ??
             'N/A'
           const resources = room.resources ?? []
 
@@ -635,7 +634,6 @@ function RoomsTab({ isAdmin }: { isAdmin: boolean }) {
                     <Badge variant="outline">
                       {viewRoom.roomType?.name ??
                         roomTypeMap.get(viewRoom.roomTypeId ?? '')?.name ??
-                        viewRoom.type ??
                         'N/A'}
                     </Badge>
                   </div>
@@ -729,13 +727,13 @@ const defaultBuildingForm = { name: '', address: '', totalFloors: '1' }
 
 function BuildingsTab({ isAdmin }: { isAdmin: boolean }) {
   const { api } = useAPI()
-  const { data: raw = [] } = api.buildings.findAll5.useSuspenseQuery()
+  const { data: raw = [] } = api.buildings.listBuildings.useSuspenseQuery()
   const buildings = (Array.isArray(raw) ? raw : []) as BuildingResponse[]
 
-  const createMutation = api.buildings.create4.useMutation()
-  const updateMutation = api.buildings.updateById3.useMutation()
-  const deleteMutation = api.buildings.deleteById4.useMutation()
-  const statusMutation = api.buildings.updateStatus3.useMutation()
+  const createMutation = api.buildings.createBuilding.useMutation()
+  const updateMutation = api.buildings.updateBuilding.useMutation()
+  const deleteMutation = api.buildings.deleteBuilding.useMutation()
+  const statusMutation = api.buildings.updateBuildingStatus.useMutation()
 
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editing, setEditing] = useState<BuildingResponse | null>(null)
@@ -787,7 +785,7 @@ function BuildingsTab({ isAdmin }: { isAdmin: boolean }) {
         await createMutation.mutateAsync({ body })
         toast.success('Prédio cadastrado com sucesso.')
       }
-      await api.buildings.findAll5.invalidateQueries()
+      await api.buildings.listBuildings.invalidateQueries()
       setIsFormOpen(false)
     } catch {
       toast.error(editing ? 'Erro ao atualizar prédio.' : 'Erro ao cadastrar prédio.')
@@ -801,7 +799,7 @@ function BuildingsTab({ isAdmin }: { isAdmin: boolean }) {
     setIsDeleting(true)
     try {
       await deleteMutation.mutateAsync({ path: { id: toDelete.id } })
-      await api.buildings.findAll5.invalidateQueries()
+      await api.buildings.listBuildings.invalidateQueries()
       toast.success('Prédio excluído com sucesso.')
       setIsDeleteOpen(false)
     } catch {
@@ -819,7 +817,7 @@ function BuildingsTab({ isAdmin }: { isAdmin: boolean }) {
           path: { id: b.id! },
           body: { status: next },
         })
-        await api.buildings.findAll5.invalidateQueries()
+        await api.buildings.listBuildings.invalidateQueries()
         toast.success(`Prédio ${next === 'ACTIVE' ? 'ativado' : 'desativado'}.`)
       } catch {
         toast.error('Erro ao atualizar status.')
@@ -1029,13 +1027,13 @@ const defaultRoomTypeForm = {
 
 function RoomTypesTab({ isAdmin }: { isAdmin: boolean }) {
   const { api } = useAPI()
-  const { data: raw = [] } = api.roomTypes.findAll2.useSuspenseQuery()
+  const { data: raw = [] } = api.roomTypes.listRoomTypes.useSuspenseQuery()
   const roomTypes = (Array.isArray(raw) ? raw : []) as RoomTypeResponse[]
 
-  const createMutation = api.roomTypes.create2.useMutation()
-  const updateMutation = api.roomTypes.updateById1.useMutation()
-  const deleteMutation = api.roomTypes.deleteById2.useMutation()
-  const statusMutation = api.roomTypes.updateStatus1.useMutation()
+  const createMutation = api.roomTypes.createRoomType.useMutation()
+  const updateMutation = api.roomTypes.updateRoomType.useMutation()
+  const deleteMutation = api.roomTypes.deleteRoomType.useMutation()
+  const statusMutation = api.roomTypes.updateRoomTypeStatus.useMutation()
 
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editing, setEditing] = useState<RoomTypeResponse | null>(null)
@@ -1091,7 +1089,7 @@ function RoomTypesTab({ isAdmin }: { isAdmin: boolean }) {
         await createMutation.mutateAsync({ body })
         toast.success('Tipo de sala cadastrado com sucesso.')
       }
-      await api.roomTypes.findAll2.invalidateQueries()
+      await api.roomTypes.listRoomTypes.invalidateQueries()
       setIsFormOpen(false)
     } catch {
       toast.error(
@@ -1107,7 +1105,7 @@ function RoomTypesTab({ isAdmin }: { isAdmin: boolean }) {
     setIsDeleting(true)
     try {
       await deleteMutation.mutateAsync({ path: { id: toDelete.id } })
-      await api.roomTypes.findAll2.invalidateQueries()
+      await api.roomTypes.listRoomTypes.invalidateQueries()
       toast.success('Tipo de sala excluído com sucesso.')
       setIsDeleteOpen(false)
     } catch {
@@ -1120,13 +1118,14 @@ function RoomTypesTab({ isAdmin }: { isAdmin: boolean }) {
   const handleToggleStatus = useCallback(
     async (rt: RoomTypeResponse) => {
       try {
+        const next = rt.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         await statusMutation.mutateAsync({
           path: { id: rt.id! },
-          body: { active: !rt.active },
+          body: { status: next },
         })
-        await api.roomTypes.findAll2.invalidateQueries()
+        await api.roomTypes.listRoomTypes.invalidateQueries()
         toast.success(
-          `Tipo ${rt.active ? 'desativado' : 'ativado'} com sucesso.`,
+          `Tipo ${next === 'INACTIVE' ? 'desativado' : 'ativado'} com sucesso.`,
         )
       } catch {
         toast.error('Erro ao atualizar status.')
@@ -1200,9 +1199,9 @@ function RoomTypesTab({ isAdmin }: { isAdmin: boolean }) {
                   </TableCell>
                   <TableCell>
                     <Badge
-                      variant={rt.active !== false ? 'default' : 'secondary'}
+                      variant={rt.status === 'ACTIVE' ? 'default' : 'secondary'}
                     >
-                      {rt.active !== false ? 'Ativo' : 'Inativo'}
+                      {rt.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
                     </Badge>
                   </TableCell>
                   {isAdmin && (
@@ -1221,12 +1220,12 @@ function RoomTypesTab({ isAdmin }: { isAdmin: boolean }) {
                           <DropdownMenuItem
                             onClick={() => handleToggleStatus(rt)}
                           >
-                            {rt.active !== false ? (
+                            {rt.status === 'ACTIVE' ? (
                               <XCircle className="mr-2 size-4" />
                             ) : (
                               <CheckCircle2 className="mr-2 size-4" />
                             )}
-                            {rt.active !== false ? 'Desativar' : 'Ativar'}
+                            {rt.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
@@ -1377,13 +1376,13 @@ const defaultResourceForm = { name: '', description: '', icon: '' }
 
 function ResourcesTab({ isAdmin }: { isAdmin: boolean }) {
   const { api } = useAPI()
-  const { data: raw = [] } = api.resources.findAll3.useSuspenseQuery()
+  const { data: raw = [] } = api.resources.listResources.useSuspenseQuery()
   const resources = (Array.isArray(raw) ? raw : []) as ResourceResponse[]
 
-  const createMutation = api.resources.create3.useMutation()
-  const updateMutation = api.resources.updateById2.useMutation()
-  const deleteMutation = api.resources.deleteById3.useMutation()
-  const statusMutation = api.resources.updateStatus2.useMutation()
+  const createMutation = api.resources.createResource.useMutation()
+  const updateMutation = api.resources.updateResource.useMutation()
+  const deleteMutation = api.resources.deleteResource.useMutation()
+  const statusMutation = api.resources.updateResourceStatus.useMutation()
 
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editing, setEditing] = useState<ResourceResponse | null>(null)
@@ -1435,7 +1434,7 @@ function ResourcesTab({ isAdmin }: { isAdmin: boolean }) {
         await createMutation.mutateAsync({ body })
         toast.success('Recurso cadastrado com sucesso.')
       }
-      await api.resources.findAll3.invalidateQueries()
+      await api.resources.listResources.invalidateQueries()
       setIsFormOpen(false)
     } catch {
       toast.error(
@@ -1451,7 +1450,7 @@ function ResourcesTab({ isAdmin }: { isAdmin: boolean }) {
     setIsDeleting(true)
     try {
       await deleteMutation.mutateAsync({ path: { id: toDelete.id } })
-      await api.resources.findAll3.invalidateQueries()
+      await api.resources.listResources.invalidateQueries()
       toast.success('Recurso excluído com sucesso.')
       setIsDeleteOpen(false)
     } catch {
@@ -1464,12 +1463,13 @@ function ResourcesTab({ isAdmin }: { isAdmin: boolean }) {
   const handleToggleStatus = useCallback(
     async (r: ResourceResponse) => {
       try {
+        const next = r.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         await statusMutation.mutateAsync({
           path: { id: r.id! },
-          body: { active: !r.active },
+          body: { status: next },
         })
-        await api.resources.findAll3.invalidateQueries()
-        toast.success(`Recurso ${r.active ? 'desativado' : 'ativado'} com sucesso.`)
+        await api.resources.listResources.invalidateQueries()
+        toast.success(`Recurso ${next === 'INACTIVE' ? 'desativado' : 'ativado'} com sucesso.`)
       } catch {
         toast.error('Erro ao atualizar status.')
       }
@@ -1530,9 +1530,9 @@ function ResourcesTab({ isAdmin }: { isAdmin: boolean }) {
                   </TableCell>
                   <TableCell>
                     <Badge
-                      variant={r.active !== false ? 'default' : 'secondary'}
+                      variant={r.status === 'ACTIVE' ? 'default' : 'secondary'}
                     >
-                      {r.active !== false ? 'Ativo' : 'Inativo'}
+                      {r.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
                     </Badge>
                   </TableCell>
                   {isAdmin && (
@@ -1551,12 +1551,12 @@ function ResourcesTab({ isAdmin }: { isAdmin: boolean }) {
                           <DropdownMenuItem
                             onClick={() => handleToggleStatus(r)}
                           >
-                            {r.active !== false ? (
+                            {r.status === 'ACTIVE' ? (
                               <XCircle className="mr-2 size-4" />
                             ) : (
                               <CheckCircle2 className="mr-2 size-4" />
                             )}
-                            {r.active !== false ? 'Desativar' : 'Ativar'}
+                            {r.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem

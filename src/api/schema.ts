@@ -11,9 +11,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** @description Retorna os dados de um usuário pelo seu ID. */
         get: operations["findById"];
+        /** @description Atualiza nome, email, senha e papel do usuário. */
         put: operations["update"];
         post?: never;
+        /** @description Remove um usuário (soft delete). O status passa para DELETED e o usuário deixa de ser acessível. */
         delete: operations["deleteById"];
         options?: never;
         head?: never;
@@ -28,24 +31,15 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna os dados de uma sala pelo seu ID. */
-        get: operations["findById_1"];
+        get: operations["getRoom"];
         /** @description Atualiza os dados da sala. */
-        put: operations["updateById"];
+        put: operations["updateRoom"];
         post?: never;
-        /** @description Arquiva uma sala pelo seu ID, alterando seu status para ARCHIVED. */
-        delete: operations["deleteById_1"];
+        /** @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível. */
+        delete: operations["deleteRoom"];
         options?: never;
         head?: never;
-        /**
-         * @description Altera o status da sala. Transições permitidas:
-         *     - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
-         *     - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
-         *     - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
-         *     - **ARCHIVED**: arquiva a sala independente do status atual.
-         *
-         *     Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
-         */
-        patch: operations["updateStatus"];
+        patch?: never;
         trace?: never;
     };
     "/rooms/{id}/resources": {
@@ -57,7 +51,7 @@ export interface paths {
         };
         get?: never;
         /** @description Substitui todos os recursos da sala pela lista informada. */
-        put: operations["replaceResources"];
+        put: operations["replaceRoomResources"];
         post?: never;
         delete?: never;
         options?: never;
@@ -73,16 +67,15 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        get: operations["findById_2"];
+        get: operations["getRoomType"];
         /** @description Atualiza os dados de um tipo de sala. */
-        put: operations["updateById_1"];
+        put: operations["updateRoomType"];
         post?: never;
-        /** @description Desativa um tipo de sala pelo seu ID (soft delete). */
-        delete: operations["deleteById_2"];
+        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        delete: operations["deleteRoomType"];
         options?: never;
         head?: never;
-        /** @description Ativa ou desativa um tipo de sala pelo seu ID. */
-        patch: operations["updateStatus_1"];
+        patch?: never;
         trace?: never;
     };
     "/resources/{id}": {
@@ -93,29 +86,12 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna os dados de um recurso pelo seu ID. */
-        get: operations["findById_3"];
+        get: operations["getResource"];
         /** @description Atualiza nome, descrição e ícone do recurso. */
-        put: operations["updateById_2"];
+        put: operations["updateResource"];
         post?: never;
-        /** @description Desativa um recurso pelo seu ID (soft delete). */
-        delete: operations["deleteById_3"];
-        options?: never;
-        head?: never;
-        /** @description Ativa ou desativa um recurso pelo seu ID. */
-        patch: operations["updateStatus_2"];
-        trace?: never;
-    };
-    "/events/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["requestUpdate"];
-        post?: never;
-        delete: operations["requestDeletion"];
+        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        delete: operations["deleteResource"];
         options?: never;
         head?: never;
         patch?: never;
@@ -129,23 +105,15 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        get: operations["findById_4"];
+        get: operations["getBuilding"];
         /** @description Atualiza nome, endereço e total de andares do edifício. */
-        put: operations["updateById_3"];
+        put: operations["updateBuilding"];
         post?: never;
-        /** @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED. */
-        delete: operations["deleteById_4"];
+        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        delete: operations["deleteBuilding"];
         options?: never;
         head?: never;
-        /**
-         * @description Altera o status do edifício. Transições permitidas:
-         *     - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         *     - **INACTIVE**: desativa um edifício ACTIVE.
-         *     - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         *     Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         */
-        patch: operations["updateStatus_3"];
+        patch?: never;
         trace?: never;
     };
     "/users": {
@@ -155,8 +123,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** @description Retorna todos os usuários cadastrados. */
         get: operations["findAll"];
         put?: never;
+        /** @description Cadastra um novo usuário com status inicial ACTIVE. */
         post: operations["create"];
         delete?: never;
         options?: never;
@@ -172,10 +142,10 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna todas as salas cadastradas. */
-        get: operations["findAll_1"];
+        get: operations["listRooms"];
         put?: never;
         /** @description Cadastra uma nova sala com status inicial ACTIVE. */
-        post: operations["create_1"];
+        post: operations["createRoom"];
         delete?: never;
         options?: never;
         head?: never;
@@ -190,10 +160,10 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna todos os tipos de sala cadastrados. */
-        get: operations["findAll_2"];
+        get: operations["listRoomTypes"];
         put?: never;
         /** @description Cadastra um novo tipo de sala. */
-        post: operations["create_2"];
+        post: operations["createRoomType"];
         delete?: never;
         options?: never;
         head?: never;
@@ -208,33 +178,17 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna todos os recursos cadastrados. */
-        get: operations["findAll_3"];
+        get: operations["listResources"];
         put?: never;
         /** @description Cadastra um novo recurso. */
-        post: operations["create_3"];
+        post: operations["createResource"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/events": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["findAll_4"];
-        put?: never;
-        post: operations["requestCreation"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/events/requests/{id}/reject": {
+    "/event-requests/{id}/reject": {
         parameters: {
             query?: never;
             header?: never;
@@ -243,14 +197,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["reject"];
+        /** @description Rejeita uma solicitação sem alterar o evento. */
+        post: operations["rejectEventRequest"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/events/requests/{id}/approve": {
+    "/event-requests/{id}/approve": {
         parameters: {
             query?: never;
             header?: never;
@@ -259,7 +214,59 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["approve"];
+        /** @description Aprova uma solicitação, efetivando a operação sobre o evento. */
+        post: operations["approveEventRequest"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/event-requests/update-event": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Solicita a atualização de um evento existente. Fica pendente até ser aprovada ou rejeitada. */
+        post: operations["requestEventUpdate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/event-requests/create-event": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Solicita a criação de um novo evento. Fica pendente até ser aprovada ou rejeitada. */
+        post: operations["requestEventCreation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/event-requests/cancel-event": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Solicita o cancelamento de um evento existente. Fica pendente até ser aprovada ou rejeitada. */
+        post: operations["requestEventCancellation"];
         delete?: never;
         options?: never;
         head?: never;
@@ -274,10 +281,10 @@ export interface paths {
             cookie?: never;
         };
         /** @description Retorna todos os edifícios cadastrados. */
-        get: operations["findAll_5"];
+        get: operations["listBuildings"];
         put?: never;
         /** @description Cadastra um novo edifício com status inicial ACTIVE. */
-        post: operations["create_4"];
+        post: operations["createBuilding"];
         delete?: never;
         options?: never;
         head?: never;
@@ -300,14 +307,141 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/events/requests": {
+    "/users/{id}/status": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["findAllRequests"];
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @description Altera o status do usuário. Transições permitidas:
+         *     - **ACTIVE**: ativa um usuário INACTIVE.
+         *     - **INACTIVE**: desativa um usuário ACTIVE.
+         *
+         *     Usuários com status DELETED não podem ser modificados.
+         *     Para remover permanentemente um usuário use DELETE /users/{id}.
+         */
+        patch: operations["updateStatus"];
+        trace?: never;
+    };
+    "/rooms/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @description Altera o status da sala. Transições permitidas:
+         *     - **AVAILABLE**: ativa uma sala INACTIVE ou MAINTENANCE. Se a sala estiver ARCHIVED, restaura para AVAILABLE.
+         *     - **INACTIVE**: desativa uma sala AVAILABLE ou MAINTENANCE. Inválido se ARCHIVED.
+         *     - **MAINTENANCE**: coloca a sala em manutenção. Inválido se ARCHIVED.
+         *     - **ARCHIVED**: arquiva a sala independente do status atual.
+         *
+         *     Transições inválidas retornam 422 (ex: tentar desativar ou colocar em manutenção uma sala ARCHIVED).
+         *     Para remover permanentemente uma sala use DELETE /rooms/{id}.
+         */
+        patch: operations["updateRoomStatus"];
+        trace?: never;
+    };
+    "/room-types/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        patch: operations["updateRoomTypeStatus"];
+        trace?: never;
+    };
+    "/resources/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        patch: operations["updateResourceStatus"];
+        trace?: never;
+    };
+    "/buildings/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @description Altera o status do edifício. Transições permitidas:
+         *     - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         *     - **INACTIVE**: desativa um edifício ACTIVE.
+         *     - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         *     Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         *     Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         */
+        patch: operations["updateBuildingStatus"];
+        trace?: never;
+    };
+    "/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Retorna todos os eventos cadastrados. */
+        get: operations["listEvents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/event-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Retorna todas as solicitações de eventos. */
+        get: operations["listEventRequests"];
         put?: never;
         post?: never;
         delete?: never;
@@ -334,7 +468,6 @@ export interface components {
             /** Format: email */
             email: string;
             password?: string;
-            isActive?: boolean;
             /** @enum {string} */
             role?: "ADMIN" | "USER";
         };
@@ -345,18 +478,16 @@ export interface components {
             email?: string;
             /** @enum {string} */
             role?: "ADMIN" | "USER";
-            isActive?: boolean;
+            /** @enum {string} */
+            status?: "ACTIVE" | "INACTIVE" | "DELETED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
-            /** Format: date-time */
-            deletedAt?: string;
         };
         UpdateRoomRequest: {
             name?: string;
             code?: string;
-            type?: string;
             /** Format: uuid */
             roomTypeId?: string;
             /** Format: uuid */
@@ -371,7 +502,6 @@ export interface components {
             id?: string;
             name?: string;
             code?: string;
-            type?: string;
             /** Format: uuid */
             roomTypeId?: string;
             /** Format: uuid */
@@ -381,7 +511,7 @@ export interface components {
             /** Format: int32 */
             capacity?: number;
             /** @enum {string} */
-            status?: "AVAILABLE" | "MAINTENANCE" | "INACTIVE" | "ARCHIVED";
+            status?: "AVAILABLE" | "MAINTENANCE" | "INACTIVE" | "ARCHIVED" | "DELETED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -410,7 +540,8 @@ export interface components {
             defaultCapacity?: string;
             color?: string;
             icon?: string;
-            active?: boolean;
+            /** @enum {string} */
+            status?: "ACTIVE" | "INACTIVE" | "DELETED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -427,13 +558,69 @@ export interface components {
             name?: string;
             description?: string;
             icon?: string;
-            active?: boolean;
+            /** @enum {string} */
+            status?: "ACTIVE" | "INACTIVE" | "DELETED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
         };
+        UpdateBuildingRequest: {
+            name?: string;
+            address?: string;
+            /** Format: int32 */
+            totalFloors?: number;
+        };
+        BuildingResponse: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            address?: string;
+            /** Format: int32 */
+            totalFloors?: number;
+            /** @enum {string} */
+            status?: "ACTIVE" | "INACTIVE" | "ARCHIVED" | "DELETED";
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        CreateUserRequest: {
+            name: string;
+            /** Format: email */
+            email: string;
+            password: string;
+            /** @enum {string} */
+            role: "ADMIN" | "USER";
+        };
+        CreateRoomRequest: {
+            name?: string;
+            code?: string;
+            /** Format: uuid */
+            roomTypeId?: string;
+            /** Format: uuid */
+            buildingId?: string;
+            /** Format: int32 */
+            floor?: number;
+            /** Format: int32 */
+            capacity?: number;
+            resourceIds?: string[];
+        };
+        CreateRoomTypeRequest: {
+            name?: string;
+            description?: string;
+            defaultCapacity?: string;
+            color?: string;
+            icon?: string;
+        };
+        CreateResourceRequest: {
+            name?: string;
+            description?: string;
+            icon?: string;
+        };
         UpdateEventRequest: {
+            /** Format: uuid */
+            eventId?: string;
             title?: string;
             description?: string;
             /** Format: date-time */
@@ -459,60 +646,6 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
         };
-        UpdateBuildingRequest: {
-            name?: string;
-            address?: string;
-            /** Format: int32 */
-            totalFloors?: number;
-        };
-        BuildingResponse: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            address?: string;
-            /** Format: int32 */
-            totalFloors?: number;
-            /** @enum {string} */
-            status?: "ACTIVE" | "INACTIVE" | "ARCHIVED";
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-        };
-        CreateUserRequest: {
-            name: string;
-            /** Format: email */
-            email: string;
-            password: string;
-            /** @enum {string} */
-            role: "ADMIN" | "USER";
-        };
-        CreateRoomRequest: {
-            name?: string;
-            code?: string;
-            type?: string;
-            /** Format: uuid */
-            roomTypeId?: string;
-            /** Format: uuid */
-            buildingId?: string;
-            /** Format: int32 */
-            floor?: number;
-            /** Format: int32 */
-            capacity?: number;
-            resourceIds?: string[];
-        };
-        CreateRoomTypeRequest: {
-            name?: string;
-            description?: string;
-            defaultCapacity?: string;
-            color?: string;
-            icon?: string;
-        };
-        CreateResourceRequest: {
-            name?: string;
-            description?: string;
-            icon?: string;
-        };
         CreateEventRequest: {
             title?: string;
             description?: string;
@@ -527,6 +660,13 @@ export interface components {
             userId?: string;
             /** Format: uuid */
             roomId?: string;
+        };
+        CancelEventRequest: {
+            /** Format: uuid */
+            eventId?: string;
+            /** Format: uuid */
+            userId?: string;
+            justification?: string;
         };
         CreateBuildingRequest: {
             name?: string;
@@ -545,8 +685,7 @@ export interface components {
             id?: string;
             name?: string;
             email?: string;
-            /** @enum {string} */
-            role?: "ADMIN" | "USER";
+            role?: string;
             isActive?: boolean;
             /** Format: date-time */
             createdAt?: string;
@@ -555,15 +694,21 @@ export interface components {
             /** Format: date-time */
             deletedAt?: string;
         };
+        UpdateUserStatusRequest: {
+            /** @enum {string} */
+            status?: "ACTIVE" | "INACTIVE";
+        };
         UpdateRoomStatusRequest: {
             /** @enum {string} */
-            status?: "AVAILABLE" | "MAINTENANCE" | "INACTIVE" | "ARCHIVED";
+            status?: "AVAILABLE" | "INACTIVE" | "ARCHIVED" | "MAINTENANCE";
         };
         UpdateRoomTypeStatusRequest: {
-            active?: boolean;
+            /** @enum {string} */
+            status?: "ACTIVE" | "INACTIVE";
         };
         UpdateResourceStatusRequest: {
-            active?: boolean;
+            /** @enum {string} */
+            status?: "ACTIVE" | "INACTIVE";
         };
         UpdateBuildingStatusRequest: {
             /** @enum {string} */
@@ -574,7 +719,6 @@ export interface components {
             id?: string;
             name?: string;
             code?: string;
-            type?: string;
             /** Format: uuid */
             roomTypeId?: string;
             /** Format: uuid */
@@ -584,7 +728,7 @@ export interface components {
             /** Format: int32 */
             capacity?: number;
             /** @enum {string} */
-            status?: "AVAILABLE" | "MAINTENANCE" | "INACTIVE" | "ARCHIVED";
+            status?: "AVAILABLE" | "MAINTENANCE" | "INACTIVE" | "ARCHIVED" | "DELETED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -606,12 +750,11 @@ export interface components {
             endAt?: string;
             isAllDay?: boolean;
             recurrenceRule?: string;
+            status?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
-            /** Format: date-time */
-            deletedAt?: string;
         };
         EventChangeItemResponse: {
             /** Format: uuid */
@@ -637,7 +780,7 @@ export interface components {
             oldRecurrenceRule?: string;
             newRecurrenceRule?: string;
         };
-        EventChangeRequestResponse: {
+        EventRequestResponse: {
             /** Format: uuid */
             id?: string;
             /** Format: uuid */
@@ -650,11 +793,6 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
             changeItem?: components["schemas"]["EventChangeItemResponse"];
-        };
-        DeleteEventRequest: {
-            /** Format: uuid */
-            userId?: string;
-            justification?: string;
         };
     };
     responses: never;
@@ -670,13 +808,14 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
+                /** @description ID do usuário */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Usuário encontrado */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -694,7 +833,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Not Found */
+            /** @description Usuário não encontrado */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -728,6 +867,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
+                /** @description ID do usuário */
                 id: string;
             };
             cookie?: never;
@@ -738,7 +878,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Usuário atualizado com sucesso */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -756,7 +896,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Not Found */
+            /** @description Usuário não encontrado */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -774,7 +914,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Dados inválidos */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -790,14 +930,15 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
+                /** @description ID do usuário */
                 id: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Usuário removido com sucesso */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -812,7 +953,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Not Found */
+            /** @description Usuário não encontrado */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -841,7 +982,7 @@ export interface operations {
             };
         };
     };
-    findById_1: {
+    getRoom: {
         parameters: {
             query?: {
                 /** @description Expandable fields: building, roomType, resources */
@@ -903,7 +1044,7 @@ export interface operations {
             };
         };
     };
-    updateById: {
+    updateRoom: {
         parameters: {
             query?: never;
             header?: never;
@@ -966,7 +1107,7 @@ export interface operations {
             };
         };
     };
-    deleteById_1: {
+    deleteRoom: {
         parameters: {
             query?: never;
             header?: never;
@@ -978,7 +1119,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Sala arquivada com sucesso */
+            /** @description Sala removida com sucesso */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -1023,70 +1164,7 @@ export interface operations {
             };
         };
     };
-    updateStatus: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description ID da sala */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateRoomStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description Status atualizado com sucesso */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["RoomResponse"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Sala não encontrada */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Transição de status inválida */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-        };
-    };
-    replaceResources: {
+    replaceRoomResources: {
         parameters: {
             query?: never;
             header?: never;
@@ -1149,7 +1227,7 @@ export interface operations {
             };
         };
     };
-    findById_2: {
+    getRoomType: {
         parameters: {
             query?: never;
             header?: never;
@@ -1208,7 +1286,7 @@ export interface operations {
             };
         };
     };
-    updateById_1: {
+    updateRoomType: {
         parameters: {
             query?: never;
             header?: never;
@@ -1271,7 +1349,7 @@ export interface operations {
             };
         };
     };
-    deleteById_2: {
+    deleteRoomType: {
         parameters: {
             query?: never;
             header?: never;
@@ -1283,7 +1361,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Tipo de sala desativado com sucesso */
+            /** @description Tipo de sala removido com sucesso */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -1328,70 +1406,7 @@ export interface operations {
             };
         };
     };
-    updateStatus_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description ID do tipo de sala */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateRoomTypeStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description Status atualizado com sucesso */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["RoomTypeResponse"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Tipo de sala não encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Unprocessable Content */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-        };
-    };
-    findById_3: {
+    getResource: {
         parameters: {
             query?: never;
             header?: never;
@@ -1450,7 +1465,7 @@ export interface operations {
             };
         };
     };
-    updateById_2: {
+    updateResource: {
         parameters: {
             query?: never;
             header?: never;
@@ -1513,7 +1528,7 @@ export interface operations {
             };
         };
     };
-    deleteById_3: {
+    deleteResource: {
         parameters: {
             query?: never;
             header?: never;
@@ -1525,7 +1540,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Recurso desativado com sucesso */
+            /** @description Recurso removido com sucesso */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -1570,194 +1585,7 @@ export interface operations {
             };
         };
     };
-    updateStatus_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description ID do recurso */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateResourceStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description Status atualizado com sucesso */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ResourceResponse"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Recurso não encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Unprocessable Content */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-        };
-    };
-    requestUpdate: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateEventRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CreateEventRequestResponse"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Unprocessable Content */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-        };
-    };
-    requestDeletion: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DeleteEventRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CreateEventRequestResponse"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Unprocessable Content */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-        };
-    };
-    findById_4: {
+    getBuilding: {
         parameters: {
             query?: never;
             header?: never;
@@ -1816,7 +1644,7 @@ export interface operations {
             };
         };
     };
-    updateById_3: {
+    updateBuilding: {
         parameters: {
             query?: never;
             header?: never;
@@ -1879,7 +1707,7 @@ export interface operations {
             };
         };
     };
-    deleteById_4: {
+    deleteBuilding: {
         parameters: {
             query?: never;
             header?: never;
@@ -1891,7 +1719,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Edifício arquivado com sucesso */
+            /** @description Edifício removido com sucesso */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -1936,69 +1764,6 @@ export interface operations {
             };
         };
     };
-    updateStatus_3: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description ID do edifício */
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateBuildingStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description Status atualizado com sucesso */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BuildingResponse"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Edifício não encontrado */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Transição de status inválida */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-        };
-    };
     findAll: {
         parameters: {
             query?: never;
@@ -2008,7 +1773,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lista retornada com sucesso */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2068,8 +1833,8 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Usuário criado com sucesso */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2095,7 +1860,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Conflict */
+            /** @description Email já cadastrado */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -2104,7 +1869,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Dados inválidos */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -2115,7 +1880,7 @@ export interface operations {
             };
         };
     };
-    findAll_1: {
+    listRooms: {
         parameters: {
             query?: {
                 /** @description Expandable fields: building, roomType, resources */
@@ -2174,7 +1939,7 @@ export interface operations {
             };
         };
     };
-    create_1: {
+    createRoom: {
         parameters: {
             query?: never;
             header?: never;
@@ -2234,7 +1999,7 @@ export interface operations {
             };
         };
     };
-    findAll_2: {
+    listRoomTypes: {
         parameters: {
             query?: never;
             header?: never;
@@ -2290,7 +2055,7 @@ export interface operations {
             };
         };
     };
-    create_2: {
+    createRoomType: {
         parameters: {
             query?: never;
             header?: never;
@@ -2350,7 +2115,7 @@ export interface operations {
             };
         };
     };
-    findAll_3: {
+    listResources: {
         parameters: {
             query?: never;
             header?: never;
@@ -2406,7 +2171,7 @@ export interface operations {
             };
         };
     };
-    create_3: {
+    createResource: {
         parameters: {
             query?: never;
             header?: never;
@@ -2466,23 +2231,24 @@ export interface operations {
             };
         };
     };
-    findAll_4: {
+    rejectEventRequest: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description ID da solicitação */
+                id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Solicitação rejeitada com sucesso */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "*/*": components["schemas"]["EventResponse"][];
-                };
+                content?: never;
             };
             /** @description Bad Request */
             400: {
@@ -2493,7 +2259,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Not Found */
+            /** @description Solicitação não encontrada */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2511,7 +2277,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Solicitação já foi processada */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -2522,7 +2288,124 @@ export interface operations {
             };
         };
     };
-    requestCreation: {
+    approveEventRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID da solicitação */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Solicitação aprovada com sucesso */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Solicitação não encontrada */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Solicitação já foi processada */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    requestEventUpdate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateEventRequest"];
+            };
+        };
+        responses: {
+            /** @description Solicitação registrada com sucesso */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CreateEventRequestResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Evento não encontrado */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Dados inválidos */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    requestEventCreation: {
         parameters: {
             query?: never;
             header?: never;
@@ -2535,8 +2418,8 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Solicitação registrada com sucesso */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2571,7 +2454,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Dados inválidos */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -2582,23 +2465,27 @@ export interface operations {
             };
         };
     };
-    reject: {
+    requestEventCancellation: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelEventRequest"];
+            };
+        };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Solicitação registrada com sucesso */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["CreateEventRequestResponse"];
+                };
             };
             /** @description Bad Request */
             400: {
@@ -2609,7 +2496,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Not Found */
+            /** @description Evento não encontrado */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -2627,7 +2514,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Dados inválidos */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -2638,63 +2525,7 @@ export interface operations {
             };
         };
     };
-    approve: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Conflict */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-            /** @description Unprocessable Content */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ErrorResponse"];
-                };
-            };
-        };
-    };
-    findAll_5: {
+    listBuildings: {
         parameters: {
             query?: never;
             header?: never;
@@ -2750,7 +2581,7 @@ export interface operations {
             };
         };
     };
-    create_4: {
+    createBuilding: {
         parameters: {
             query?: never;
             header?: never;
@@ -2870,7 +2701,322 @@ export interface operations {
             };
         };
     };
-    findAllRequests: {
+    updateStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID do usuário */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateUserStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description Status atualizado com sucesso */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UserResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Usuário não encontrado */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Transição de status inválida */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    updateRoomStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID da sala */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateRoomStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description Status atualizado com sucesso */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoomResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Sala não encontrada */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Transição de status inválida */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    updateRoomTypeStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID do tipo de sala */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateRoomTypeStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description Status atualizado com sucesso */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoomTypeResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Tipo de sala não encontrado */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Transição de status inválida */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    updateResourceStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID do recurso */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateResourceStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description Status atualizado com sucesso */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ResourceResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Recurso não encontrado */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Transição de status inválida */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    updateBuildingStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID do edifício */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBuildingStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description Status atualizado com sucesso */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BuildingResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Edifício não encontrado */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Transição de status inválida */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    listEvents: {
         parameters: {
             query?: never;
             header?: never;
@@ -2879,13 +3025,69 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lista retornada com sucesso */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EventChangeRequestResponse"][];
+                    "*/*": components["schemas"]["EventResponse"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    listEventRequests: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lista retornada com sucesso */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["EventRequestResponse"][];
                 };
             };
             /** @description Bad Request */

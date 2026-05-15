@@ -45,12 +45,12 @@ import type { components } from '@/api/schema'
 import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { toast } from 'sonner'
 
-type EventChangeRequestResponse = components['schemas']['EventChangeRequestResponse']
+type EventRequestResponse = components['schemas']['EventRequestResponse']
 
 export const Route = createFileRoute('/_authenticated/solicitacoes/')({
   component: SolicitacoesPage,
   loader: async ({ context: { api } }) => {
-    await api.events.findAllRequests.prefetchQuery()
+    await api.eventRequests.listEventRequests.prefetchQuery()
   },
   pendingComponent: LoadingAuthenticated,
 })
@@ -90,7 +90,7 @@ function getTypeIcon(type?: string) {
   }
 }
 
-function getRequestTitle(r: EventChangeRequestResponse) {
+function getRequestTitle(r: EventRequestResponse) {
   return (
     r.changeItem?.newTitle ??
     r.changeItem?.oldTitle ??
@@ -98,15 +98,15 @@ function getRequestTitle(r: EventChangeRequestResponse) {
   )
 }
 
-function isPending(r: EventChangeRequestResponse) {
+function isPending(r: EventRequestResponse) {
   return normalizeStatus(r.status) === 'PENDING'
 }
 
-function isApproved(r: EventChangeRequestResponse) {
+function isApproved(r: EventRequestResponse) {
   return normalizeStatus(r.status) === 'APPROVED'
 }
 
-function isRejected(r: EventChangeRequestResponse) {
+function isRejected(r: EventRequestResponse) {
   return normalizeStatus(r.status) === 'REJECTED'
 }
 
@@ -115,13 +115,13 @@ function SolicitacoesPage() {
   const { user } = useAuth()
   const isAdmin = user?.role === 'ADMIN'
 
-  const { data: rawData = [] } = api.events.findAllRequests.useSuspenseQuery()
+  const { data: rawData = [] } = api.eventRequests.listEventRequests.useSuspenseQuery()
   const requests = Array.isArray(rawData)
-    ? (rawData as EventChangeRequestResponse[])
+    ? (rawData as EventRequestResponse[])
     : []
 
-  const approveMutation = api.events.approve.useMutation()
-  const rejectMutation = api.events.reject.useMutation()
+  const approveMutation = api.eventRequests.approveEventRequest.useMutation()
+  const rejectMutation = api.eventRequests.rejectEventRequest.useMutation()
 
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
@@ -129,9 +129,9 @@ function SolicitacoesPage() {
   const itemsPerPage = 10
 
   const [approveTarget, setApproveTarget] =
-    useState<EventChangeRequestResponse | null>(null)
+    useState<EventRequestResponse | null>(null)
   const [rejectTarget, setRejectTarget] =
-    useState<EventChangeRequestResponse | null>(null)
+    useState<EventRequestResponse | null>(null)
 
   const stats = useMemo(
     () => ({
@@ -173,11 +173,11 @@ function SolicitacoesPage() {
     setCurrentPage(1)
   }
 
-  async function handleApprove(r: EventChangeRequestResponse) {
+  async function handleApprove(r: EventRequestResponse) {
     if (!r.id) return
     try {
       await approveMutation.mutateAsync({ path: { id: r.id } })
-      await api.events.findAllRequests.invalidateQueries()
+      await api.eventRequests.listEventRequests.invalidateQueries()
       toast.success('Solicitação aprovada com sucesso.')
     } catch {
       toast.error('Erro ao aprovar solicitação.')
@@ -186,11 +186,11 @@ function SolicitacoesPage() {
     }
   }
 
-  async function handleReject(r: EventChangeRequestResponse) {
+  async function handleReject(r: EventRequestResponse) {
     if (!r.id) return
     try {
       await rejectMutation.mutateAsync({ path: { id: r.id } })
-      await api.events.findAllRequests.invalidateQueries()
+      await api.eventRequests.listEventRequests.invalidateQueries()
       toast.success('Solicitação rejeitada.')
     } catch {
       toast.error('Erro ao rejeitar solicitação.')

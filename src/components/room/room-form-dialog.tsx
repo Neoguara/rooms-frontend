@@ -72,17 +72,17 @@ export const RoomFormDialog = memo(function RoomFormDialog({
 }: RoomFormDialogProps) {
   const { api } = useAPI()
 
-  const { data: buildingsRaw = [] } = api.buildings.findAll5.useQuery()
-  const { data: roomTypesRaw = [] } = api.roomTypes.findAll2.useQuery()
-  const { data: resourcesRaw = [] } = api.resources.findAll3.useQuery()
+  const { data: buildingsRaw = [] } = api.buildings.listBuildings.useQuery()
+  const { data: roomTypesRaw = [] } = api.roomTypes.listRoomTypes.useQuery()
+  const { data: resourcesRaw = [] } = api.resources.listResources.useQuery()
 
   const buildings = (Array.isArray(buildingsRaw) ? buildingsRaw : []) as BuildingResponse[]
   const roomTypes = (Array.isArray(roomTypesRaw) ? roomTypesRaw : []) as RoomTypeResponse[]
   const resources = (Array.isArray(resourcesRaw) ? resourcesRaw : []) as ResourceResponse[]
 
-  const createMutation = api.rooms.create1.useMutation()
-  const updateMutation = api.rooms.updateById.useMutation()
-  const replaceResourcesMutation = api.rooms.replaceResources.useMutation()
+  const createMutation = api.rooms.createRoom.useMutation()
+  const updateMutation = api.rooms.updateRoom.useMutation()
+  const replaceResourcesMutation = api.rooms.replaceRoomResources.useMutation()
 
   const [isSaving, setIsSaving] = useState(false)
   const [form, setForm] = useState<FormData>(defaultForm)
@@ -138,7 +138,7 @@ export const RoomFormDialog = memo(function RoomFormDialog({
           path: { id: editingRoom.id },
           body: { resourceIds: form.resourceIds },
         })
-        await api.rooms.findAll1.invalidateQueries()
+        await api.rooms.listRooms.invalidateQueries()
         toast.success('Sala atualizada com sucesso.')
       } else {
         await createMutation.mutateAsync({
@@ -152,7 +152,7 @@ export const RoomFormDialog = memo(function RoomFormDialog({
             resourceIds: form.resourceIds,
           },
         })
-        await api.rooms.findAll1.invalidateQueries()
+        await api.rooms.listRooms.invalidateQueries()
         toast.success('Sala cadastrada com sucesso.')
       }
       onOpenChange(false)
@@ -179,8 +179,8 @@ export const RoomFormDialog = memo(function RoomFormDialog({
   const activeBuildings = buildings.filter(
     (b) => b.status !== 'INACTIVE' && b.status !== 'ARCHIVED',
   )
-  const activeRoomTypes = roomTypes.filter((rt) => rt.active !== false)
-  const activeResources = resources.filter((r) => r.active !== false)
+  const activeRoomTypes = roomTypes.filter((rt) => rt.status !== 'INACTIVE' && rt.status !== 'DELETED')
+  const activeResources = resources.filter((r) => r.status !== 'INACTIVE' && r.status !== 'DELETED')
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

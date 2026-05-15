@@ -50,8 +50,9 @@ export const UserFormDialog = memo(function UserFormDialog({
 
   const createMutation = api.users.create.useMutation()
   const updateMutation = api.users.update.useMutation()
+  const updateStatusMutation = api.users.updateStatus.useMutation()
   // const isSaving = createMutation.isPending || updateMutation.isPending
-  
+
   const [ isSaving, setIsSaving ] = useState(false)
 
   const [formData, setFormData] = useState<UserFormData>({
@@ -59,7 +60,7 @@ export const UserFormDialog = memo(function UserFormDialog({
     email: editingUser?.email || '',
     password: '',
     role: editingUser?.role || 'USER',
-    isActive: editingUser?.isActive || true,
+    isActive: editingUser?.status === 'ACTIVE',
   })
 
   const handleSave = useCallback(
@@ -72,11 +73,17 @@ export const UserFormDialog = memo(function UserFormDialog({
             name: data.name,
             email: data.email,
             role: data.role,
-            isActive: data.isActive,
             ...(data.password ? { password: data.password } : {}),
           },
           path: { id: editingUser.id },
         })
+        const currentlyActive = editingUser.status === 'ACTIVE'
+        if (data.isActive !== currentlyActive) {
+          await updateStatusMutation.mutateAsync({
+            path: { id: editingUser.id },
+            body: { status: data.isActive ? 'ACTIVE' : 'INACTIVE' },
+          })
+        }
         await api.users.findAll.invalidateQueries()
         toast.success('Usuário atualizado com sucesso.')
       } else {
@@ -114,7 +121,7 @@ export const UserFormDialog = memo(function UserFormDialog({
               email: editingUser.email ?? '',
               password: '',
               role: (editingUser.role as UserRole) ?? 'USER',
-              isActive: editingUser.isActive ?? true,
+              isActive: editingUser.status === 'ACTIVE',
             }
           : { name: '', email: '', password: '', role: 'USER', isActive: true },
       )

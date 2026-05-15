@@ -107,6 +107,7 @@ function UsersPage() {
   const { api } = useAPI()
   const { user: currentUser } = useAuth()
 
+
   const { data: users = [], isLoading } = api.users.findAll.useSuspenseQuery()
 
   const [searchQuery, setSearchQuery] = useState('')
@@ -128,8 +129,8 @@ function UsersPage() {
       const matchesRole = filterRole === 'all' || u.role === filterRole
       const matchesStatus =
         filterStatus === 'all' ||
-        (filterStatus === 'active' && u.isActive === true) ||
-        (filterStatus === 'inactive' && u.isActive === false)
+        (filterStatus === 'active' && u.status === 'ACTIVE') ||
+        (filterStatus === 'inactive' && u.status !== 'ACTIVE')
       return matchesSearch && matchesRole && matchesStatus
     })
   }, [userList, searchQuery, filterRole, filterStatus])
@@ -139,7 +140,7 @@ function UsersPage() {
       total: userList.length,
       admins: userList.filter((u) => u.role === 'ADMIN').length,
       users: userList.filter((u) => u.role === 'USER').length,
-      active: userList.filter((u) => u.isActive === true).length,
+      active: userList.filter((u) => u.status === 'ACTIVE').length,
     }),
     [userList],
   )
@@ -280,7 +281,7 @@ function UsersPage() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            {u.isActive ? (
+                            {u.status === 'ACTIVE' ? (
                               <Badge
                                 variant="outline"
                                 className="bg-green-500/10 text-green-600 border-green-500/30"

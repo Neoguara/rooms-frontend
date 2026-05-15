@@ -448,9 +448,9 @@ export function RoomScheduler({
                           <div className="flex items-center gap-3 pl-4">
                             <div className={cn(
                               "size-9 rounded-lg flex items-center justify-center text-xs font-bold shrink-0",
-                              room.type === "LABORATORY" ? "bg-blue-500/20 text-blue-600" :
-                              room.type === "AUDITORIUM" ? "bg-purple-500/20 text-purple-600" :
-                              room.type === "MEETING_ROOM" ? "bg-amber-500/20 text-amber-600" :
+                              room.roomType?.name === "LABORATORY" ? "bg-blue-500/20 text-blue-600" :
+                              room.roomType?.name === "AUDITORIUM" ? "bg-purple-500/20 text-purple-600" :
+                              room.roomType?.name === "MEETING_ROOM" ? "bg-amber-500/20 text-amber-600" :
                               "bg-emerald-500/20 text-emerald-600"
                             )}>
                               {room.code?.split("-").pop() ?? room.code?.slice(-3) ?? "?"}

@@ -8,15 +8,15 @@ import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey
 import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface RoomTypesService {
     /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-    findById2: {
+    getRoomType: {
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindById2Schema, FindById2Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindById2Parameters, TMeta, TSignal>), client?: (schema: FindById2Schema, options: {
-            parameters: FindById2Parameters;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetRoomTypeSchema, GetRoomTypeParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetRoomTypeParameters, TMeta, TSignal>), client?: (schema: GetRoomTypeSchema, options: {
+            parameters: GetRoomTypeParameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindById2Data, FindById2Error>>): Promise<RequestFnResponse<FindById2Data, FindById2Error>>;
+        }) => Promise<RequestFnResponse<GetRoomTypeData, GetRoomTypeError>>): Promise<RequestFnResponse<GetRoomTypeData, GetRoomTypeError>>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        getQueryKey(parameters: DeepReadonly<FindById2Parameters>): ServiceOperationQueryKey<FindById2Schema, FindById2Parameters>;
+        getQueryKey(parameters: DeepReadonly<GetRoomTypeParameters>): ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -24,14 +24,14 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.roomTypes.findById2.useQuery({
+         * const { data, isLoading } = qraft.roomTypes.getRoomType.useQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useQuery<TData = FindById2Data>(parameters: ServiceOperationQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>), options?: Omit<UndefinedInitialDataOptions<FindById2Data, FindById2Error, TData, ServiceOperationQueryKey<FindById2Schema, FindById2Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindById2Error>>;
+        useQuery<TData = GetRoomTypeData>(parameters: ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>), options?: Omit<UndefinedInitialDataOptions<GetRoomTypeData, GetRoomTypeError, TData, ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetRoomTypeError>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -39,16 +39,16 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.roomTypes.findById2.useQuery({
+         * const { data, isLoading } = qraft.roomTypes.getRoomType.useQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useQuery<TData = FindById2Data>(parameters: ServiceOperationQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>), options: Omit<DefinedInitialDataOptions<FindById2Data, FindById2Error, TData, ServiceOperationQueryKey<FindById2Schema, FindById2Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindById2Error>>;
+        useQuery<TData = GetRoomTypeData>(parameters: ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>), options: Omit<DefinedInitialDataOptions<GetRoomTypeData, GetRoomTypeError, TData, ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetRoomTypeError>>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        getInfiniteQueryKey(parameters: DeepReadonly<FindById2Parameters>): ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters>;
+        getInfiniteQueryKey(parameters: DeepReadonly<GetRoomTypeParameters>): ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -58,7 +58,7 @@ export interface RoomTypesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.findById2.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.getRoomType.useInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -71,7 +71,7 @@ export interface RoomTypesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindById2Parameters, TQueryFnData = FindById2Data, TData = OperationInfiniteData<TQueryFnData, FindById2Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindById2Error, TData, ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindById2Error>>;
+        useInfiniteQuery<TPageParam extends GetRoomTypeParameters, TQueryFnData = GetRoomTypeData, TData = OperationInfiniteData<TQueryFnData, GetRoomTypeParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetRoomTypeError, TData, ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetRoomTypeError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -81,7 +81,7 @@ export interface RoomTypesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.findById2.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.getRoomType.useInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -94,7 +94,7 @@ export interface RoomTypesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindById2Parameters, TQueryFnData = FindById2Data, TData = OperationInfiniteData<TQueryFnData, FindById2Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindById2Error, TData, ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindById2Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindById2Error>>;
+        useInfiniteQuery<TPageParam extends GetRoomTypeParameters, TQueryFnData = GetRoomTypeData, TData = OperationInfiniteData<TQueryFnData, GetRoomTypeParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetRoomTypeError, TData, ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetRoomTypeData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetRoomTypeError>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
@@ -104,11 +104,11 @@ export interface RoomTypesService {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findById2Total = qraft.roomTypes.findById2.useIsFetching()
+         * const getRoomTypeTotal = qraft.roomTypes.getRoomType.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const findById2ByParametersTotal = qraft.roomTypes.findById2.useIsFetching({
+         * const getRoomTypeByParametersTotal = qraft.roomTypes.getRoomType.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -118,7 +118,7 @@ export interface RoomTypesService {
          * })
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
@@ -126,7 +126,7 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findById2Results = qraft.roomTypes.findById2.useQueries({
+         * const getRoomTypeResults = qraft.roomTypes.getRoomType.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -140,11 +140,11 @@ export interface RoomTypesService {
          *         }
          *     ]
          * });
-         * findById2Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * getRoomTypeResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findById2CombinedResults = qraft.roomTypes.findById2.useQueries({
+         * const getRoomTypeCombinedResults = qraft.roomTypes.getRoomType.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -159,12 +159,12 @@ export interface RoomTypesService {
          *         }
          *     ]
          * });
-         * findById2CombinedResults.forEach(data => console.log({ data }));
+         * getRoomTypeCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindById2Schema, FindById2Parameters, FindById2Data, FindById2Error>>, TCombinedResult = Array<UseQueryResult<FindById2Data, FindById2Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetRoomTypeSchema, GetRoomTypeParameters, GetRoomTypeData, GetRoomTypeError>>, TCombinedResult = Array<UseQueryResult<GetRoomTypeData, GetRoomTypeError>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindById2Data, FindById2Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<GetRoomTypeData, GetRoomTypeError>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
@@ -174,14 +174,14 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.roomTypes.findById2.useSuspenseQuery({
+         * const data = qraft.roomTypes.getRoomType.useSuspenseQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useSuspenseQuery<TData = FindById2Data>(parameters: ServiceOperationQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>), options?: Omit<UseSuspenseQueryOptions<FindById2Data, FindById2Error, TData, ServiceOperationQueryKey<FindById2Schema, FindById2Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindById2Error>>;
+        useSuspenseQuery<TData = GetRoomTypeData>(parameters: ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>), options?: Omit<UseSuspenseQueryOptions<GetRoomTypeData, GetRoomTypeError, TData, ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetRoomTypeError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -192,7 +192,7 @@ export interface RoomTypesService {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.findById2.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.getRoomType.useSuspenseInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -205,7 +205,7 @@ export interface RoomTypesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindById2Parameters, TData = FindById2Data>(parameters: ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>), options: Omit<UseSuspenseInfiniteQueryOptions<FindById2Data, FindById2Error, OperationInfiniteData<TData, FindById2Parameters>, ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindById2Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindById2Parameters>, OperationError<FindById2Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends GetRoomTypeParameters, TData = GetRoomTypeData>(parameters: ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetRoomTypeData, GetRoomTypeError, OperationInfiniteData<TData, GetRoomTypeParameters>, ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetRoomTypeData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetRoomTypeParameters>, OperationError<GetRoomTypeError>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
@@ -214,7 +214,7 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findById2Data = qraft.roomTypes.findById2.useSuspenseQueries({
+         * const getRoomTypeData = qraft.roomTypes.getRoomType.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -228,11 +228,11 @@ export interface RoomTypesService {
          *         }
          *     ]
          * });
-         * findById2Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * getRoomTypeResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findById2CombinedData = qraft.roomTypes.findById2.useSuspenseQueries({
+         * const getRoomTypeCombinedData = qraft.roomTypes.getRoomType.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -247,72 +247,72 @@ export interface RoomTypesService {
          *         }
          *     ]
          * });
-         * findById2CombinedData.forEach(data => console.log({ data }));
+         * getRoomTypeCombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindById2Schema, FindById2Parameters, FindById2Data, FindById2Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindById2Data, FindById2Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetRoomTypeSchema, GetRoomTypeParameters, GetRoomTypeData, GetRoomTypeError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetRoomTypeData, GetRoomTypeError>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindById2Data, FindById2Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetRoomTypeData, GetRoomTypeError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindById2Schema, FindById2Data, FindById2Parameters, FindById2Error>): Promise<FindById2Data>;
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetRoomTypeSchema, GetRoomTypeData, GetRoomTypeParameters, GetRoomTypeError>): Promise<GetRoomTypeData>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindById2Schema, FindById2Data, FindById2Parameters, FindById2Error>): Promise<void>;
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetRoomTypeSchema, GetRoomTypeData, GetRoomTypeParameters, GetRoomTypeError>): Promise<void>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindById2Schema, FindById2Data, FindById2Parameters, FindById2Error>): Promise<FindById2Data>;
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetRoomTypeSchema, GetRoomTypeData, GetRoomTypeParameters, GetRoomTypeError>): Promise<GetRoomTypeData>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        fetchInfiniteQuery<TPageParam extends FindById2Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById2Schema, FindById2Data, FindById2Parameters, DeepReadonly<TPageParam>, FindById2Error>): Promise<OperationInfiniteData<FindById2Data, FindById2Parameters>>;
+        fetchInfiniteQuery<TPageParam extends GetRoomTypeParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetRoomTypeSchema, GetRoomTypeData, GetRoomTypeParameters, DeepReadonly<TPageParam>, GetRoomTypeError>): Promise<OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters>>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        prefetchInfiniteQuery<TPageParam extends FindById2Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById2Schema, FindById2Data, FindById2Parameters, DeepReadonly<TPageParam>, FindById2Error>): Promise<void>;
+        prefetchInfiniteQuery<TPageParam extends GetRoomTypeParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetRoomTypeSchema, GetRoomTypeData, GetRoomTypeParameters, DeepReadonly<TPageParam>, GetRoomTypeError>): Promise<void>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        ensureInfiniteQueryData<TPageParam extends FindById2Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindById2Schema, FindById2Data, FindById2Parameters, DeepReadonly<TPageParam>, FindById2Error>): Promise<OperationInfiniteData<FindById2Data, FindById2Parameters>>;
+        ensureInfiniteQueryData<TPageParam extends GetRoomTypeParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetRoomTypeSchema, GetRoomTypeData, GetRoomTypeParameters, DeepReadonly<TPageParam>, GetRoomTypeError>): Promise<OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters>>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        getQueryData(parameters: ServiceOperationQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>)): FindById2Data | undefined;
+        getQueryData(parameters: ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>)): GetRoomTypeData | undefined;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>)): OperationInfiniteData<FindById2Data, FindById2Parameters> | undefined;
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>)): OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters> | undefined;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters>,
-            data: NoInfer<OperationInfiniteData<FindById2Data, FindById2Parameters>> | undefined
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>,
+            data: NoInfer<OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindById2Schema, FindById2Parameters>,
-            data: FindById2Data | undefined
+            queryKey: ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>,
+            data: GetRoomTypeData | undefined
         ]>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        getQueryState(parameters: ServiceOperationQueryKey<FindById2Schema, FindById2Parameters> | (DeepReadonly<FindById2Parameters>)): QueryState<FindById2Data, FindById2Error> | undefined;
+        getQueryState(parameters: ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters> | (DeepReadonly<GetRoomTypeParameters>)): QueryState<GetRoomTypeData, GetRoomTypeError> | undefined;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        getInfiniteQueryState(parameters: DeepReadonly<FindById2Parameters> | ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters>): QueryState<OperationInfiniteData<FindById2Data, FindById2Parameters>, FindById2Error> | undefined;
+        getInfiniteQueryState(parameters: DeepReadonly<GetRoomTypeParameters> | ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>): QueryState<OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters>, GetRoomTypeError> | undefined;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        setQueryData(parameters: (DeepReadonly<FindById2Parameters>) | ServiceOperationQueryKey<FindById2Schema, FindById2Parameters>, updater: Updater<NoInfer<FindById2Data> | undefined, NoInfer<DeepReadonly<FindById2Data>> | undefined>, options?: SetDataOptions): FindById2Data | undefined;
+        setQueryData(parameters: (DeepReadonly<GetRoomTypeParameters>) | ServiceOperationQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>, updater: Updater<NoInfer<GetRoomTypeData> | undefined, NoInfer<DeepReadonly<GetRoomTypeData>> | undefined>, options?: SetDataOptions): GetRoomTypeData | undefined;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        setInfiniteQueryData(parameters: (DeepReadonly<FindById2Parameters>) | ServiceOperationInfiniteQueryKey<FindById2Schema, FindById2Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindById2Data, FindById2Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindById2Data, FindById2Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindById2Data, FindById2Parameters> | undefined;
+        setInfiniteQueryData(parameters: (DeepReadonly<GetRoomTypeParameters>) | ServiceOperationInfiniteQueryKey<GetRoomTypeSchema, GetRoomTypeParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetRoomTypeData, GetRoomTypeParameters> | undefined;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>, updater: Updater<NoInfer<FindById2Data> | undefined, NoInfer<FindById2Data> | undefined>, options?: SetDataOptions): Array<FindById2Data | undefined>;
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>, updater: Updater<NoInfer<GetRoomTypeData> | undefined, NoInfer<GetRoomTypeData> | undefined>, options?: SetDataOptions): Array<GetRoomTypeData | undefined>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>, options?: InvalidateOptions): Promise<void>;
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>, options?: InvalidateOptions): Promise<void>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>, options?: RefetchOptions): Promise<void>;
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>, options?: RefetchOptions): Promise<void>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>, options?: CancelOptions): Promise<void>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>, options?: CancelOptions): Promise<void>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>): void;
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>): void;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>, options?: ResetOptions): Promise<void>;
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>, options?: ResetOptions): Promise<void>;
         /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error> | QueryFiltersByQueryKey<FindById2Schema, FindById2Data, TInfinite, FindById2Parameters, FindById2Error>): number;
-        schema: FindById2Schema;
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError> | QueryFiltersByQueryKey<GetRoomTypeSchema, GetRoomTypeData, TInfinite, GetRoomTypeParameters, GetRoomTypeError>): number;
+        schema: GetRoomTypeSchema;
         types: {
-            parameters: FindById2Parameters;
-            data: FindById2Data;
-            error: FindById2Error;
+            parameters: GetRoomTypeParameters;
+            data: GetRoomTypeData;
+            error: GetRoomTypeError;
         };
     };
     /** @description Atualiza os dados de um tipo de sala. */
-    updateById1: {
+    updateRoomType: {
         /** @description Atualiza os dados de um tipo de sala. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateById1Body, UpdateById1Parameters, TMeta, TSignal>, client?: (schema: UpdateById1Schema, options: ServiceOperationMutationFnOptions<UpdateById1Body, UpdateById1Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateById1Data, UpdateById1Error>>): Promise<RequestFnResponse<UpdateById1Data, UpdateById1Error>>;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateRoomTypeBody, UpdateRoomTypeParameters, TMeta, TSignal>, client?: (schema: UpdateRoomTypeSchema, options: ServiceOperationMutationFnOptions<UpdateRoomTypeBody, UpdateRoomTypeParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateRoomTypeData, UpdateRoomTypeError>>): Promise<RequestFnResponse<UpdateRoomTypeData, UpdateRoomTypeError>>;
         /** @description Atualiza os dados de um tipo de sala. */
-        getMutationKey(parameters: DeepReadonly<UpdateById1Parameters> | void): ServiceOperationMutationKey<UpdateById1Schema, UpdateById1Parameters>;
+        getMutationKey(parameters: DeepReadonly<UpdateRoomTypeParameters> | void): ServiceOperationMutationKey<UpdateRoomTypeSchema, UpdateRoomTypeParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -321,7 +321,7 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateById1.useMutation({
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomType.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -330,7 +330,7 @@ export interface RoomTypesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateById1.useMutation()
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomType.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -339,7 +339,7 @@ export interface RoomTypesService {
          * });
          * ```
          */
-        useMutation<TVariables extends UpdateById1Body, TContext = unknown>(parameters: DeepReadonly<UpdateById1Parameters>, options?: ServiceOperationUseMutationOptions<UpdateById1Schema, UpdateById1Data, UpdateById1Parameters, TVariables, OperationError<UpdateById1Error>, TContext>): UseMutationResult<UpdateById1Data, OperationError<UpdateById1Error>, TVariables, TContext>;
+        useMutation<TVariables extends UpdateRoomTypeBody, TContext = unknown>(parameters: DeepReadonly<UpdateRoomTypeParameters>, options?: ServiceOperationUseMutationOptions<UpdateRoomTypeSchema, UpdateRoomTypeData, UpdateRoomTypeParameters, TVariables, OperationError<UpdateRoomTypeError>, TContext>): UseMutationResult<UpdateRoomTypeData, OperationError<UpdateRoomTypeError>, TVariables, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -348,7 +348,7 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateById1.useMutation({
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomType.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -357,7 +357,7 @@ export interface RoomTypesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateById1.useMutation()
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomType.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -366,7 +366,7 @@ export interface RoomTypesService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<UpdateById1Body, UpdateById1Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateById1Schema, UpdateById1Data, UpdateById1Parameters, TVariables, OperationError<UpdateById1Error>, TContext>): UseMutationResult<UpdateById1Data, OperationError<UpdateById1Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<UpdateRoomTypeBody, UpdateRoomTypeParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateRoomTypeSchema, UpdateRoomTypeData, UpdateRoomTypeParameters, TVariables, OperationError<UpdateRoomTypeError>, TContext>): UseMutationResult<UpdateRoomTypeData, OperationError<UpdateRoomTypeError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
@@ -374,11 +374,11 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const updateById1Total = qraft.roomTypes.updateById1.useIsMutating()
+         * const updateRoomTypeTotal = qraft.roomTypes.updateRoomType.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const updateById1Total = qraft.roomTypes.updateById1.useIsMutating({
+         * const updateRoomTypeTotal = qraft.roomTypes.updateRoomType.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -387,7 +387,7 @@ export interface RoomTypesService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext> | MutationFiltersByMutationKey<UpdateById1Schema, UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeSchema, UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
@@ -395,7 +395,7 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const updateById1PendingMutationVariables = qraft.roomTypes.updateById1.useMutationState({
+         * const updateRoomTypePendingMutationVariables = qraft.roomTypes.updateRoomType.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -404,7 +404,7 @@ export interface RoomTypesService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const updateById1MutationData = qraft.roomTypes.updateById1.useMutationState({
+         * const updateRoomTypeMutationData = qraft.roomTypes.updateRoomType.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -416,12 +416,12 @@ export interface RoomTypesService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<UpdateById1Data, OperationError<UpdateById1Error>, MutationVariables<UpdateById1Body, UpdateById1Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext> | MutationFiltersByMutationKey<UpdateById1Schema, UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext>;
-            select?: (mutation: Mutation<UpdateById1Data, OperationError<UpdateById1Error>, MutationVariables<UpdateById1Body, UpdateById1Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateRoomTypeData, OperationError<UpdateRoomTypeError>, MutationVariables<UpdateRoomTypeBody, UpdateRoomTypeParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeSchema, UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext>;
+            select?: (mutation: Mutation<UpdateRoomTypeData, OperationError<UpdateRoomTypeError>, MutationVariables<UpdateRoomTypeBody, UpdateRoomTypeParameters>, TContext>) => TResult;
         }): Array<TResult>;
         /** @description Atualiza os dados de um tipo de sala. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext> | MutationFiltersByMutationKey<UpdateById1Schema, UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext>): number;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeSchema, UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
@@ -431,7 +431,7 @@ export interface RoomTypesService {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.roomTypes.updateById1.getMutationCache();
+         * const mutationCache = qraft.roomTypes.updateRoomType.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -443,37 +443,37 @@ export interface RoomTypesService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.roomTypes.updateById1.getMutationCache();
+         * const mutationCache = qraft.roomTypes.updateRoomType.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext> | MutationFiltersByMutationKey<UpdateById1Schema, UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext>): Mutation<UpdateById1Data, UpdateById1Error, MutationVariables<UpdateById1Body, UpdateById1Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext> | MutationFiltersByMutationKey<UpdateById1Schema, UpdateById1Body, UpdateById1Data, UpdateById1Parameters, OperationError<UpdateById1Error>, TContext>): Array<Mutation<UpdateById1Data, UpdateById1Error, MutationVariables<UpdateById1Body, UpdateById1Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeSchema, UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext>): Mutation<UpdateRoomTypeData, UpdateRoomTypeError, MutationVariables<UpdateRoomTypeBody, UpdateRoomTypeParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeSchema, UpdateRoomTypeBody, UpdateRoomTypeData, UpdateRoomTypeParameters, OperationError<UpdateRoomTypeError>, TContext>): Array<Mutation<UpdateRoomTypeData, UpdateRoomTypeError, MutationVariables<UpdateRoomTypeBody, UpdateRoomTypeParameters>, TContext>>;
         };
-        schema: UpdateById1Schema;
+        schema: UpdateRoomTypeSchema;
         types: {
-            parameters: UpdateById1Parameters;
-            data: UpdateById1Data;
-            error: UpdateById1Error;
-            body: UpdateById1Body;
+            parameters: UpdateRoomTypeParameters;
+            data: UpdateRoomTypeData;
+            error: UpdateRoomTypeError;
+            body: UpdateRoomTypeBody;
         };
     };
-    /** @description Desativa um tipo de sala pelo seu ID (soft delete). */
-    deleteById2: {
-        /** @description Desativa um tipo de sala pelo seu ID (soft delete). */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteById2Body, DeleteById2Parameters, TMeta, TSignal>, client?: (schema: DeleteById2Schema, options: ServiceOperationMutationFnOptions<DeleteById2Body, DeleteById2Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteById2Data, DeleteById2Error>>): Promise<RequestFnResponse<DeleteById2Data, DeleteById2Error>>;
-        /** @description Desativa um tipo de sala pelo seu ID (soft delete). */
-        getMutationKey(parameters: DeepReadonly<DeleteById2Parameters> | void): ServiceOperationMutationKey<DeleteById2Schema, DeleteById2Parameters>;
+    /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+    deleteRoomType: {
+        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteRoomTypeBody, DeleteRoomTypeParameters, TMeta, TSignal>, client?: (schema: DeleteRoomTypeSchema, options: ServiceOperationMutationFnOptions<DeleteRoomTypeBody, DeleteRoomTypeParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteRoomTypeData, DeleteRoomTypeError>>): Promise<RequestFnResponse<DeleteRoomTypeData, DeleteRoomTypeError>>;
+        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        getMutationKey(parameters: DeepReadonly<DeleteRoomTypeParameters> | void): ServiceOperationMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Desativa um tipo de sala pelo seu ID (soft delete).
+         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.deleteById2.useMutation({
+         * const { mutate, isPending } = qraft.roomTypes.deleteRoomType.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -482,7 +482,7 @@ export interface RoomTypesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.deleteById2.useMutation()
+         * const { mutate, isPending } = qraft.roomTypes.deleteRoomType.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -491,16 +491,16 @@ export interface RoomTypesService {
          * });
          * ```
          */
-        useMutation<TVariables extends DeleteById2Body, TContext = unknown>(parameters: DeepReadonly<DeleteById2Parameters>, options?: ServiceOperationUseMutationOptions<DeleteById2Schema, DeleteById2Data, DeleteById2Parameters, TVariables, OperationError<DeleteById2Error>, TContext>): UseMutationResult<DeleteById2Data, OperationError<DeleteById2Error>, TVariables | void, TContext>;
+        useMutation<TVariables extends DeleteRoomTypeBody, TContext = unknown>(parameters: DeepReadonly<DeleteRoomTypeParameters>, options?: ServiceOperationUseMutationOptions<DeleteRoomTypeSchema, DeleteRoomTypeData, DeleteRoomTypeParameters, TVariables, OperationError<DeleteRoomTypeError>, TContext>): UseMutationResult<DeleteRoomTypeData, OperationError<DeleteRoomTypeError>, TVariables | void, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Desativa um tipo de sala pelo seu ID (soft delete).
+         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.deleteById2.useMutation({
+         * const { mutate, isPending } = qraft.roomTypes.deleteRoomType.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -509,7 +509,7 @@ export interface RoomTypesService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.deleteById2.useMutation()
+         * const { mutate, isPending } = qraft.roomTypes.deleteRoomType.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -518,19 +518,19 @@ export interface RoomTypesService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<DeleteById2Body, DeleteById2Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteById2Schema, DeleteById2Data, DeleteById2Parameters, TVariables, OperationError<DeleteById2Error>, TContext>): UseMutationResult<DeleteById2Data, OperationError<DeleteById2Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<DeleteRoomTypeBody, DeleteRoomTypeParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteRoomTypeSchema, DeleteRoomTypeData, DeleteRoomTypeParameters, TVariables, OperationError<DeleteRoomTypeError>, TContext>): UseMutationResult<DeleteRoomTypeData, OperationError<DeleteRoomTypeError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Desativa um tipo de sala pelo seu ID (soft delete).
+         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteById2Total = qraft.roomTypes.deleteById2.useIsMutating()
+         * const deleteRoomTypeTotal = qraft.roomTypes.deleteRoomType.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteById2Total = qraft.roomTypes.deleteById2.useIsMutating({
+         * const deleteRoomTypeTotal = qraft.roomTypes.deleteRoomType.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -539,15 +539,15 @@ export interface RoomTypesService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext> | MutationFiltersByMutationKey<DeleteById2Schema, DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext> | MutationFiltersByMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Desativa um tipo de sala pelo seu ID (soft delete).
+         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteById2PendingMutationVariables = qraft.roomTypes.deleteById2.useMutationState({
+         * const deleteRoomTypePendingMutationVariables = qraft.roomTypes.deleteRoomType.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -556,7 +556,7 @@ export interface RoomTypesService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteById2MutationData = qraft.roomTypes.deleteById2.useMutationState({
+         * const deleteRoomTypeMutationData = qraft.roomTypes.deleteRoomType.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -568,22 +568,22 @@ export interface RoomTypesService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<DeleteById2Data, OperationError<DeleteById2Error>, MutationVariables<DeleteById2Body, DeleteById2Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext> | MutationFiltersByMutationKey<DeleteById2Schema, DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext>;
-            select?: (mutation: Mutation<DeleteById2Data, OperationError<DeleteById2Error>, MutationVariables<DeleteById2Body, DeleteById2Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<DeleteRoomTypeData, OperationError<DeleteRoomTypeError>, MutationVariables<DeleteRoomTypeBody, DeleteRoomTypeParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext> | MutationFiltersByMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext>;
+            select?: (mutation: Mutation<DeleteRoomTypeData, OperationError<DeleteRoomTypeError>, MutationVariables<DeleteRoomTypeBody, DeleteRoomTypeParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Desativa um tipo de sala pelo seu ID (soft delete). */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext> | MutationFiltersByMutationKey<DeleteById2Schema, DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext>): number;
+        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext> | MutationFiltersByMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Desativa um tipo de sala pelo seu ID (soft delete).
+         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.roomTypes.deleteById2.getMutationCache();
+         * const mutationCache = qraft.roomTypes.deleteRoomType.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -595,184 +595,32 @@ export interface RoomTypesService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.roomTypes.deleteById2.getMutationCache();
+         * const mutationCache = qraft.roomTypes.deleteRoomType.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext> | MutationFiltersByMutationKey<DeleteById2Schema, DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext>): Mutation<DeleteById2Data, DeleteById2Error, MutationVariables<DeleteById2Body, DeleteById2Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext> | MutationFiltersByMutationKey<DeleteById2Schema, DeleteById2Body, DeleteById2Data, DeleteById2Parameters, OperationError<DeleteById2Error>, TContext>): Array<Mutation<DeleteById2Data, DeleteById2Error, MutationVariables<DeleteById2Body, DeleteById2Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext> | MutationFiltersByMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext>): Mutation<DeleteRoomTypeData, DeleteRoomTypeError, MutationVariables<DeleteRoomTypeBody, DeleteRoomTypeParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext> | MutationFiltersByMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext>): Array<Mutation<DeleteRoomTypeData, DeleteRoomTypeError, MutationVariables<DeleteRoomTypeBody, DeleteRoomTypeParameters>, TContext>>;
         };
-        schema: DeleteById2Schema;
+        schema: DeleteRoomTypeSchema;
         types: {
-            parameters: DeleteById2Parameters;
-            data: DeleteById2Data;
-            error: DeleteById2Error;
-            body: DeleteById2Body;
-        };
-    };
-    /** @description Ativa ou desativa um tipo de sala pelo seu ID. */
-    updateStatus1: {
-        /** @description Ativa ou desativa um tipo de sala pelo seu ID. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateStatus1Body, UpdateStatus1Parameters, TMeta, TSignal>, client?: (schema: UpdateStatus1Schema, options: ServiceOperationMutationFnOptions<UpdateStatus1Body, UpdateStatus1Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateStatus1Data, UpdateStatus1Error>>): Promise<RequestFnResponse<UpdateStatus1Data, UpdateStatus1Error>>;
-        /** @description Ativa ou desativa um tipo de sala pelo seu ID. */
-        getMutationKey(parameters: DeepReadonly<UpdateStatus1Parameters> | void): ServiceOperationMutationKey<UpdateStatus1Schema, UpdateStatus1Parameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @description Ativa ou desativa um tipo de sala pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateStatus1.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateStatus1.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends UpdateStatus1Body, TContext = unknown>(parameters: DeepReadonly<UpdateStatus1Parameters>, options?: ServiceOperationUseMutationOptions<UpdateStatus1Schema, UpdateStatus1Data, UpdateStatus1Parameters, TVariables, OperationError<UpdateStatus1Error>, TContext>): UseMutationResult<UpdateStatus1Data, OperationError<UpdateStatus1Error>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @description Ativa ou desativa um tipo de sala pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateStatus1.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.updateStatus1.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<UpdateStatus1Body, UpdateStatus1Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateStatus1Schema, UpdateStatus1Data, UpdateStatus1Parameters, TVariables, OperationError<UpdateStatus1Error>, TContext>): UseMutationResult<UpdateStatus1Data, OperationError<UpdateStatus1Error>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @description Ativa ou desativa um tipo de sala pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const updateStatus1Total = qraft.roomTypes.updateStatus1.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const updateStatus1Total = qraft.roomTypes.updateStatus1.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus1Schema, UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @description Ativa ou desativa um tipo de sala pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const updateStatus1PendingMutationVariables = qraft.roomTypes.updateStatus1.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const updateStatus1MutationData = qraft.roomTypes.updateStatus1.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 id: id
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<UpdateStatus1Data, OperationError<UpdateStatus1Error>, MutationVariables<UpdateStatus1Body, UpdateStatus1Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus1Schema, UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext>;
-            select?: (mutation: Mutation<UpdateStatus1Data, OperationError<UpdateStatus1Error>, MutationVariables<UpdateStatus1Body, UpdateStatus1Parameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /** @description Ativa ou desativa um tipo de sala pelo seu ID. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus1Schema, UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @description Ativa ou desativa um tipo de sala pelo seu ID.
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.roomTypes.updateStatus1.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.roomTypes.updateStatus1.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus1Schema, UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext>): Mutation<UpdateStatus1Data, UpdateStatus1Error, MutationVariables<UpdateStatus1Body, UpdateStatus1Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus1Schema, UpdateStatus1Body, UpdateStatus1Data, UpdateStatus1Parameters, OperationError<UpdateStatus1Error>, TContext>): Array<Mutation<UpdateStatus1Data, UpdateStatus1Error, MutationVariables<UpdateStatus1Body, UpdateStatus1Parameters>, TContext>>;
-        };
-        schema: UpdateStatus1Schema;
-        types: {
-            parameters: UpdateStatus1Parameters;
-            data: UpdateStatus1Data;
-            error: UpdateStatus1Error;
-            body: UpdateStatus1Body;
+            parameters: DeleteRoomTypeParameters;
+            data: DeleteRoomTypeData;
+            error: DeleteRoomTypeError;
+            body: DeleteRoomTypeBody;
         };
     };
     /** @description Retorna todos os tipos de sala cadastrados. */
-    findAll2: {
+    listRoomTypes: {
         /** @description Retorna todos os tipos de sala cadastrados. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAll2Schema, FindAll2Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAll2Parameters, TMeta, TSignal> | void), client?: (schema: FindAll2Schema, options: {
-            parameters: FindAll2Parameters;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<ListRoomTypesSchema, ListRoomTypesParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<ListRoomTypesParameters, TMeta, TSignal> | void), client?: (schema: ListRoomTypesSchema, options: {
+            parameters: ListRoomTypesParameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindAll2Data, FindAll2Error>>): Promise<RequestFnResponse<FindAll2Data, FindAll2Error>>;
+        }) => Promise<RequestFnResponse<ListRoomTypesData, ListRoomTypesError>>): Promise<RequestFnResponse<ListRoomTypesData, ListRoomTypesError>>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        getQueryKey(parameters: DeepReadonly<FindAll2Parameters> | void): ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>;
+        getQueryKey(parameters: DeepReadonly<ListRoomTypesParameters> | void): ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -780,10 +628,10 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.roomTypes.findAll2.useQuery()
+         * const { data, isLoading } = qraft.roomTypes.listRoomTypes.useQuery()
          * ```
          */
-        useQuery<TData = FindAll2Data>(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAll2Data, FindAll2Error, TData, ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAll2Error>>;
+        useQuery<TData = ListRoomTypesData>(parameters: ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void), options?: Omit<UndefinedInitialDataOptions<ListRoomTypesData, ListRoomTypesError, TData, ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>>, "queryKey">): UseQueryResult<TData, OperationError<ListRoomTypesError>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -791,12 +639,12 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.roomTypes.findAll2.useQuery()
+         * const { data, isLoading } = qraft.roomTypes.listRoomTypes.useQuery()
          * ```
          */
-        useQuery<TData = FindAll2Data>(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<DefinedInitialDataOptions<FindAll2Data, FindAll2Error, TData, ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAll2Error>>;
+        useQuery<TData = ListRoomTypesData>(parameters: ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void), options: Omit<DefinedInitialDataOptions<ListRoomTypesData, ListRoomTypesError, TData, ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<ListRoomTypesError>>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        getInfiniteQueryKey(parameters: DeepReadonly<FindAll2Parameters> | void): ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>;
+        getInfiniteQueryKey(parameters: DeepReadonly<ListRoomTypesParameters> | void): ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -806,7 +654,7 @@ export interface RoomTypesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.findAll2.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.listRoomTypes.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -815,7 +663,7 @@ export interface RoomTypesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll2Parameters, TQueryFnData = FindAll2Data, TData = OperationInfiniteData<TQueryFnData, FindAll2Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAll2Error, TData, ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAll2Error>>;
+        useInfiniteQuery<TPageParam extends ListRoomTypesParameters, TQueryFnData = ListRoomTypesData, TData = OperationInfiniteData<TQueryFnData, ListRoomTypesParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, ListRoomTypesError, TData, ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<ListRoomTypesError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -825,7 +673,7 @@ export interface RoomTypesService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.findAll2.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.listRoomTypes.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -834,7 +682,7 @@ export interface RoomTypesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll2Parameters, TQueryFnData = FindAll2Data, TData = OperationInfiniteData<TQueryFnData, FindAll2Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAll2Error, TData, ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll2Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAll2Error>>;
+        useInfiniteQuery<TPageParam extends ListRoomTypesParameters, TQueryFnData = ListRoomTypesData, TData = OperationInfiniteData<TQueryFnData, ListRoomTypesParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, ListRoomTypesError, TData, ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListRoomTypesData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<ListRoomTypesError>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
@@ -844,10 +692,10 @@ export interface RoomTypesService {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findAll2Total = qraft.roomTypes.findAll2.useIsFetching()
+         * const listRoomTypesTotal = qraft.roomTypes.listRoomTypes.useIsFetching()
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
@@ -855,29 +703,29 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findAll2Results = qraft.roomTypes.findAll2.useQueries({
+         * const listRoomTypesResults = qraft.roomTypes.listRoomTypes.useQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listRoomTypesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findAll2CombinedResults = qraft.roomTypes.findAll2.useQueries({
+         * const listRoomTypesCombinedResults = qraft.roomTypes.listRoomTypes.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2CombinedResults.forEach(data => console.log({ data }));
+         * listRoomTypesCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAll2Schema, FindAll2Parameters, FindAll2Data, FindAll2Error>>, TCombinedResult = Array<UseQueryResult<FindAll2Data, FindAll2Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<ListRoomTypesSchema, ListRoomTypesParameters, ListRoomTypesData, ListRoomTypesError>>, TCombinedResult = Array<UseQueryResult<ListRoomTypesData, ListRoomTypesError>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindAll2Data, FindAll2Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<ListRoomTypesData, ListRoomTypesError>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
@@ -887,10 +735,10 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.roomTypes.findAll2.useSuspenseQuery()
+         * const data = qraft.roomTypes.listRoomTypes.useSuspenseQuery()
          * ```
          */
-        useSuspenseQuery<TData = FindAll2Data>(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAll2Data, FindAll2Error, TData, ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAll2Error>>;
+        useSuspenseQuery<TData = ListRoomTypesData>(parameters: ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void), options?: Omit<UseSuspenseQueryOptions<ListRoomTypesData, ListRoomTypesError, TData, ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<ListRoomTypesError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -901,7 +749,7 @@ export interface RoomTypesService {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.findAll2.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.roomTypes.listRoomTypes.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -910,7 +758,7 @@ export interface RoomTypesService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindAll2Parameters, TData = FindAll2Data>(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAll2Data, FindAll2Error, OperationInfiniteData<TData, FindAll2Parameters>, ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll2Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAll2Parameters>, OperationError<FindAll2Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends ListRoomTypesParameters, TData = ListRoomTypesData>(parameters: ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<ListRoomTypesData, ListRoomTypesError, OperationInfiniteData<TData, ListRoomTypesParameters>, ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListRoomTypesData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, ListRoomTypesParameters>, OperationError<ListRoomTypesError>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
@@ -919,89 +767,89 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findAll2Data = qraft.roomTypes.findAll2.useSuspenseQueries({
+         * const listRoomTypesData = qraft.roomTypes.listRoomTypes.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listRoomTypesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findAll2CombinedData = qraft.roomTypes.findAll2.useSuspenseQueries({
+         * const listRoomTypesCombinedData = qraft.roomTypes.listRoomTypes.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll2CombinedData.forEach(data => console.log({ data }));
+         * listRoomTypesCombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAll2Schema, FindAll2Parameters, FindAll2Data, FindAll2Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAll2Data, FindAll2Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<ListRoomTypesSchema, ListRoomTypesParameters, ListRoomTypesData, ListRoomTypesError>>, TCombinedResult = Array<UseSuspenseQueryResult<ListRoomTypesData, ListRoomTypesError>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAll2Data, FindAll2Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<ListRoomTypesData, ListRoomTypesError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, FindAll2Error> | void): Promise<FindAll2Data>;
+        fetchQuery(options: ServiceOperationFetchQueryOptions<ListRoomTypesSchema, ListRoomTypesData, ListRoomTypesParameters, ListRoomTypesError> | void): Promise<ListRoomTypesData>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, FindAll2Error> | void): Promise<void>;
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<ListRoomTypesSchema, ListRoomTypesData, ListRoomTypesParameters, ListRoomTypesError> | void): Promise<void>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, FindAll2Error> | void): Promise<FindAll2Data>;
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<ListRoomTypesSchema, ListRoomTypesData, ListRoomTypesParameters, ListRoomTypesError> | void): Promise<ListRoomTypesData>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        fetchInfiniteQuery<TPageParam extends FindAll2Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, DeepReadonly<TPageParam>, FindAll2Error> | void): Promise<OperationInfiniteData<FindAll2Data, FindAll2Parameters>>;
+        fetchInfiniteQuery<TPageParam extends ListRoomTypesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListRoomTypesSchema, ListRoomTypesData, ListRoomTypesParameters, DeepReadonly<TPageParam>, ListRoomTypesError> | void): Promise<OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters>>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        prefetchInfiniteQuery<TPageParam extends FindAll2Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, DeepReadonly<TPageParam>, FindAll2Error> | void): Promise<void>;
+        prefetchInfiniteQuery<TPageParam extends ListRoomTypesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListRoomTypesSchema, ListRoomTypesData, ListRoomTypesParameters, DeepReadonly<TPageParam>, ListRoomTypesError> | void): Promise<void>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        ensureInfiniteQueryData<TPageParam extends FindAll2Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAll2Schema, FindAll2Data, FindAll2Parameters, DeepReadonly<TPageParam>, FindAll2Error> | void): Promise<OperationInfiniteData<FindAll2Data, FindAll2Parameters>>;
+        ensureInfiniteQueryData<TPageParam extends ListRoomTypesParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<ListRoomTypesSchema, ListRoomTypesData, ListRoomTypesParameters, DeepReadonly<TPageParam>, ListRoomTypesError> | void): Promise<OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters>>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        getQueryData(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void)): FindAll2Data | undefined;
+        getQueryData(parameters: ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void)): ListRoomTypesData | undefined;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void)): OperationInfiniteData<FindAll2Data, FindAll2Parameters> | undefined;
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void)): OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters> | undefined;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>,
-            data: NoInfer<OperationInfiniteData<FindAll2Data, FindAll2Parameters>> | undefined
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>,
+            data: NoInfer<OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>,
-            data: FindAll2Data | undefined
+            queryKey: ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>,
+            data: ListRoomTypesData | undefined
         ]>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        getQueryState(parameters: ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters> | (DeepReadonly<FindAll2Parameters> | void)): QueryState<FindAll2Data, FindAll2Error> | undefined;
+        getQueryState(parameters: ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | (DeepReadonly<ListRoomTypesParameters> | void)): QueryState<ListRoomTypesData, ListRoomTypesError> | undefined;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        getInfiniteQueryState(parameters: DeepReadonly<FindAll2Parameters> | ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters> | void): QueryState<OperationInfiniteData<FindAll2Data, FindAll2Parameters>, FindAll2Error> | undefined;
+        getInfiniteQueryState(parameters: DeepReadonly<ListRoomTypesParameters> | ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters> | void): QueryState<OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters>, ListRoomTypesError> | undefined;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        setQueryData(parameters: (DeepReadonly<FindAll2Parameters> | undefined) | ServiceOperationQueryKey<FindAll2Schema, FindAll2Parameters>, updater: Updater<NoInfer<FindAll2Data> | undefined, NoInfer<DeepReadonly<FindAll2Data>> | undefined>, options?: SetDataOptions): FindAll2Data | undefined;
+        setQueryData(parameters: (DeepReadonly<ListRoomTypesParameters> | undefined) | ServiceOperationQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>, updater: Updater<NoInfer<ListRoomTypesData> | undefined, NoInfer<DeepReadonly<ListRoomTypesData>> | undefined>, options?: SetDataOptions): ListRoomTypesData | undefined;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        setInfiniteQueryData(parameters: (DeepReadonly<FindAll2Parameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAll2Schema, FindAll2Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAll2Data, FindAll2Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAll2Data, FindAll2Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAll2Data, FindAll2Parameters> | undefined;
+        setInfiniteQueryData(parameters: (DeepReadonly<ListRoomTypesParameters> | undefined) | ServiceOperationInfiniteQueryKey<ListRoomTypesSchema, ListRoomTypesParameters>, updater: Updater<NoInfer<OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<ListRoomTypesData, ListRoomTypesParameters> | undefined;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, updater: Updater<NoInfer<FindAll2Data> | undefined, NoInfer<FindAll2Data> | undefined>, options?: SetDataOptions): Array<FindAll2Data | undefined>;
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>, updater: Updater<NoInfer<ListRoomTypesData> | undefined, NoInfer<ListRoomTypesData> | undefined>, options?: SetDataOptions): Array<ListRoomTypesData | undefined>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: InvalidateOptions): Promise<void>;
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>, options?: InvalidateOptions): Promise<void>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: RefetchOptions): Promise<void>;
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>, options?: RefetchOptions): Promise<void>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: CancelOptions): Promise<void>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>, options?: CancelOptions): Promise<void>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): void;
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>): void;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>, options?: ResetOptions): Promise<void>;
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>, options?: ResetOptions): Promise<void>;
         /** @description Retorna todos os tipos de sala cadastrados. */
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error> | QueryFiltersByQueryKey<FindAll2Schema, FindAll2Data, TInfinite, FindAll2Parameters, FindAll2Error>): number;
-        schema: FindAll2Schema;
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError> | QueryFiltersByQueryKey<ListRoomTypesSchema, ListRoomTypesData, TInfinite, ListRoomTypesParameters, ListRoomTypesError>): number;
+        schema: ListRoomTypesSchema;
         types: {
-            parameters: FindAll2Parameters;
-            data: FindAll2Data;
-            error: FindAll2Error;
+            parameters: ListRoomTypesParameters;
+            data: ListRoomTypesData;
+            error: ListRoomTypesError;
         };
     };
     /** @description Cadastra um novo tipo de sala. */
-    create2: {
+    createRoomType: {
         /** @description Cadastra um novo tipo de sala. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<Create2Body, Create2Parameters, TMeta, TSignal>, client?: (schema: Create2Schema, options: ServiceOperationMutationFnOptions<Create2Body, Create2Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<Create2Data, Create2Error>>): Promise<RequestFnResponse<Create2Data, Create2Error>>;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<CreateRoomTypeBody, CreateRoomTypeParameters, TMeta, TSignal>, client?: (schema: CreateRoomTypeSchema, options: ServiceOperationMutationFnOptions<CreateRoomTypeBody, CreateRoomTypeParameters, TMeta, TSignal>) => Promise<RequestFnResponse<CreateRoomTypeData, CreateRoomTypeError>>): Promise<RequestFnResponse<CreateRoomTypeData, CreateRoomTypeError>>;
         /** @description Cadastra um novo tipo de sala. */
-        getMutationKey(parameters: DeepReadonly<Create2Parameters> | void): ServiceOperationMutationKey<Create2Schema, Create2Parameters>;
+        getMutationKey(parameters: DeepReadonly<CreateRoomTypeParameters> | void): ServiceOperationMutationKey<CreateRoomTypeSchema, CreateRoomTypeParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -1010,18 +858,18 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.create2.useMutation({})
+         * const { mutate, isPending } = qraft.roomTypes.createRoomType.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.create2.useMutation()
+         * const { mutate, isPending } = qraft.roomTypes.createRoomType.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
          * ```
          */
-        useMutation<TVariables extends Create2Body, TContext = unknown>(parameters: DeepReadonly<Create2Parameters>, options?: ServiceOperationUseMutationOptions<Create2Schema, Create2Data, Create2Parameters, TVariables, OperationError<Create2Error>, TContext>): UseMutationResult<Create2Data, OperationError<Create2Error>, TVariables, TContext>;
+        useMutation<TVariables extends CreateRoomTypeBody, TContext = unknown>(parameters: DeepReadonly<CreateRoomTypeParameters>, options?: ServiceOperationUseMutationOptions<CreateRoomTypeSchema, CreateRoomTypeData, CreateRoomTypeParameters, TVariables, OperationError<CreateRoomTypeError>, TContext>): UseMutationResult<CreateRoomTypeData, OperationError<CreateRoomTypeError>, TVariables, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -1030,18 +878,18 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.create2.useMutation({})
+         * const { mutate, isPending } = qraft.roomTypes.createRoomType.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.roomTypes.create2.useMutation()
+         * const { mutate, isPending } = qraft.roomTypes.createRoomType.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<Create2Body, Create2Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<Create2Schema, Create2Data, Create2Parameters, TVariables, OperationError<Create2Error>, TContext>): UseMutationResult<Create2Data, OperationError<Create2Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<CreateRoomTypeBody, CreateRoomTypeParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<CreateRoomTypeSchema, CreateRoomTypeData, CreateRoomTypeParameters, TVariables, OperationError<CreateRoomTypeError>, TContext>): UseMutationResult<CreateRoomTypeData, OperationError<CreateRoomTypeError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
@@ -1049,16 +897,16 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const create2Total = qraft.roomTypes.create2.useIsMutating()
+         * const createRoomTypeTotal = qraft.roomTypes.createRoomType.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const create2Total = qraft.roomTypes.create2.useIsMutating({
+         * const createRoomTypeTotal = qraft.roomTypes.createRoomType.useIsMutating({
          *     parameters: {}
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext> | MutationFiltersByMutationKey<Create2Schema, Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext> | MutationFiltersByMutationKey<CreateRoomTypeSchema, CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
@@ -1066,7 +914,7 @@ export interface RoomTypesService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const create2PendingMutationVariables = qraft.roomTypes.create2.useMutationState({
+         * const createRoomTypePendingMutationVariables = qraft.roomTypes.createRoomType.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -1075,7 +923,7 @@ export interface RoomTypesService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const create2MutationData = qraft.roomTypes.create2.useMutationState({
+         * const createRoomTypeMutationData = qraft.roomTypes.createRoomType.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -1083,12 +931,12 @@ export interface RoomTypesService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<Create2Data, OperationError<Create2Error>, MutationVariables<Create2Body, Create2Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext> | MutationFiltersByMutationKey<Create2Schema, Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext>;
-            select?: (mutation: Mutation<Create2Data, OperationError<Create2Error>, MutationVariables<Create2Body, Create2Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<CreateRoomTypeData, OperationError<CreateRoomTypeError>, MutationVariables<CreateRoomTypeBody, CreateRoomTypeParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext> | MutationFiltersByMutationKey<CreateRoomTypeSchema, CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext>;
+            select?: (mutation: Mutation<CreateRoomTypeData, OperationError<CreateRoomTypeError>, MutationVariables<CreateRoomTypeBody, CreateRoomTypeParameters>, TContext>) => TResult;
         }): Array<TResult>;
         /** @description Cadastra um novo tipo de sala. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext> | MutationFiltersByMutationKey<Create2Schema, Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext>): number;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext> | MutationFiltersByMutationKey<CreateRoomTypeSchema, CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
@@ -1098,7 +946,7 @@ export interface RoomTypesService {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.roomTypes.create2.getMutationCache();
+         * const mutationCache = qraft.roomTypes.createRoomType.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -1106,150 +954,302 @@ export interface RoomTypesService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.roomTypes.create2.getMutationCache();
+         * const mutationCache = qraft.roomTypes.createRoomType.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext> | MutationFiltersByMutationKey<Create2Schema, Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext>): Mutation<Create2Data, Create2Error, MutationVariables<Create2Body, Create2Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext> | MutationFiltersByMutationKey<Create2Schema, Create2Body, Create2Data, Create2Parameters, OperationError<Create2Error>, TContext>): Array<Mutation<Create2Data, Create2Error, MutationVariables<Create2Body, Create2Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext> | MutationFiltersByMutationKey<CreateRoomTypeSchema, CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext>): Mutation<CreateRoomTypeData, CreateRoomTypeError, MutationVariables<CreateRoomTypeBody, CreateRoomTypeParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext> | MutationFiltersByMutationKey<CreateRoomTypeSchema, CreateRoomTypeBody, CreateRoomTypeData, CreateRoomTypeParameters, OperationError<CreateRoomTypeError>, TContext>): Array<Mutation<CreateRoomTypeData, CreateRoomTypeError, MutationVariables<CreateRoomTypeBody, CreateRoomTypeParameters>, TContext>>;
         };
-        schema: Create2Schema;
+        schema: CreateRoomTypeSchema;
         types: {
-            parameters: Create2Parameters;
-            data: Create2Data;
-            error: Create2Error;
-            body: Create2Body;
+            parameters: CreateRoomTypeParameters;
+            data: CreateRoomTypeData;
+            error: CreateRoomTypeError;
+            body: CreateRoomTypeBody;
+        };
+    };
+    /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+    updateRoomTypeStatus: {
+        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters, TMeta, TSignal>, client?: (schema: UpdateRoomTypeStatusSchema, options: ServiceOperationMutationFnOptions<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateRoomTypeStatusData, UpdateRoomTypeStatusError>>): Promise<RequestFnResponse<UpdateRoomTypeStatusData, UpdateRoomTypeStatusError>>;
+        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        getMutationKey(parameters: DeepReadonly<UpdateRoomTypeStatusParameters> | void): ServiceOperationMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomTypeStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomTypeStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends UpdateRoomTypeStatusBody, TContext = unknown>(parameters: DeepReadonly<UpdateRoomTypeStatusParameters>, options?: ServiceOperationUseMutationOptions<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, TVariables, OperationError<UpdateRoomTypeStatusError>, TContext>): UseMutationResult<UpdateRoomTypeStatusData, OperationError<UpdateRoomTypeStatusError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomTypeStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.roomTypes.updateRoomTypeStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, TVariables, OperationError<UpdateRoomTypeStatusError>, TContext>): UseMutationResult<UpdateRoomTypeStatusData, OperationError<UpdateRoomTypeStatusError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const updateRoomTypeStatusTotal = qraft.roomTypes.updateRoomTypeStatus.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const updateRoomTypeStatusTotal = qraft.roomTypes.updateRoomTypeStatus.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const updateRoomTypeStatusPendingMutationVariables = qraft.roomTypes.updateRoomTypeStatus.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const updateRoomTypeStatusMutationData = qraft.roomTypes.updateRoomTypeStatus.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 id: id
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateRoomTypeStatusData, OperationError<UpdateRoomTypeStatusError>, MutationVariables<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext>;
+            select?: (mutation: Mutation<UpdateRoomTypeStatusData, OperationError<UpdateRoomTypeStatusError>, MutationVariables<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.roomTypes.updateRoomTypeStatus.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.roomTypes.updateRoomTypeStatus.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext>): Mutation<UpdateRoomTypeStatusData, UpdateRoomTypeStatusError, MutationVariables<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext>): Array<Mutation<UpdateRoomTypeStatusData, UpdateRoomTypeStatusError, MutationVariables<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters>, TContext>>;
+        };
+        schema: UpdateRoomTypeStatusSchema;
+        types: {
+            parameters: UpdateRoomTypeStatusParameters;
+            data: UpdateRoomTypeStatusData;
+            error: UpdateRoomTypeStatusError;
+            body: UpdateRoomTypeStatusBody;
         };
     };
 }
 /** @description Retorna os dados de um tipo de sala pelo seu ID. */
-export const findById2 = {
+export const getRoomType = {
     schema: {
         method: "get",
         url: "/room-types/{id}"
     }
 } as {
-    schema: FindById2Schema;
-    [QraftServiceOperationsToken]: RoomTypesService["findById2"];
+    schema: GetRoomTypeSchema;
+    [QraftServiceOperationsToken]: RoomTypesService["getRoomType"];
 };
 /** @description Atualiza os dados de um tipo de sala. */
-export const updateById1 = {
+export const updateRoomType = {
     schema: {
         method: "put",
         url: "/room-types/{id}",
         mediaType: ["application/json"]
     }
 } as {
-    schema: UpdateById1Schema;
-    [QraftServiceOperationsToken]: RoomTypesService["updateById1"];
+    schema: UpdateRoomTypeSchema;
+    [QraftServiceOperationsToken]: RoomTypesService["updateRoomType"];
 };
-/** @description Desativa um tipo de sala pelo seu ID (soft delete). */
-export const deleteById2 = {
+/** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+export const deleteRoomType = {
     schema: {
         method: "delete",
         url: "/room-types/{id}"
     }
 } as {
-    schema: DeleteById2Schema;
-    [QraftServiceOperationsToken]: RoomTypesService["deleteById2"];
-};
-/** @description Ativa ou desativa um tipo de sala pelo seu ID. */
-export const updateStatus1 = {
-    schema: {
-        method: "patch",
-        url: "/room-types/{id}",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: UpdateStatus1Schema;
-    [QraftServiceOperationsToken]: RoomTypesService["updateStatus1"];
+    schema: DeleteRoomTypeSchema;
+    [QraftServiceOperationsToken]: RoomTypesService["deleteRoomType"];
 };
 /** @description Retorna todos os tipos de sala cadastrados. */
-export const findAll2 = {
+export const listRoomTypes = {
     schema: {
         method: "get",
         url: "/room-types"
     }
 } as {
-    schema: FindAll2Schema;
-    [QraftServiceOperationsToken]: RoomTypesService["findAll2"];
+    schema: ListRoomTypesSchema;
+    [QraftServiceOperationsToken]: RoomTypesService["listRoomTypes"];
 };
 /** @description Cadastra um novo tipo de sala. */
-export const create2 = {
+export const createRoomType = {
     schema: {
         method: "post",
         url: "/room-types",
         mediaType: ["application/json"]
     }
 } as {
-    schema: Create2Schema;
-    [QraftServiceOperationsToken]: RoomTypesService["create2"];
+    schema: CreateRoomTypeSchema;
+    [QraftServiceOperationsToken]: RoomTypesService["createRoomType"];
+};
+/** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+export const updateRoomTypeStatus = {
+    schema: {
+        method: "patch",
+        url: "/room-types/{id}/status",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: UpdateRoomTypeStatusSchema;
+    [QraftServiceOperationsToken]: RoomTypesService["updateRoomTypeStatus"];
 };
 export const roomTypesService = {
-    findById2,
-    updateById1,
-    deleteById2,
-    updateStatus1,
-    findAll2,
-    create2
+    getRoomType,
+    updateRoomType,
+    deleteRoomType,
+    listRoomTypes,
+    createRoomType,
+    updateRoomTypeStatus
 } as const;
-type FindById2Schema = {
+type GetRoomTypeSchema = {
     method: "get";
     url: "/room-types/{id}";
 };
-type FindById2Parameters = paths["/room-types/{id}"]["get"]["parameters"];
-type FindById2Data = paths["/room-types/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindById2Error = paths["/room-types/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
-type UpdateById1Schema = {
+type GetRoomTypeParameters = paths["/room-types/{id}"]["get"]["parameters"];
+type GetRoomTypeData = paths["/room-types/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
+type GetRoomTypeError = paths["/room-types/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
+type UpdateRoomTypeSchema = {
     method: "put";
     url: "/room-types/{id}";
     mediaType: [
         "application/json"
     ];
 };
-type UpdateById1Parameters = paths["/room-types/{id}"]["put"]["parameters"];
-type UpdateById1Data = paths["/room-types/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
-type UpdateById1Error = paths["/room-types/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
-type UpdateById1Body = paths["/room-types/{id}"]["put"]["requestBody"]["content"]["application/json"];
-type DeleteById2Schema = {
+type UpdateRoomTypeParameters = paths["/room-types/{id}"]["put"]["parameters"];
+type UpdateRoomTypeData = paths["/room-types/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
+type UpdateRoomTypeError = paths["/room-types/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
+type UpdateRoomTypeBody = paths["/room-types/{id}"]["put"]["requestBody"]["content"]["application/json"];
+type DeleteRoomTypeSchema = {
     method: "delete";
     url: "/room-types/{id}";
 };
-type DeleteById2Parameters = paths["/room-types/{id}"]["delete"]["parameters"];
-type DeleteById2Data = null;
-type DeleteById2Error = paths["/room-types/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
-type DeleteById2Body = undefined;
-type UpdateStatus1Schema = {
-    method: "patch";
-    url: "/room-types/{id}";
-    mediaType: [
-        "application/json"
-    ];
-};
-type UpdateStatus1Parameters = paths["/room-types/{id}"]["patch"]["parameters"];
-type UpdateStatus1Data = paths["/room-types/{id}"]["patch"]["responses"]["200"]["content"]["*/*"];
-type UpdateStatus1Error = paths["/room-types/{id}"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}"]["patch"]["responses"]["422"]["content"]["*/*"];
-type UpdateStatus1Body = paths["/room-types/{id}"]["patch"]["requestBody"]["content"]["application/json"];
-type FindAll2Schema = {
+type DeleteRoomTypeParameters = paths["/room-types/{id}"]["delete"]["parameters"];
+type DeleteRoomTypeData = null;
+type DeleteRoomTypeError = paths["/room-types/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
+type DeleteRoomTypeBody = undefined;
+type ListRoomTypesSchema = {
     method: "get";
     url: "/room-types";
 };
-type FindAll2Parameters = undefined;
-type FindAll2Data = paths["/room-types"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAll2Error = paths["/room-types"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/room-types"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/room-types"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/room-types"]["get"]["responses"]["422"]["content"]["*/*"];
-type Create2Schema = {
+type ListRoomTypesParameters = undefined;
+type ListRoomTypesData = paths["/room-types"]["get"]["responses"]["200"]["content"]["*/*"];
+type ListRoomTypesError = paths["/room-types"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/room-types"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/room-types"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/room-types"]["get"]["responses"]["422"]["content"]["*/*"];
+type CreateRoomTypeSchema = {
     method: "post";
     url: "/room-types";
     mediaType: [
         "application/json"
     ];
 };
-type Create2Parameters = {
+type CreateRoomTypeParameters = {
     query?: never;
     header?: never;
     path?: never;
 };
-type Create2Data = paths["/room-types"]["post"]["responses"]["201"]["content"]["*/*"];
-type Create2Error = paths["/room-types"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/room-types"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/room-types"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/room-types"]["post"]["responses"]["422"]["content"]["*/*"];
-type Create2Body = paths["/room-types"]["post"]["requestBody"]["content"]["application/json"];
+type CreateRoomTypeData = paths["/room-types"]["post"]["responses"]["201"]["content"]["*/*"];
+type CreateRoomTypeError = paths["/room-types"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/room-types"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/room-types"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/room-types"]["post"]["responses"]["422"]["content"]["*/*"];
+type CreateRoomTypeBody = paths["/room-types"]["post"]["requestBody"]["content"]["application/json"];
+type UpdateRoomTypeStatusSchema = {
+    method: "patch";
+    url: "/room-types/{id}/status";
+    mediaType: [
+        "application/json"
+    ];
+};
+type UpdateRoomTypeStatusParameters = paths["/room-types/{id}/status"]["patch"]["parameters"];
+type UpdateRoomTypeStatusData = paths["/room-types/{id}/status"]["patch"]["responses"]["200"]["content"]["*/*"];
+type UpdateRoomTypeStatusError = paths["/room-types/{id}/status"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/room-types/{id}/status"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/room-types/{id}/status"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/room-types/{id}/status"]["patch"]["responses"]["422"]["content"]["*/*"];
+type UpdateRoomTypeStatusBody = paths["/room-types/{id}/status"]["patch"]["requestBody"]["content"]["application/json"];

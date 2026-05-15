@@ -8,15 +8,15 @@ import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey
 import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface BuildingsService {
     /** @description Retorna os dados de um edifício pelo seu ID. */
-    findById4: {
+    getBuilding: {
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindById4Schema, FindById4Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindById4Parameters, TMeta, TSignal>), client?: (schema: FindById4Schema, options: {
-            parameters: FindById4Parameters;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetBuildingSchema, GetBuildingParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetBuildingParameters, TMeta, TSignal>), client?: (schema: GetBuildingSchema, options: {
+            parameters: GetBuildingParameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindById4Data, FindById4Error>>): Promise<RequestFnResponse<FindById4Data, FindById4Error>>;
+        }) => Promise<RequestFnResponse<GetBuildingData, GetBuildingError>>): Promise<RequestFnResponse<GetBuildingData, GetBuildingError>>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        getQueryKey(parameters: DeepReadonly<FindById4Parameters>): ServiceOperationQueryKey<FindById4Schema, FindById4Parameters>;
+        getQueryKey(parameters: DeepReadonly<GetBuildingParameters>): ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -24,14 +24,14 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.buildings.findById4.useQuery({
+         * const { data, isLoading } = qraft.buildings.getBuilding.useQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useQuery<TData = FindById4Data>(parameters: ServiceOperationQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>), options?: Omit<UndefinedInitialDataOptions<FindById4Data, FindById4Error, TData, ServiceOperationQueryKey<FindById4Schema, FindById4Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindById4Error>>;
+        useQuery<TData = GetBuildingData>(parameters: ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>), options?: Omit<UndefinedInitialDataOptions<GetBuildingData, GetBuildingError, TData, ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetBuildingError>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -39,16 +39,16 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.buildings.findById4.useQuery({
+         * const { data, isLoading } = qraft.buildings.getBuilding.useQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useQuery<TData = FindById4Data>(parameters: ServiceOperationQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>), options: Omit<DefinedInitialDataOptions<FindById4Data, FindById4Error, TData, ServiceOperationQueryKey<FindById4Schema, FindById4Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindById4Error>>;
+        useQuery<TData = GetBuildingData>(parameters: ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>), options: Omit<DefinedInitialDataOptions<GetBuildingData, GetBuildingError, TData, ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetBuildingError>>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        getInfiniteQueryKey(parameters: DeepReadonly<FindById4Parameters>): ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters>;
+        getInfiniteQueryKey(parameters: DeepReadonly<GetBuildingParameters>): ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -58,7 +58,7 @@ export interface BuildingsService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.buildings.findById4.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.buildings.getBuilding.useInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -71,7 +71,7 @@ export interface BuildingsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindById4Parameters, TQueryFnData = FindById4Data, TData = OperationInfiniteData<TQueryFnData, FindById4Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindById4Error, TData, ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindById4Error>>;
+        useInfiniteQuery<TPageParam extends GetBuildingParameters, TQueryFnData = GetBuildingData, TData = OperationInfiniteData<TQueryFnData, GetBuildingParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetBuildingError, TData, ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetBuildingError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -81,7 +81,7 @@ export interface BuildingsService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.buildings.findById4.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.buildings.getBuilding.useInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -94,7 +94,7 @@ export interface BuildingsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindById4Parameters, TQueryFnData = FindById4Data, TData = OperationInfiniteData<TQueryFnData, FindById4Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindById4Error, TData, ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindById4Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindById4Error>>;
+        useInfiniteQuery<TPageParam extends GetBuildingParameters, TQueryFnData = GetBuildingData, TData = OperationInfiniteData<TQueryFnData, GetBuildingParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetBuildingError, TData, ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetBuildingData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetBuildingError>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
@@ -104,11 +104,11 @@ export interface BuildingsService {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findById4Total = qraft.buildings.findById4.useIsFetching()
+         * const getBuildingTotal = qraft.buildings.getBuilding.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const findById4ByParametersTotal = qraft.buildings.findById4.useIsFetching({
+         * const getBuildingByParametersTotal = qraft.buildings.getBuilding.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -118,7 +118,7 @@ export interface BuildingsService {
          * })
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
@@ -126,7 +126,7 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findById4Results = qraft.buildings.findById4.useQueries({
+         * const getBuildingResults = qraft.buildings.getBuilding.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -140,11 +140,11 @@ export interface BuildingsService {
          *         }
          *     ]
          * });
-         * findById4Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * getBuildingResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findById4CombinedResults = qraft.buildings.findById4.useQueries({
+         * const getBuildingCombinedResults = qraft.buildings.getBuilding.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -159,12 +159,12 @@ export interface BuildingsService {
          *         }
          *     ]
          * });
-         * findById4CombinedResults.forEach(data => console.log({ data }));
+         * getBuildingCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindById4Schema, FindById4Parameters, FindById4Data, FindById4Error>>, TCombinedResult = Array<UseQueryResult<FindById4Data, FindById4Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetBuildingSchema, GetBuildingParameters, GetBuildingData, GetBuildingError>>, TCombinedResult = Array<UseQueryResult<GetBuildingData, GetBuildingError>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindById4Data, FindById4Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<GetBuildingData, GetBuildingError>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
@@ -174,14 +174,14 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.buildings.findById4.useSuspenseQuery({
+         * const data = qraft.buildings.getBuilding.useSuspenseQuery({
          *     path: {
          *         id: id
          *     }
          * })
          * ```
          */
-        useSuspenseQuery<TData = FindById4Data>(parameters: ServiceOperationQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>), options?: Omit<UseSuspenseQueryOptions<FindById4Data, FindById4Error, TData, ServiceOperationQueryKey<FindById4Schema, FindById4Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindById4Error>>;
+        useSuspenseQuery<TData = GetBuildingData>(parameters: ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>), options?: Omit<UseSuspenseQueryOptions<GetBuildingData, GetBuildingError, TData, ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetBuildingError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -192,7 +192,7 @@ export interface BuildingsService {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.buildings.findById4.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.buildings.getBuilding.useSuspenseInfiniteQuery({
          *     path: {
          *         id: id
          *     }
@@ -205,7 +205,7 @@ export interface BuildingsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindById4Parameters, TData = FindById4Data>(parameters: ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>), options: Omit<UseSuspenseInfiniteQueryOptions<FindById4Data, FindById4Error, OperationInfiniteData<TData, FindById4Parameters>, ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindById4Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindById4Parameters>, OperationError<FindById4Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends GetBuildingParameters, TData = GetBuildingData>(parameters: ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetBuildingData, GetBuildingError, OperationInfiniteData<TData, GetBuildingParameters>, ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetBuildingData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetBuildingParameters>, OperationError<GetBuildingError>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
@@ -214,7 +214,7 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findById4Data = qraft.buildings.findById4.useSuspenseQueries({
+         * const getBuildingData = qraft.buildings.getBuilding.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -228,11 +228,11 @@ export interface BuildingsService {
          *         }
          *     ]
          * });
-         * findById4Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * getBuildingResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findById4CombinedData = qraft.buildings.findById4.useSuspenseQueries({
+         * const getBuildingCombinedData = qraft.buildings.getBuilding.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -247,72 +247,72 @@ export interface BuildingsService {
          *         }
          *     ]
          * });
-         * findById4CombinedData.forEach(data => console.log({ data }));
+         * getBuildingCombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindById4Schema, FindById4Parameters, FindById4Data, FindById4Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindById4Data, FindById4Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetBuildingSchema, GetBuildingParameters, GetBuildingData, GetBuildingError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetBuildingData, GetBuildingError>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindById4Data, FindById4Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetBuildingData, GetBuildingError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindById4Schema, FindById4Data, FindById4Parameters, FindById4Error>): Promise<FindById4Data>;
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetBuildingSchema, GetBuildingData, GetBuildingParameters, GetBuildingError>): Promise<GetBuildingData>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindById4Schema, FindById4Data, FindById4Parameters, FindById4Error>): Promise<void>;
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetBuildingSchema, GetBuildingData, GetBuildingParameters, GetBuildingError>): Promise<void>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindById4Schema, FindById4Data, FindById4Parameters, FindById4Error>): Promise<FindById4Data>;
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetBuildingSchema, GetBuildingData, GetBuildingParameters, GetBuildingError>): Promise<GetBuildingData>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        fetchInfiniteQuery<TPageParam extends FindById4Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById4Schema, FindById4Data, FindById4Parameters, DeepReadonly<TPageParam>, FindById4Error>): Promise<OperationInfiniteData<FindById4Data, FindById4Parameters>>;
+        fetchInfiniteQuery<TPageParam extends GetBuildingParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetBuildingSchema, GetBuildingData, GetBuildingParameters, DeepReadonly<TPageParam>, GetBuildingError>): Promise<OperationInfiniteData<GetBuildingData, GetBuildingParameters>>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        prefetchInfiniteQuery<TPageParam extends FindById4Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindById4Schema, FindById4Data, FindById4Parameters, DeepReadonly<TPageParam>, FindById4Error>): Promise<void>;
+        prefetchInfiniteQuery<TPageParam extends GetBuildingParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetBuildingSchema, GetBuildingData, GetBuildingParameters, DeepReadonly<TPageParam>, GetBuildingError>): Promise<void>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        ensureInfiniteQueryData<TPageParam extends FindById4Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindById4Schema, FindById4Data, FindById4Parameters, DeepReadonly<TPageParam>, FindById4Error>): Promise<OperationInfiniteData<FindById4Data, FindById4Parameters>>;
+        ensureInfiniteQueryData<TPageParam extends GetBuildingParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetBuildingSchema, GetBuildingData, GetBuildingParameters, DeepReadonly<TPageParam>, GetBuildingError>): Promise<OperationInfiniteData<GetBuildingData, GetBuildingParameters>>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        getQueryData(parameters: ServiceOperationQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>)): FindById4Data | undefined;
+        getQueryData(parameters: ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>)): GetBuildingData | undefined;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>)): OperationInfiniteData<FindById4Data, FindById4Parameters> | undefined;
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>)): OperationInfiniteData<GetBuildingData, GetBuildingParameters> | undefined;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters>,
-            data: NoInfer<OperationInfiniteData<FindById4Data, FindById4Parameters>> | undefined
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters>,
+            data: NoInfer<OperationInfiniteData<GetBuildingData, GetBuildingParameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindById4Schema, FindById4Parameters>,
-            data: FindById4Data | undefined
+            queryKey: ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters>,
+            data: GetBuildingData | undefined
         ]>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        getQueryState(parameters: ServiceOperationQueryKey<FindById4Schema, FindById4Parameters> | (DeepReadonly<FindById4Parameters>)): QueryState<FindById4Data, FindById4Error> | undefined;
+        getQueryState(parameters: ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters> | (DeepReadonly<GetBuildingParameters>)): QueryState<GetBuildingData, GetBuildingError> | undefined;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        getInfiniteQueryState(parameters: DeepReadonly<FindById4Parameters> | ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters>): QueryState<OperationInfiniteData<FindById4Data, FindById4Parameters>, FindById4Error> | undefined;
+        getInfiniteQueryState(parameters: DeepReadonly<GetBuildingParameters> | ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters>): QueryState<OperationInfiniteData<GetBuildingData, GetBuildingParameters>, GetBuildingError> | undefined;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        setQueryData(parameters: (DeepReadonly<FindById4Parameters>) | ServiceOperationQueryKey<FindById4Schema, FindById4Parameters>, updater: Updater<NoInfer<FindById4Data> | undefined, NoInfer<DeepReadonly<FindById4Data>> | undefined>, options?: SetDataOptions): FindById4Data | undefined;
+        setQueryData(parameters: (DeepReadonly<GetBuildingParameters>) | ServiceOperationQueryKey<GetBuildingSchema, GetBuildingParameters>, updater: Updater<NoInfer<GetBuildingData> | undefined, NoInfer<DeepReadonly<GetBuildingData>> | undefined>, options?: SetDataOptions): GetBuildingData | undefined;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        setInfiniteQueryData(parameters: (DeepReadonly<FindById4Parameters>) | ServiceOperationInfiniteQueryKey<FindById4Schema, FindById4Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindById4Data, FindById4Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindById4Data, FindById4Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindById4Data, FindById4Parameters> | undefined;
+        setInfiniteQueryData(parameters: (DeepReadonly<GetBuildingParameters>) | ServiceOperationInfiniteQueryKey<GetBuildingSchema, GetBuildingParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetBuildingData, GetBuildingParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetBuildingData, GetBuildingParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetBuildingData, GetBuildingParameters> | undefined;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>, updater: Updater<NoInfer<FindById4Data> | undefined, NoInfer<FindById4Data> | undefined>, options?: SetDataOptions): Array<FindById4Data | undefined>;
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>, updater: Updater<NoInfer<GetBuildingData> | undefined, NoInfer<GetBuildingData> | undefined>, options?: SetDataOptions): Array<GetBuildingData | undefined>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>, options?: InvalidateOptions): Promise<void>;
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>, options?: InvalidateOptions): Promise<void>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>, options?: RefetchOptions): Promise<void>;
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>, options?: RefetchOptions): Promise<void>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>, options?: CancelOptions): Promise<void>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>, options?: CancelOptions): Promise<void>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>): void;
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>): void;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>, options?: ResetOptions): Promise<void>;
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>, options?: ResetOptions): Promise<void>;
         /** @description Retorna os dados de um edifício pelo seu ID. */
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error> | QueryFiltersByQueryKey<FindById4Schema, FindById4Data, TInfinite, FindById4Parameters, FindById4Error>): number;
-        schema: FindById4Schema;
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError> | QueryFiltersByQueryKey<GetBuildingSchema, GetBuildingData, TInfinite, GetBuildingParameters, GetBuildingError>): number;
+        schema: GetBuildingSchema;
         types: {
-            parameters: FindById4Parameters;
-            data: FindById4Data;
-            error: FindById4Error;
+            parameters: GetBuildingParameters;
+            data: GetBuildingData;
+            error: GetBuildingError;
         };
     };
     /** @description Atualiza nome, endereço e total de andares do edifício. */
-    updateById3: {
+    updateBuilding: {
         /** @description Atualiza nome, endereço e total de andares do edifício. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateById3Body, UpdateById3Parameters, TMeta, TSignal>, client?: (schema: UpdateById3Schema, options: ServiceOperationMutationFnOptions<UpdateById3Body, UpdateById3Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateById3Data, UpdateById3Error>>): Promise<RequestFnResponse<UpdateById3Data, UpdateById3Error>>;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateBuildingBody, UpdateBuildingParameters, TMeta, TSignal>, client?: (schema: UpdateBuildingSchema, options: ServiceOperationMutationFnOptions<UpdateBuildingBody, UpdateBuildingParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateBuildingData, UpdateBuildingError>>): Promise<RequestFnResponse<UpdateBuildingData, UpdateBuildingError>>;
         /** @description Atualiza nome, endereço e total de andares do edifício. */
-        getMutationKey(parameters: DeepReadonly<UpdateById3Parameters> | void): ServiceOperationMutationKey<UpdateById3Schema, UpdateById3Parameters>;
+        getMutationKey(parameters: DeepReadonly<UpdateBuildingParameters> | void): ServiceOperationMutationKey<UpdateBuildingSchema, UpdateBuildingParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -321,7 +321,7 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateById3.useMutation({
+         * const { mutate, isPending } = qraft.buildings.updateBuilding.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -330,7 +330,7 @@ export interface BuildingsService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateById3.useMutation()
+         * const { mutate, isPending } = qraft.buildings.updateBuilding.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -339,7 +339,7 @@ export interface BuildingsService {
          * });
          * ```
          */
-        useMutation<TVariables extends UpdateById3Body, TContext = unknown>(parameters: DeepReadonly<UpdateById3Parameters>, options?: ServiceOperationUseMutationOptions<UpdateById3Schema, UpdateById3Data, UpdateById3Parameters, TVariables, OperationError<UpdateById3Error>, TContext>): UseMutationResult<UpdateById3Data, OperationError<UpdateById3Error>, TVariables, TContext>;
+        useMutation<TVariables extends UpdateBuildingBody, TContext = unknown>(parameters: DeepReadonly<UpdateBuildingParameters>, options?: ServiceOperationUseMutationOptions<UpdateBuildingSchema, UpdateBuildingData, UpdateBuildingParameters, TVariables, OperationError<UpdateBuildingError>, TContext>): UseMutationResult<UpdateBuildingData, OperationError<UpdateBuildingError>, TVariables, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -348,7 +348,7 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateById3.useMutation({
+         * const { mutate, isPending } = qraft.buildings.updateBuilding.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -357,7 +357,7 @@ export interface BuildingsService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateById3.useMutation()
+         * const { mutate, isPending } = qraft.buildings.updateBuilding.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -366,7 +366,7 @@ export interface BuildingsService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<UpdateById3Body, UpdateById3Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateById3Schema, UpdateById3Data, UpdateById3Parameters, TVariables, OperationError<UpdateById3Error>, TContext>): UseMutationResult<UpdateById3Data, OperationError<UpdateById3Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<UpdateBuildingBody, UpdateBuildingParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateBuildingSchema, UpdateBuildingData, UpdateBuildingParameters, TVariables, OperationError<UpdateBuildingError>, TContext>): UseMutationResult<UpdateBuildingData, OperationError<UpdateBuildingError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
@@ -374,11 +374,11 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const updateById3Total = qraft.buildings.updateById3.useIsMutating()
+         * const updateBuildingTotal = qraft.buildings.updateBuilding.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const updateById3Total = qraft.buildings.updateById3.useIsMutating({
+         * const updateBuildingTotal = qraft.buildings.updateBuilding.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -387,7 +387,7 @@ export interface BuildingsService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext> | MutationFiltersByMutationKey<UpdateById3Schema, UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingSchema, UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
@@ -395,7 +395,7 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const updateById3PendingMutationVariables = qraft.buildings.updateById3.useMutationState({
+         * const updateBuildingPendingMutationVariables = qraft.buildings.updateBuilding.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -404,7 +404,7 @@ export interface BuildingsService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const updateById3MutationData = qraft.buildings.updateById3.useMutationState({
+         * const updateBuildingMutationData = qraft.buildings.updateBuilding.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -416,12 +416,12 @@ export interface BuildingsService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<UpdateById3Data, OperationError<UpdateById3Error>, MutationVariables<UpdateById3Body, UpdateById3Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext> | MutationFiltersByMutationKey<UpdateById3Schema, UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext>;
-            select?: (mutation: Mutation<UpdateById3Data, OperationError<UpdateById3Error>, MutationVariables<UpdateById3Body, UpdateById3Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateBuildingData, OperationError<UpdateBuildingError>, MutationVariables<UpdateBuildingBody, UpdateBuildingParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingSchema, UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext>;
+            select?: (mutation: Mutation<UpdateBuildingData, OperationError<UpdateBuildingError>, MutationVariables<UpdateBuildingBody, UpdateBuildingParameters>, TContext>) => TResult;
         }): Array<TResult>;
         /** @description Atualiza nome, endereço e total de andares do edifício. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext> | MutationFiltersByMutationKey<UpdateById3Schema, UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext>): number;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingSchema, UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
@@ -431,7 +431,7 @@ export interface BuildingsService {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.buildings.updateById3.getMutationCache();
+         * const mutationCache = qraft.buildings.updateBuilding.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -443,37 +443,37 @@ export interface BuildingsService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.buildings.updateById3.getMutationCache();
+         * const mutationCache = qraft.buildings.updateBuilding.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext> | MutationFiltersByMutationKey<UpdateById3Schema, UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext>): Mutation<UpdateById3Data, UpdateById3Error, MutationVariables<UpdateById3Body, UpdateById3Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext> | MutationFiltersByMutationKey<UpdateById3Schema, UpdateById3Body, UpdateById3Data, UpdateById3Parameters, OperationError<UpdateById3Error>, TContext>): Array<Mutation<UpdateById3Data, UpdateById3Error, MutationVariables<UpdateById3Body, UpdateById3Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingSchema, UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext>): Mutation<UpdateBuildingData, UpdateBuildingError, MutationVariables<UpdateBuildingBody, UpdateBuildingParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingSchema, UpdateBuildingBody, UpdateBuildingData, UpdateBuildingParameters, OperationError<UpdateBuildingError>, TContext>): Array<Mutation<UpdateBuildingData, UpdateBuildingError, MutationVariables<UpdateBuildingBody, UpdateBuildingParameters>, TContext>>;
         };
-        schema: UpdateById3Schema;
+        schema: UpdateBuildingSchema;
         types: {
-            parameters: UpdateById3Parameters;
-            data: UpdateById3Data;
-            error: UpdateById3Error;
-            body: UpdateById3Body;
+            parameters: UpdateBuildingParameters;
+            data: UpdateBuildingData;
+            error: UpdateBuildingError;
+            body: UpdateBuildingBody;
         };
     };
-    /** @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED. */
-    deleteById4: {
-        /** @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteById4Body, DeleteById4Parameters, TMeta, TSignal>, client?: (schema: DeleteById4Schema, options: ServiceOperationMutationFnOptions<DeleteById4Body, DeleteById4Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteById4Data, DeleteById4Error>>): Promise<RequestFnResponse<DeleteById4Data, DeleteById4Error>>;
-        /** @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED. */
-        getMutationKey(parameters: DeepReadonly<DeleteById4Parameters> | void): ServiceOperationMutationKey<DeleteById4Schema, DeleteById4Parameters>;
+    /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+    deleteBuilding: {
+        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteBuildingBody, DeleteBuildingParameters, TMeta, TSignal>, client?: (schema: DeleteBuildingSchema, options: ServiceOperationMutationFnOptions<DeleteBuildingBody, DeleteBuildingParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteBuildingData, DeleteBuildingError>>): Promise<RequestFnResponse<DeleteBuildingData, DeleteBuildingError>>;
+        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        getMutationKey(parameters: DeepReadonly<DeleteBuildingParameters> | void): ServiceOperationMutationKey<DeleteBuildingSchema, DeleteBuildingParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED.
+         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.deleteById4.useMutation({
+         * const { mutate, isPending } = qraft.buildings.deleteBuilding.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -482,7 +482,7 @@ export interface BuildingsService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.deleteById4.useMutation()
+         * const { mutate, isPending } = qraft.buildings.deleteBuilding.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -491,16 +491,16 @@ export interface BuildingsService {
          * });
          * ```
          */
-        useMutation<TVariables extends DeleteById4Body, TContext = unknown>(parameters: DeepReadonly<DeleteById4Parameters>, options?: ServiceOperationUseMutationOptions<DeleteById4Schema, DeleteById4Data, DeleteById4Parameters, TVariables, OperationError<DeleteById4Error>, TContext>): UseMutationResult<DeleteById4Data, OperationError<DeleteById4Error>, TVariables | void, TContext>;
+        useMutation<TVariables extends DeleteBuildingBody, TContext = unknown>(parameters: DeepReadonly<DeleteBuildingParameters>, options?: ServiceOperationUseMutationOptions<DeleteBuildingSchema, DeleteBuildingData, DeleteBuildingParameters, TVariables, OperationError<DeleteBuildingError>, TContext>): UseMutationResult<DeleteBuildingData, OperationError<DeleteBuildingError>, TVariables | void, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED.
+         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.deleteById4.useMutation({
+         * const { mutate, isPending } = qraft.buildings.deleteBuilding.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -509,7 +509,7 @@ export interface BuildingsService {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.deleteById4.useMutation()
+         * const { mutate, isPending } = qraft.buildings.deleteBuilding.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -518,19 +518,19 @@ export interface BuildingsService {
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<DeleteById4Body, DeleteById4Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteById4Schema, DeleteById4Data, DeleteById4Parameters, TVariables, OperationError<DeleteById4Error>, TContext>): UseMutationResult<DeleteById4Data, OperationError<DeleteById4Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<DeleteBuildingBody, DeleteBuildingParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteBuildingSchema, DeleteBuildingData, DeleteBuildingParameters, TVariables, OperationError<DeleteBuildingError>, TContext>): UseMutationResult<DeleteBuildingData, OperationError<DeleteBuildingError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED.
+         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteById4Total = qraft.buildings.deleteById4.useIsMutating()
+         * const deleteBuildingTotal = qraft.buildings.deleteBuilding.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteById4Total = qraft.buildings.deleteById4.useIsMutating({
+         * const deleteBuildingTotal = qraft.buildings.deleteBuilding.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -539,15 +539,15 @@ export interface BuildingsService {
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext> | MutationFiltersByMutationKey<DeleteById4Schema, DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext> | MutationFiltersByMutationKey<DeleteBuildingSchema, DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED.
+         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteById4PendingMutationVariables = qraft.buildings.deleteById4.useMutationState({
+         * const deleteBuildingPendingMutationVariables = qraft.buildings.deleteBuilding.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -556,7 +556,7 @@ export interface BuildingsService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteById4MutationData = qraft.buildings.deleteById4.useMutationState({
+         * const deleteBuildingMutationData = qraft.buildings.deleteBuilding.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -568,22 +568,22 @@ export interface BuildingsService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<DeleteById4Data, OperationError<DeleteById4Error>, MutationVariables<DeleteById4Body, DeleteById4Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext> | MutationFiltersByMutationKey<DeleteById4Schema, DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext>;
-            select?: (mutation: Mutation<DeleteById4Data, OperationError<DeleteById4Error>, MutationVariables<DeleteById4Body, DeleteById4Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<DeleteBuildingData, OperationError<DeleteBuildingError>, MutationVariables<DeleteBuildingBody, DeleteBuildingParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext> | MutationFiltersByMutationKey<DeleteBuildingSchema, DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext>;
+            select?: (mutation: Mutation<DeleteBuildingData, OperationError<DeleteBuildingError>, MutationVariables<DeleteBuildingBody, DeleteBuildingParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext> | MutationFiltersByMutationKey<DeleteById4Schema, DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext>): number;
+        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext> | MutationFiltersByMutationKey<DeleteBuildingSchema, DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED.
+         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.buildings.deleteById4.getMutationCache();
+         * const mutationCache = qraft.buildings.deleteBuilding.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -595,246 +595,32 @@ export interface BuildingsService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.buildings.deleteById4.getMutationCache();
+         * const mutationCache = qraft.buildings.deleteBuilding.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext> | MutationFiltersByMutationKey<DeleteById4Schema, DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext>): Mutation<DeleteById4Data, DeleteById4Error, MutationVariables<DeleteById4Body, DeleteById4Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext> | MutationFiltersByMutationKey<DeleteById4Schema, DeleteById4Body, DeleteById4Data, DeleteById4Parameters, OperationError<DeleteById4Error>, TContext>): Array<Mutation<DeleteById4Data, DeleteById4Error, MutationVariables<DeleteById4Body, DeleteById4Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext> | MutationFiltersByMutationKey<DeleteBuildingSchema, DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext>): Mutation<DeleteBuildingData, DeleteBuildingError, MutationVariables<DeleteBuildingBody, DeleteBuildingParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext> | MutationFiltersByMutationKey<DeleteBuildingSchema, DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext>): Array<Mutation<DeleteBuildingData, DeleteBuildingError, MutationVariables<DeleteBuildingBody, DeleteBuildingParameters>, TContext>>;
         };
-        schema: DeleteById4Schema;
+        schema: DeleteBuildingSchema;
         types: {
-            parameters: DeleteById4Parameters;
-            data: DeleteById4Data;
-            error: DeleteById4Error;
-            body: DeleteById4Body;
-        };
-    };
-    /**
-     * @description Altera o status do edifício. Transições permitidas:
-     * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-     * - **INACTIVE**: desativa um edifício ACTIVE.
-     * - **ARCHIVED**: arquiva o edifício independente do status atual.
-     *
-     * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-     *
-     */
-    updateStatus3: {
-        /**
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateStatus3Body, UpdateStatus3Parameters, TMeta, TSignal>, client?: (schema: UpdateStatus3Schema, options: ServiceOperationMutationFnOptions<UpdateStatus3Body, UpdateStatus3Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateStatus3Data, UpdateStatus3Error>>): Promise<RequestFnResponse<UpdateStatus3Data, UpdateStatus3Error>>;
-        /**
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         */
-        getMutationKey(parameters: DeepReadonly<UpdateStatus3Parameters> | void): ServiceOperationMutationKey<UpdateStatus3Schema, UpdateStatus3Parameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateStatus3.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateStatus3.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends UpdateStatus3Body, TContext = unknown>(parameters: DeepReadonly<UpdateStatus3Parameters>, options?: ServiceOperationUseMutationOptions<UpdateStatus3Schema, UpdateStatus3Data, UpdateStatus3Parameters, TVariables, OperationError<UpdateStatus3Error>, TContext>): UseMutationResult<UpdateStatus3Data, OperationError<UpdateStatus3Error>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateStatus3.useMutation({
-         *     path: {
-         *         id: id
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.buildings.updateStatus3.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         id: id
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<UpdateStatus3Body, UpdateStatus3Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateStatus3Schema, UpdateStatus3Data, UpdateStatus3Parameters, TVariables, OperationError<UpdateStatus3Error>, TContext>): UseMutationResult<UpdateStatus3Data, OperationError<UpdateStatus3Error>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const updateStatus3Total = qraft.buildings.updateStatus3.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const updateStatus3Total = qraft.buildings.updateStatus3.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus3Schema, UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const updateStatus3PendingMutationVariables = qraft.buildings.updateStatus3.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const updateStatus3MutationData = qraft.buildings.updateStatus3.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 id: id
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<UpdateStatus3Data, OperationError<UpdateStatus3Error>, MutationVariables<UpdateStatus3Body, UpdateStatus3Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus3Schema, UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext>;
-            select?: (mutation: Mutation<UpdateStatus3Data, OperationError<UpdateStatus3Error>, MutationVariables<UpdateStatus3Body, UpdateStatus3Parameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus3Schema, UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @description Altera o status do edifício. Transições permitidas:
-         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
-         * - **INACTIVE**: desativa um edifício ACTIVE.
-         * - **ARCHIVED**: arquiva o edifício independente do status atual.
-         *
-         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.buildings.updateStatus3.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             id: id
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.buildings.updateStatus3.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus3Schema, UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext>): Mutation<UpdateStatus3Data, UpdateStatus3Error, MutationVariables<UpdateStatus3Body, UpdateStatus3Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext> | MutationFiltersByMutationKey<UpdateStatus3Schema, UpdateStatus3Body, UpdateStatus3Data, UpdateStatus3Parameters, OperationError<UpdateStatus3Error>, TContext>): Array<Mutation<UpdateStatus3Data, UpdateStatus3Error, MutationVariables<UpdateStatus3Body, UpdateStatus3Parameters>, TContext>>;
-        };
-        schema: UpdateStatus3Schema;
-        types: {
-            parameters: UpdateStatus3Parameters;
-            data: UpdateStatus3Data;
-            error: UpdateStatus3Error;
-            body: UpdateStatus3Body;
+            parameters: DeleteBuildingParameters;
+            data: DeleteBuildingData;
+            error: DeleteBuildingError;
+            body: DeleteBuildingBody;
         };
     };
     /** @description Retorna todos os edifícios cadastrados. */
-    findAll5: {
+    listBuildings: {
         /** @description Retorna todos os edifícios cadastrados. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<FindAll5Schema, FindAll5Parameters, TMeta, TSignal> | (QueryFnOptionsByParameters<FindAll5Parameters, TMeta, TSignal> | void), client?: (schema: FindAll5Schema, options: {
-            parameters: FindAll5Parameters;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<ListBuildingsSchema, ListBuildingsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<ListBuildingsParameters, TMeta, TSignal> | void), client?: (schema: ListBuildingsSchema, options: {
+            parameters: ListBuildingsParameters;
             signal?: TSignal;
             meta?: TMeta;
-        }) => Promise<RequestFnResponse<FindAll5Data, FindAll5Error>>): Promise<RequestFnResponse<FindAll5Data, FindAll5Error>>;
+        }) => Promise<RequestFnResponse<ListBuildingsData, ListBuildingsError>>): Promise<RequestFnResponse<ListBuildingsData, ListBuildingsError>>;
         /** @description Retorna todos os edifícios cadastrados. */
-        getQueryKey(parameters: DeepReadonly<FindAll5Parameters> | void): ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters>;
+        getQueryKey(parameters: DeepReadonly<ListBuildingsParameters> | void): ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -842,10 +628,10 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.buildings.findAll5.useQuery()
+         * const { data, isLoading } = qraft.buildings.listBuildings.useQuery()
          * ```
          */
-        useQuery<TData = FindAll5Data>(parameters: ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void), options?: Omit<UndefinedInitialDataOptions<FindAll5Data, FindAll5Error, TData, ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters>>, "queryKey">): UseQueryResult<TData, OperationError<FindAll5Error>>;
+        useQuery<TData = ListBuildingsData>(parameters: ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void), options?: Omit<UndefinedInitialDataOptions<ListBuildingsData, ListBuildingsError, TData, ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<ListBuildingsError>>;
         /**
          * Performs asynchronous data fetching, manages loading states and error handling.
          *
@@ -853,12 +639,12 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.buildings.findAll5.useQuery()
+         * const { data, isLoading } = qraft.buildings.listBuildings.useQuery()
          * ```
          */
-        useQuery<TData = FindAll5Data>(parameters: ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void), options: Omit<DefinedInitialDataOptions<FindAll5Data, FindAll5Error, TData, ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<FindAll5Error>>;
+        useQuery<TData = ListBuildingsData>(parameters: ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void), options: Omit<DefinedInitialDataOptions<ListBuildingsData, ListBuildingsError, TData, ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<ListBuildingsError>>;
         /** @description Retorna todos os edifícios cadastrados. */
-        getInfiniteQueryKey(parameters: DeepReadonly<FindAll5Parameters> | void): ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters>;
+        getInfiniteQueryKey(parameters: DeepReadonly<ListBuildingsParameters> | void): ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -868,7 +654,7 @@ export interface BuildingsService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.buildings.findAll5.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.buildings.listBuildings.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -877,7 +663,7 @@ export interface BuildingsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll5Parameters, TQueryFnData = FindAll5Data, TData = OperationInfiniteData<TQueryFnData, FindAll5Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, FindAll5Error, TData, ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<FindAll5Error>>;
+        useInfiniteQuery<TPageParam extends ListBuildingsParameters, TQueryFnData = ListBuildingsData, TData = OperationInfiniteData<TQueryFnData, ListBuildingsParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, ListBuildingsError, TData, ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<ListBuildingsError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -887,7 +673,7 @@ export interface BuildingsService {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.buildings.findAll5.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.buildings.listBuildings.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -896,7 +682,7 @@ export interface BuildingsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useInfiniteQuery<TPageParam extends FindAll5Parameters, TQueryFnData = FindAll5Data, TData = OperationInfiniteData<TQueryFnData, FindAll5Parameters>>(parameters: ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, FindAll5Error, TData, ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll5Data, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<FindAll5Error>>;
+        useInfiniteQuery<TPageParam extends ListBuildingsParameters, TQueryFnData = ListBuildingsData, TData = OperationInfiniteData<TQueryFnData, ListBuildingsParameters>>(parameters: ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, ListBuildingsError, TData, ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListBuildingsData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<ListBuildingsError>>;
         /**
          * Monitors the number of queries currently fetching, matching the provided filters.
          * Useful for creating loading indicators or performing actions based on active requests.
@@ -906,10 +692,10 @@ export interface BuildingsService {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const findAll5Total = qraft.buildings.findAll5.useIsFetching()
+         * const listBuildingsTotal = qraft.buildings.listBuildings.useIsFetching()
          * ```
          */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>): number;
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>): number;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
          *
@@ -917,29 +703,29 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const findAll5Results = qraft.buildings.findAll5.useQueries({
+         * const listBuildingsResults = qraft.buildings.listBuildings.useQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll5Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listBuildingsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const findAll5CombinedResults = qraft.buildings.findAll5.useQueries({
+         * const listBuildingsCombinedResults = qraft.buildings.listBuildings.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll5CombinedResults.forEach(data => console.log({ data }));
+         * listBuildingsCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<FindAll5Schema, FindAll5Parameters, FindAll5Data, FindAll5Error>>, TCombinedResult = Array<UseQueryResult<FindAll5Data, FindAll5Error>>>(options: {
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<ListBuildingsSchema, ListBuildingsParameters, ListBuildingsData, ListBuildingsError>>, TCombinedResult = Array<UseQueryResult<ListBuildingsData, ListBuildingsError>>>(options: {
             queries: T;
-            combine?: (results: Array<UseQueryResult<FindAll5Data, FindAll5Error>>) => TCombinedResult;
+            combine?: (results: Array<UseQueryResult<ListBuildingsData, ListBuildingsError>>) => TCombinedResult;
         }): TCombinedResult;
         /**
          * Performs asynchronous data fetching with Suspense support.
@@ -949,10 +735,10 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.buildings.findAll5.useSuspenseQuery()
+         * const data = qraft.buildings.listBuildings.useSuspenseQuery()
          * ```
          */
-        useSuspenseQuery<TData = FindAll5Data>(parameters: ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void), options?: Omit<UseSuspenseQueryOptions<FindAll5Data, FindAll5Error, TData, ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<FindAll5Error>>;
+        useSuspenseQuery<TData = ListBuildingsData>(parameters: ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void), options?: Omit<UseSuspenseQueryOptions<ListBuildingsData, ListBuildingsError, TData, ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<ListBuildingsError>>;
         /**
          * Performs asynchronous data fetching with support for infinite scrolling scenarios.
          * Manages paginated data and provides utilities for fetching additional pages.
@@ -963,7 +749,7 @@ export interface BuildingsService {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.buildings.findAll5.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.buildings.listBuildings.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -972,7 +758,7 @@ export interface BuildingsService {
          * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends FindAll5Parameters, TData = FindAll5Data>(parameters: ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<FindAll5Data, FindAll5Error, OperationInfiniteData<TData, FindAll5Parameters>, ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<FindAll5Data, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, FindAll5Parameters>, OperationError<FindAll5Error>>;
+        useSuspenseInfiniteQuery<TPageParam extends ListBuildingsParameters, TData = ListBuildingsData>(parameters: ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<ListBuildingsData, ListBuildingsError, OperationInfiniteData<TData, ListBuildingsParameters>, ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<ListBuildingsData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, ListBuildingsParameters>, OperationError<ListBuildingsError>>;
         /**
          * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
          * Similar to useQueries but integrates with React Suspense for loading states.
@@ -981,89 +767,89 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const findAll5Data = qraft.buildings.findAll5.useSuspenseQueries({
+         * const listBuildingsData = qraft.buildings.listBuildings.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll5Results.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * listBuildingsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const findAll5CombinedData = qraft.buildings.findAll5.useSuspenseQueries({
+         * const listBuildingsCombinedData = qraft.buildings.listBuildings.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
          *         {}
          *     ]
          * });
-         * findAll5CombinedData.forEach(data => console.log({ data }));
+         * listBuildingsCombinedData.forEach(data => console.log({ data }));
          * ```
          */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<FindAll5Schema, FindAll5Parameters, FindAll5Data, FindAll5Error>>, TCombinedResult = Array<UseSuspenseQueryResult<FindAll5Data, FindAll5Error>>>(options: {
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<ListBuildingsSchema, ListBuildingsParameters, ListBuildingsData, ListBuildingsError>>, TCombinedResult = Array<UseSuspenseQueryResult<ListBuildingsData, ListBuildingsError>>>(options: {
             queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<FindAll5Data, FindAll5Error>, "data">>) => TCombinedResult;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<ListBuildingsData, ListBuildingsError>, "data">>) => TCombinedResult;
         }): TCombinedResult;
         /** @description Retorna todos os edifícios cadastrados. */
-        fetchQuery(options: ServiceOperationFetchQueryOptions<FindAll5Schema, FindAll5Data, FindAll5Parameters, FindAll5Error> | void): Promise<FindAll5Data>;
+        fetchQuery(options: ServiceOperationFetchQueryOptions<ListBuildingsSchema, ListBuildingsData, ListBuildingsParameters, ListBuildingsError> | void): Promise<ListBuildingsData>;
         /** @description Retorna todos os edifícios cadastrados. */
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<FindAll5Schema, FindAll5Data, FindAll5Parameters, FindAll5Error> | void): Promise<void>;
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<ListBuildingsSchema, ListBuildingsData, ListBuildingsParameters, ListBuildingsError> | void): Promise<void>;
         /** @description Retorna todos os edifícios cadastrados. */
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<FindAll5Schema, FindAll5Data, FindAll5Parameters, FindAll5Error> | void): Promise<FindAll5Data>;
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<ListBuildingsSchema, ListBuildingsData, ListBuildingsParameters, ListBuildingsError> | void): Promise<ListBuildingsData>;
         /** @description Retorna todos os edifícios cadastrados. */
-        fetchInfiniteQuery<TPageParam extends FindAll5Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll5Schema, FindAll5Data, FindAll5Parameters, DeepReadonly<TPageParam>, FindAll5Error> | void): Promise<OperationInfiniteData<FindAll5Data, FindAll5Parameters>>;
+        fetchInfiniteQuery<TPageParam extends ListBuildingsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListBuildingsSchema, ListBuildingsData, ListBuildingsParameters, DeepReadonly<TPageParam>, ListBuildingsError> | void): Promise<OperationInfiniteData<ListBuildingsData, ListBuildingsParameters>>;
         /** @description Retorna todos os edifícios cadastrados. */
-        prefetchInfiniteQuery<TPageParam extends FindAll5Parameters>(options: ServiceOperationFetchInfiniteQueryOptions<FindAll5Schema, FindAll5Data, FindAll5Parameters, DeepReadonly<TPageParam>, FindAll5Error> | void): Promise<void>;
+        prefetchInfiniteQuery<TPageParam extends ListBuildingsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<ListBuildingsSchema, ListBuildingsData, ListBuildingsParameters, DeepReadonly<TPageParam>, ListBuildingsError> | void): Promise<void>;
         /** @description Retorna todos os edifícios cadastrados. */
-        ensureInfiniteQueryData<TPageParam extends FindAll5Parameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<FindAll5Schema, FindAll5Data, FindAll5Parameters, DeepReadonly<TPageParam>, FindAll5Error> | void): Promise<OperationInfiniteData<FindAll5Data, FindAll5Parameters>>;
+        ensureInfiniteQueryData<TPageParam extends ListBuildingsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<ListBuildingsSchema, ListBuildingsData, ListBuildingsParameters, DeepReadonly<TPageParam>, ListBuildingsError> | void): Promise<OperationInfiniteData<ListBuildingsData, ListBuildingsParameters>>;
         /** @description Retorna todos os edifícios cadastrados. */
-        getQueryData(parameters: ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void)): FindAll5Data | undefined;
+        getQueryData(parameters: ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void)): ListBuildingsData | undefined;
         /** @description Retorna todos os edifícios cadastrados. */
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void)): OperationInfiniteData<FindAll5Data, FindAll5Parameters> | undefined;
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void)): OperationInfiniteData<ListBuildingsData, ListBuildingsParameters> | undefined;
         /** @description Retorna todos os edifícios cadastrados. */
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters>,
-            data: NoInfer<OperationInfiniteData<FindAll5Data, FindAll5Parameters>> | undefined
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters>,
+            data: NoInfer<OperationInfiniteData<ListBuildingsData, ListBuildingsParameters>> | undefined
         ]> : Array<[
-            queryKey: ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters>,
-            data: FindAll5Data | undefined
+            queryKey: ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters>,
+            data: ListBuildingsData | undefined
         ]>;
         /** @description Retorna todos os edifícios cadastrados. */
-        getQueryState(parameters: ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters> | (DeepReadonly<FindAll5Parameters> | void)): QueryState<FindAll5Data, FindAll5Error> | undefined;
+        getQueryState(parameters: ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters> | (DeepReadonly<ListBuildingsParameters> | void)): QueryState<ListBuildingsData, ListBuildingsError> | undefined;
         /** @description Retorna todos os edifícios cadastrados. */
-        getInfiniteQueryState(parameters: DeepReadonly<FindAll5Parameters> | ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters> | void): QueryState<OperationInfiniteData<FindAll5Data, FindAll5Parameters>, FindAll5Error> | undefined;
+        getInfiniteQueryState(parameters: DeepReadonly<ListBuildingsParameters> | ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters> | void): QueryState<OperationInfiniteData<ListBuildingsData, ListBuildingsParameters>, ListBuildingsError> | undefined;
         /** @description Retorna todos os edifícios cadastrados. */
-        setQueryData(parameters: (DeepReadonly<FindAll5Parameters> | undefined) | ServiceOperationQueryKey<FindAll5Schema, FindAll5Parameters>, updater: Updater<NoInfer<FindAll5Data> | undefined, NoInfer<DeepReadonly<FindAll5Data>> | undefined>, options?: SetDataOptions): FindAll5Data | undefined;
+        setQueryData(parameters: (DeepReadonly<ListBuildingsParameters> | undefined) | ServiceOperationQueryKey<ListBuildingsSchema, ListBuildingsParameters>, updater: Updater<NoInfer<ListBuildingsData> | undefined, NoInfer<DeepReadonly<ListBuildingsData>> | undefined>, options?: SetDataOptions): ListBuildingsData | undefined;
         /** @description Retorna todos os edifícios cadastrados. */
-        setInfiniteQueryData(parameters: (DeepReadonly<FindAll5Parameters> | undefined) | ServiceOperationInfiniteQueryKey<FindAll5Schema, FindAll5Parameters>, updater: Updater<NoInfer<OperationInfiniteData<FindAll5Data, FindAll5Parameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<FindAll5Data, FindAll5Parameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<FindAll5Data, FindAll5Parameters> | undefined;
+        setInfiniteQueryData(parameters: (DeepReadonly<ListBuildingsParameters> | undefined) | ServiceOperationInfiniteQueryKey<ListBuildingsSchema, ListBuildingsParameters>, updater: Updater<NoInfer<OperationInfiniteData<ListBuildingsData, ListBuildingsParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<ListBuildingsData, ListBuildingsParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<ListBuildingsData, ListBuildingsParameters> | undefined;
         /** @description Retorna todos os edifícios cadastrados. */
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>, updater: Updater<NoInfer<FindAll5Data> | undefined, NoInfer<FindAll5Data> | undefined>, options?: SetDataOptions): Array<FindAll5Data | undefined>;
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>, updater: Updater<NoInfer<ListBuildingsData> | undefined, NoInfer<ListBuildingsData> | undefined>, options?: SetDataOptions): Array<ListBuildingsData | undefined>;
         /** @description Retorna todos os edifícios cadastrados. */
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>, options?: InvalidateOptions): Promise<void>;
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>, options?: InvalidateOptions): Promise<void>;
         /** @description Retorna todos os edifícios cadastrados. */
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>, options?: RefetchOptions): Promise<void>;
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>, options?: RefetchOptions): Promise<void>;
         /** @description Retorna todos os edifícios cadastrados. */
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>, options?: CancelOptions): Promise<void>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>, options?: CancelOptions): Promise<void>;
         /** @description Retorna todos os edifícios cadastrados. */
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>): void;
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>): void;
         /** @description Retorna todos os edifícios cadastrados. */
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>, options?: ResetOptions): Promise<void>;
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>, options?: ResetOptions): Promise<void>;
         /** @description Retorna todos os edifícios cadastrados. */
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error> | QueryFiltersByQueryKey<FindAll5Schema, FindAll5Data, TInfinite, FindAll5Parameters, FindAll5Error>): number;
-        schema: FindAll5Schema;
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError> | QueryFiltersByQueryKey<ListBuildingsSchema, ListBuildingsData, TInfinite, ListBuildingsParameters, ListBuildingsError>): number;
+        schema: ListBuildingsSchema;
         types: {
-            parameters: FindAll5Parameters;
-            data: FindAll5Data;
-            error: FindAll5Error;
+            parameters: ListBuildingsParameters;
+            data: ListBuildingsData;
+            error: ListBuildingsError;
         };
     };
     /** @description Cadastra um novo edifício com status inicial ACTIVE. */
-    create4: {
+    createBuilding: {
         /** @description Cadastra um novo edifício com status inicial ACTIVE. */
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<Create4Body, Create4Parameters, TMeta, TSignal>, client?: (schema: Create4Schema, options: ServiceOperationMutationFnOptions<Create4Body, Create4Parameters, TMeta, TSignal>) => Promise<RequestFnResponse<Create4Data, Create4Error>>): Promise<RequestFnResponse<Create4Data, Create4Error>>;
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<CreateBuildingBody, CreateBuildingParameters, TMeta, TSignal>, client?: (schema: CreateBuildingSchema, options: ServiceOperationMutationFnOptions<CreateBuildingBody, CreateBuildingParameters, TMeta, TSignal>) => Promise<RequestFnResponse<CreateBuildingData, CreateBuildingError>>): Promise<RequestFnResponse<CreateBuildingData, CreateBuildingError>>;
         /** @description Cadastra um novo edifício com status inicial ACTIVE. */
-        getMutationKey(parameters: DeepReadonly<Create4Parameters> | void): ServiceOperationMutationKey<Create4Schema, Create4Parameters>;
+        getMutationKey(parameters: DeepReadonly<CreateBuildingParameters> | void): ServiceOperationMutationKey<CreateBuildingSchema, CreateBuildingParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -1072,18 +858,18 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.create4.useMutation({})
+         * const { mutate, isPending } = qraft.buildings.createBuilding.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.create4.useMutation()
+         * const { mutate, isPending } = qraft.buildings.createBuilding.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
          * ```
          */
-        useMutation<TVariables extends Create4Body, TContext = unknown>(parameters: DeepReadonly<Create4Parameters>, options?: ServiceOperationUseMutationOptions<Create4Schema, Create4Data, Create4Parameters, TVariables, OperationError<Create4Error>, TContext>): UseMutationResult<Create4Data, OperationError<Create4Error>, TVariables, TContext>;
+        useMutation<TVariables extends CreateBuildingBody, TContext = unknown>(parameters: DeepReadonly<CreateBuildingParameters>, options?: ServiceOperationUseMutationOptions<CreateBuildingSchema, CreateBuildingData, CreateBuildingParameters, TVariables, OperationError<CreateBuildingError>, TContext>): UseMutationResult<CreateBuildingData, OperationError<CreateBuildingError>, TVariables, TContext>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
@@ -1092,18 +878,18 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.create4.useMutation({})
+         * const { mutate, isPending } = qraft.buildings.createBuilding.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.buildings.create4.useMutation()
+         * const { mutate, isPending } = qraft.buildings.createBuilding.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
          * ```
          */
-        useMutation<TVariables extends MutationVariables<Create4Body, Create4Parameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<Create4Schema, Create4Data, Create4Parameters, TVariables, OperationError<Create4Error>, TContext>): UseMutationResult<Create4Data, OperationError<Create4Error>, TVariables, TContext>;
+        useMutation<TVariables extends MutationVariables<CreateBuildingBody, CreateBuildingParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<CreateBuildingSchema, CreateBuildingData, CreateBuildingParameters, TVariables, OperationError<CreateBuildingError>, TContext>): UseMutationResult<CreateBuildingData, OperationError<CreateBuildingError>, TVariables, TContext>;
         /**
          * Returns the count of currently in-progress mutations.
          *
@@ -1111,16 +897,16 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const create4Total = qraft.buildings.create4.useIsMutating()
+         * const createBuildingTotal = qraft.buildings.createBuilding.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const create4Total = qraft.buildings.create4.useIsMutating({
+         * const createBuildingTotal = qraft.buildings.createBuilding.useIsMutating({
          *     parameters: {}
          * })
          * ```
          */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext> | MutationFiltersByMutationKey<Create4Schema, Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext>): number;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext> | MutationFiltersByMutationKey<CreateBuildingSchema, CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext>): number;
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
@@ -1128,7 +914,7 @@ export interface BuildingsService {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const create4PendingMutationVariables = qraft.buildings.create4.useMutationState({
+         * const createBuildingPendingMutationVariables = qraft.buildings.createBuilding.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -1137,7 +923,7 @@ export interface BuildingsService {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const create4MutationData = qraft.buildings.create4.useMutationState({
+         * const createBuildingMutationData = qraft.buildings.createBuilding.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -1145,12 +931,12 @@ export interface BuildingsService {
          * })
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<Create4Data, OperationError<Create4Error>, MutationVariables<Create4Body, Create4Parameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext> | MutationFiltersByMutationKey<Create4Schema, Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext>;
-            select?: (mutation: Mutation<Create4Data, OperationError<Create4Error>, MutationVariables<Create4Body, Create4Parameters>, TContext>) => TResult;
+        useMutationState<TContext = unknown, TResult = MutationState<CreateBuildingData, OperationError<CreateBuildingError>, MutationVariables<CreateBuildingBody, CreateBuildingParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext> | MutationFiltersByMutationKey<CreateBuildingSchema, CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext>;
+            select?: (mutation: Mutation<CreateBuildingData, OperationError<CreateBuildingError>, MutationVariables<CreateBuildingBody, CreateBuildingParameters>, TContext>) => TResult;
         }): Array<TResult>;
         /** @description Cadastra um novo edifício com status inicial ACTIVE. */
-        isMutating<TContext>(filters?: MutationFiltersByParameters<Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext> | MutationFiltersByMutationKey<Create4Schema, Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext>): number;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext> | MutationFiltersByMutationKey<CreateBuildingSchema, CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
@@ -1160,7 +946,7 @@ export interface BuildingsService {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.buildings.create4.getMutationCache();
+         * const mutationCache = qraft.buildings.createBuilding.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -1168,53 +954,297 @@ export interface BuildingsService {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.buildings.create4.getMutationCache();
+         * const mutationCache = qraft.buildings.createBuilding.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
         getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext> | MutationFiltersByMutationKey<Create4Schema, Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext>): Mutation<Create4Data, Create4Error, MutationVariables<Create4Body, Create4Parameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext> | MutationFiltersByMutationKey<Create4Schema, Create4Body, Create4Data, Create4Parameters, OperationError<Create4Error>, TContext>): Array<Mutation<Create4Data, Create4Error, MutationVariables<Create4Body, Create4Parameters>, TContext>>;
+            find<TContext = unknown>(filters: MutationFiltersByParameters<CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext> | MutationFiltersByMutationKey<CreateBuildingSchema, CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext>): Mutation<CreateBuildingData, CreateBuildingError, MutationVariables<CreateBuildingBody, CreateBuildingParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext> | MutationFiltersByMutationKey<CreateBuildingSchema, CreateBuildingBody, CreateBuildingData, CreateBuildingParameters, OperationError<CreateBuildingError>, TContext>): Array<Mutation<CreateBuildingData, CreateBuildingError, MutationVariables<CreateBuildingBody, CreateBuildingParameters>, TContext>>;
         };
-        schema: Create4Schema;
+        schema: CreateBuildingSchema;
         types: {
-            parameters: Create4Parameters;
-            data: Create4Data;
-            error: Create4Error;
-            body: Create4Body;
+            parameters: CreateBuildingParameters;
+            data: CreateBuildingData;
+            error: CreateBuildingError;
+            body: CreateBuildingBody;
+        };
+    };
+    /**
+     * @description Altera o status do edifício. Transições permitidas:
+     * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+     * - **INACTIVE**: desativa um edifício ACTIVE.
+     * - **ARCHIVED**: arquiva o edifício independente do status atual.
+     *
+     * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+     * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+     *
+     */
+    updateBuildingStatus: {
+        /**
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateBuildingStatusBody, UpdateBuildingStatusParameters, TMeta, TSignal>, client?: (schema: UpdateBuildingStatusSchema, options: ServiceOperationMutationFnOptions<UpdateBuildingStatusBody, UpdateBuildingStatusParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateBuildingStatusData, UpdateBuildingStatusError>>): Promise<RequestFnResponse<UpdateBuildingStatusData, UpdateBuildingStatusError>>;
+        /**
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         */
+        getMutationKey(parameters: DeepReadonly<UpdateBuildingStatusParameters> | void): ServiceOperationMutationKey<UpdateBuildingStatusSchema, UpdateBuildingStatusParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.buildings.updateBuildingStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.buildings.updateBuildingStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends UpdateBuildingStatusBody, TContext = unknown>(parameters: DeepReadonly<UpdateBuildingStatusParameters>, options?: ServiceOperationUseMutationOptions<UpdateBuildingStatusSchema, UpdateBuildingStatusData, UpdateBuildingStatusParameters, TVariables, OperationError<UpdateBuildingStatusError>, TContext>): UseMutationResult<UpdateBuildingStatusData, OperationError<UpdateBuildingStatusError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.buildings.updateBuildingStatus.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.buildings.updateBuildingStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<UpdateBuildingStatusBody, UpdateBuildingStatusParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<UpdateBuildingStatusSchema, UpdateBuildingStatusData, UpdateBuildingStatusParameters, TVariables, OperationError<UpdateBuildingStatusError>, TContext>): UseMutationResult<UpdateBuildingStatusData, OperationError<UpdateBuildingStatusError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const updateBuildingStatusTotal = qraft.buildings.updateBuildingStatus.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const updateBuildingStatusTotal = qraft.buildings.updateBuildingStatus.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingStatusSchema, UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const updateBuildingStatusPendingMutationVariables = qraft.buildings.updateBuildingStatus.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const updateBuildingStatusMutationData = qraft.buildings.updateBuildingStatus.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 id: id
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<UpdateBuildingStatusData, OperationError<UpdateBuildingStatusError>, MutationVariables<UpdateBuildingStatusBody, UpdateBuildingStatusParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingStatusSchema, UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext>;
+            select?: (mutation: Mutation<UpdateBuildingStatusData, OperationError<UpdateBuildingStatusError>, MutationVariables<UpdateBuildingStatusBody, UpdateBuildingStatusParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         */
+        isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingStatusSchema, UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @description Altera o status do edifício. Transições permitidas:
+         * - **ACTIVE**: ativa um edifício INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um edifício ACTIVE.
+         * - **ARCHIVED**: arquiva o edifício independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+         * Para remover permanentemente um edifício use DELETE /buildings/{id}.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.buildings.updateBuildingStatus.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.buildings.updateBuildingStatus.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingStatusSchema, UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext>): Mutation<UpdateBuildingStatusData, UpdateBuildingStatusError, MutationVariables<UpdateBuildingStatusBody, UpdateBuildingStatusParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext> | MutationFiltersByMutationKey<UpdateBuildingStatusSchema, UpdateBuildingStatusBody, UpdateBuildingStatusData, UpdateBuildingStatusParameters, OperationError<UpdateBuildingStatusError>, TContext>): Array<Mutation<UpdateBuildingStatusData, UpdateBuildingStatusError, MutationVariables<UpdateBuildingStatusBody, UpdateBuildingStatusParameters>, TContext>>;
+        };
+        schema: UpdateBuildingStatusSchema;
+        types: {
+            parameters: UpdateBuildingStatusParameters;
+            data: UpdateBuildingStatusData;
+            error: UpdateBuildingStatusError;
+            body: UpdateBuildingStatusBody;
         };
     };
 }
 /** @description Retorna os dados de um edifício pelo seu ID. */
-export const findById4 = {
+export const getBuilding = {
     schema: {
         method: "get",
         url: "/buildings/{id}"
     }
 } as {
-    schema: FindById4Schema;
-    [QraftServiceOperationsToken]: BuildingsService["findById4"];
+    schema: GetBuildingSchema;
+    [QraftServiceOperationsToken]: BuildingsService["getBuilding"];
 };
 /** @description Atualiza nome, endereço e total de andares do edifício. */
-export const updateById3 = {
+export const updateBuilding = {
     schema: {
         method: "put",
         url: "/buildings/{id}",
         mediaType: ["application/json"]
     }
 } as {
-    schema: UpdateById3Schema;
-    [QraftServiceOperationsToken]: BuildingsService["updateById3"];
+    schema: UpdateBuildingSchema;
+    [QraftServiceOperationsToken]: BuildingsService["updateBuilding"];
 };
-/** @description Arquiva um edifício pelo seu ID, alterando seu status para ARCHIVED. */
-export const deleteById4 = {
+/** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+export const deleteBuilding = {
     schema: {
         method: "delete",
         url: "/buildings/{id}"
     }
 } as {
-    schema: DeleteById4Schema;
-    [QraftServiceOperationsToken]: BuildingsService["deleteById4"];
+    schema: DeleteBuildingSchema;
+    [QraftServiceOperationsToken]: BuildingsService["deleteBuilding"];
+};
+/** @description Retorna todos os edifícios cadastrados. */
+export const listBuildings = {
+    schema: {
+        method: "get",
+        url: "/buildings"
+    }
+} as {
+    schema: ListBuildingsSchema;
+    [QraftServiceOperationsToken]: BuildingsService["listBuildings"];
+};
+/** @description Cadastra um novo edifício com status inicial ACTIVE. */
+export const createBuilding = {
+    schema: {
+        method: "post",
+        url: "/buildings",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: CreateBuildingSchema;
+    [QraftServiceOperationsToken]: BuildingsService["createBuilding"];
 };
 /**
  * @description Altera o status do edifício. Transições permitidas:
@@ -1223,103 +1253,83 @@ export const deleteById4 = {
  * - **ARCHIVED**: arquiva o edifício independente do status atual.
  *
  * Transições inválidas retornam 422 (ex: ativar um edifício já ARCHIVED diretamente).
+ * Para remover permanentemente um edifício use DELETE /buildings/{id}.
  *
  */
-export const updateStatus3 = {
+export const updateBuildingStatus = {
     schema: {
         method: "patch",
-        url: "/buildings/{id}",
+        url: "/buildings/{id}/status",
         mediaType: ["application/json"]
     }
 } as {
-    schema: UpdateStatus3Schema;
-    [QraftServiceOperationsToken]: BuildingsService["updateStatus3"];
-};
-/** @description Retorna todos os edifícios cadastrados. */
-export const findAll5 = {
-    schema: {
-        method: "get",
-        url: "/buildings"
-    }
-} as {
-    schema: FindAll5Schema;
-    [QraftServiceOperationsToken]: BuildingsService["findAll5"];
-};
-/** @description Cadastra um novo edifício com status inicial ACTIVE. */
-export const create4 = {
-    schema: {
-        method: "post",
-        url: "/buildings",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: Create4Schema;
-    [QraftServiceOperationsToken]: BuildingsService["create4"];
+    schema: UpdateBuildingStatusSchema;
+    [QraftServiceOperationsToken]: BuildingsService["updateBuildingStatus"];
 };
 export const buildingsService = {
-    findById4,
-    updateById3,
-    deleteById4,
-    updateStatus3,
-    findAll5,
-    create4
+    getBuilding,
+    updateBuilding,
+    deleteBuilding,
+    listBuildings,
+    createBuilding,
+    updateBuildingStatus
 } as const;
-type FindById4Schema = {
+type GetBuildingSchema = {
     method: "get";
     url: "/buildings/{id}";
 };
-type FindById4Parameters = paths["/buildings/{id}"]["get"]["parameters"];
-type FindById4Data = paths["/buildings/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindById4Error = paths["/buildings/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
-type UpdateById3Schema = {
+type GetBuildingParameters = paths["/buildings/{id}"]["get"]["parameters"];
+type GetBuildingData = paths["/buildings/{id}"]["get"]["responses"]["200"]["content"]["*/*"];
+type GetBuildingError = paths["/buildings/{id}"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}"]["get"]["responses"]["422"]["content"]["*/*"];
+type UpdateBuildingSchema = {
     method: "put";
     url: "/buildings/{id}";
     mediaType: [
         "application/json"
     ];
 };
-type UpdateById3Parameters = paths["/buildings/{id}"]["put"]["parameters"];
-type UpdateById3Data = paths["/buildings/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
-type UpdateById3Error = paths["/buildings/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
-type UpdateById3Body = paths["/buildings/{id}"]["put"]["requestBody"]["content"]["application/json"];
-type DeleteById4Schema = {
+type UpdateBuildingParameters = paths["/buildings/{id}"]["put"]["parameters"];
+type UpdateBuildingData = paths["/buildings/{id}"]["put"]["responses"]["200"]["content"]["*/*"];
+type UpdateBuildingError = paths["/buildings/{id}"]["put"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}"]["put"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}"]["put"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}"]["put"]["responses"]["422"]["content"]["*/*"];
+type UpdateBuildingBody = paths["/buildings/{id}"]["put"]["requestBody"]["content"]["application/json"];
+type DeleteBuildingSchema = {
     method: "delete";
     url: "/buildings/{id}";
 };
-type DeleteById4Parameters = paths["/buildings/{id}"]["delete"]["parameters"];
-type DeleteById4Data = null;
-type DeleteById4Error = paths["/buildings/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
-type DeleteById4Body = undefined;
-type UpdateStatus3Schema = {
-    method: "patch";
-    url: "/buildings/{id}";
-    mediaType: [
-        "application/json"
-    ];
-};
-type UpdateStatus3Parameters = paths["/buildings/{id}"]["patch"]["parameters"];
-type UpdateStatus3Data = paths["/buildings/{id}"]["patch"]["responses"]["200"]["content"]["*/*"];
-type UpdateStatus3Error = paths["/buildings/{id}"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}"]["patch"]["responses"]["422"]["content"]["*/*"];
-type UpdateStatus3Body = paths["/buildings/{id}"]["patch"]["requestBody"]["content"]["application/json"];
-type FindAll5Schema = {
+type DeleteBuildingParameters = paths["/buildings/{id}"]["delete"]["parameters"];
+type DeleteBuildingData = null;
+type DeleteBuildingError = paths["/buildings/{id}"]["delete"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}"]["delete"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}"]["delete"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}"]["delete"]["responses"]["422"]["content"]["*/*"];
+type DeleteBuildingBody = undefined;
+type ListBuildingsSchema = {
     method: "get";
     url: "/buildings";
 };
-type FindAll5Parameters = undefined;
-type FindAll5Data = paths["/buildings"]["get"]["responses"]["200"]["content"]["*/*"];
-type FindAll5Error = paths["/buildings"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/buildings"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/buildings"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/buildings"]["get"]["responses"]["422"]["content"]["*/*"];
-type Create4Schema = {
+type ListBuildingsParameters = undefined;
+type ListBuildingsData = paths["/buildings"]["get"]["responses"]["200"]["content"]["*/*"];
+type ListBuildingsError = paths["/buildings"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/buildings"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/buildings"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/buildings"]["get"]["responses"]["422"]["content"]["*/*"];
+type CreateBuildingSchema = {
     method: "post";
     url: "/buildings";
     mediaType: [
         "application/json"
     ];
 };
-type Create4Parameters = {
+type CreateBuildingParameters = {
     query?: never;
     header?: never;
     path?: never;
 };
-type Create4Data = paths["/buildings"]["post"]["responses"]["201"]["content"]["*/*"];
-type Create4Error = paths["/buildings"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/buildings"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/buildings"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/buildings"]["post"]["responses"]["422"]["content"]["*/*"];
-type Create4Body = paths["/buildings"]["post"]["requestBody"]["content"]["application/json"];
+type CreateBuildingData = paths["/buildings"]["post"]["responses"]["201"]["content"]["*/*"];
+type CreateBuildingError = paths["/buildings"]["post"]["responses"]["400"]["content"]["*/*"] | paths["/buildings"]["post"]["responses"]["404"]["content"]["*/*"] | paths["/buildings"]["post"]["responses"]["409"]["content"]["*/*"] | paths["/buildings"]["post"]["responses"]["422"]["content"]["*/*"];
+type CreateBuildingBody = paths["/buildings"]["post"]["requestBody"]["content"]["application/json"];
+type UpdateBuildingStatusSchema = {
+    method: "patch";
+    url: "/buildings/{id}/status";
+    mediaType: [
+        "application/json"
+    ];
+};
+type UpdateBuildingStatusParameters = paths["/buildings/{id}/status"]["patch"]["parameters"];
+type UpdateBuildingStatusData = paths["/buildings/{id}/status"]["patch"]["responses"]["200"]["content"]["*/*"];
+type UpdateBuildingStatusError = paths["/buildings/{id}/status"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/buildings/{id}/status"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/buildings/{id}/status"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/buildings/{id}/status"]["patch"]["responses"]["422"]["content"]["*/*"];
+type UpdateBuildingStatusBody = paths["/buildings/{id}/status"]["patch"]["requestBody"]["content"]["application/json"];
