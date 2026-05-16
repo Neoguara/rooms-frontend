@@ -8,6 +8,8 @@ import {
   MoreHorizontal,
   CheckCircle2,
   XCircle,
+  Archive,
+  RotateCcw,
   Building2,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -75,6 +77,7 @@ function BuildingsPage() {
     () => ({
       active: buildings.filter((b) => b.status === 'ACTIVE').length,
       inactive: buildings.filter((b) => b.status === 'INACTIVE').length,
+      archived: buildings.filter((b) => b.status === 'ARCHIVED').length,
     }),
     [buildings],
   )
@@ -88,7 +91,8 @@ function BuildingsPage() {
         const matchesStatus =
           statusFilter === 'all' ||
           (statusFilter === 'active' && b.status === 'ACTIVE') ||
-          (statusFilter === 'inactive' && b.status === 'INACTIVE')
+          (statusFilter === 'inactive' && b.status === 'INACTIVE') ||
+          (statusFilter === 'archived' && b.status === 'ARCHIVED')
         return matchesSearch && matchesStatus
       }),
     [buildings, search, statusFilter],
@@ -166,6 +170,38 @@ function BuildingsPage() {
     [statusMutation, api],
   )
 
+  const handleArchive = useCallback(
+    async (b: BuildingResponse) => {
+      try {
+        await statusMutation.mutateAsync({
+          path: { id: b.id! },
+          body: { status: 'ARCHIVED' },
+        })
+        await api.buildings.listBuildings.invalidateQueries()
+        toast.success('Prédio arquivado com sucesso.')
+      } catch {
+        toast.error('Erro ao arquivar prédio.')
+      }
+    },
+    [statusMutation, api],
+  )
+
+  const handleRestore = useCallback(
+    async (b: BuildingResponse) => {
+      try {
+        await statusMutation.mutateAsync({
+          path: { id: b.id! },
+          body: { status: 'ACTIVE' },
+        })
+        await api.buildings.listBuildings.invalidateQueries()
+        toast.success('Prédio restaurado com sucesso.')
+      } catch {
+        toast.error('Erro ao restaurar prédio.')
+      }
+    },
+    [statusMutation, api],
+  )
+
   return (
     <>
       {/* Toolbar */}
@@ -212,6 +248,16 @@ function BuildingsPage() {
               <XCircle className="size-4 text-red-500" />
               {stats.inactive} Inativos
             </button>
+            <button
+              className={cn(
+                'flex items-center gap-1.5',
+                statusFilter === 'archived' ? 'text-foreground font-medium' : 'text-muted-foreground',
+              )}
+              onClick={() => setStatusFilter(statusFilter === 'archived' ? 'all' : 'archived')}
+            >
+              <Archive className="size-4 text-orange-400" />
+              {stats.archived} Arquivados
+            </button>
           </div>
           <span className="text-sm text-muted-foreground">
             {filtered.length} prédio{filtered.length !== 1 ? 's' : ''}
@@ -246,10 +292,16 @@ function BuildingsPage() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-semibold text-foreground">{b.name}</span>
                   <Badge
-                    variant={b.status === 'ACTIVE' ? 'default' : 'secondary'}
+                    variant={
+                      b.status === 'ACTIVE'
+                        ? 'default'
+                        : b.status === 'ARCHIVED'
+                          ? 'outline'
+                          : 'secondary'
+                    }
                     className="text-[10px] h-5"
                   >
-                    {b.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
+                    {b.status === 'ACTIVE' ? 'Ativo' : b.status === 'ARCHIVED' ? 'Arquivado' : 'Inativo'}
                   </Badge>
                   {b.totalFloors && (
                     <span className="text-xs text-muted-foreground">
@@ -274,18 +326,31 @@ function BuildingsPage() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => openEdit(b)}>
-                        <Pencil className="mr-2 size-4" />
-                        Editar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleToggleStatus(b)}>
-                        {b.status === 'ACTIVE' ? (
-                          <XCircle className="mr-2 size-4" />
-                        ) : (
-                          <CheckCircle2 className="mr-2 size-4" />
-                        )}
-                        {b.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
-                      </DropdownMenuItem>
+                      {b.status === 'ARCHIVED' ? (
+                        <DropdownMenuItem onClick={() => handleRestore(b)}>
+                          <RotateCcw className="mr-2 size-4" />
+                          Restaurar
+                        </DropdownMenuItem>
+                      ) : (
+                        <>
+                          <DropdownMenuItem onClick={() => openEdit(b)}>
+                            <Pencil className="mr-2 size-4" />
+                            Editar
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleToggleStatus(b)}>
+                            {b.status === 'ACTIVE' ? (
+                              <XCircle className="mr-2 size-4" />
+                            ) : (
+                              <CheckCircle2 className="mr-2 size-4" />
+                            )}
+                            {b.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleArchive(b)}>
+                            <Archive className="mr-2 size-4" />
+                            Arquivar
+                          </DropdownMenuItem>
+                        </>
+                      )}
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         onClick={() => {
