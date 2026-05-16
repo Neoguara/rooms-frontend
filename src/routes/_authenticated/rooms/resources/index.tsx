@@ -94,15 +94,29 @@ function ResourcesPage() {
   const [toDelete, setToDelete] = useState<ResourceResponse | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
+
+  const stats = useMemo(
+    () => ({
+      active: resources.filter((r) => r.status === 'ACTIVE').length,
+      inactive: resources.filter((r) => r.status === 'INACTIVE').length,
+    }),
+    [resources],
+  )
 
   const filtered = useMemo(
     () =>
-      resources.filter(
-        (r) =>
+      resources.filter((r) => {
+        const matchesSearch =
           r.name?.toLowerCase().includes(search.toLowerCase()) ||
-          r.description?.toLowerCase().includes(search.toLowerCase()),
-      ),
-    [resources, search],
+          r.description?.toLowerCase().includes(search.toLowerCase())
+        const matchesStatus =
+          statusFilter === 'all' ||
+          (statusFilter === 'active' && r.status === 'ACTIVE') ||
+          (statusFilter === 'inactive' && r.status === 'INACTIVE')
+        return matchesSearch && matchesStatus
+      }),
+    [resources, search, statusFilter],
   )
 
   function openCreate() {
@@ -204,6 +218,28 @@ function ResourcesPage() {
       <div className="rounded-md border border-border overflow-hidden">
         {/* List header */}
         <div className="bg-muted/50 px-4 py-3 border-b border-border flex items-center justify-between">
+          <div className="flex items-center gap-4 text-sm">
+            <button
+              className={cn(
+                'flex items-center gap-1.5 font-medium',
+                statusFilter === 'active' ? 'text-foreground' : 'text-muted-foreground',
+              )}
+              onClick={() => setStatusFilter(statusFilter === 'active' ? 'all' : 'active')}
+            >
+              <CheckCircle2 className="size-4 text-emerald-500" />
+              {stats.active} Ativos
+            </button>
+            <button
+              className={cn(
+                'flex items-center gap-1.5',
+                statusFilter === 'inactive' ? 'text-foreground font-medium' : 'text-muted-foreground',
+              )}
+              onClick={() => setStatusFilter(statusFilter === 'inactive' ? 'all' : 'inactive')}
+            >
+              <XCircle className="size-4 text-red-500" />
+              {stats.inactive} Inativos
+            </button>
+          </div>
           <span className="text-sm text-muted-foreground">
             {filtered.length} recurso{filtered.length !== 1 ? 's' : ''}
           </span>
