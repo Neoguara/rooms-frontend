@@ -16,11 +16,11 @@ import {
   Tv,
   Mic,
   Wifi,
+  Package,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -36,17 +36,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { Label } from '@/components/ui/label'
 import { useAPI } from '@/hooks/use-api'
 import { useAuth } from '@/hooks/use-auth'
+import { cn } from '@/lib/utils'
 import type { components } from '@/api/schema'
 import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { toast } from 'sonner'
@@ -57,8 +50,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
-
 
 type ResourceResponse = components['schemas']['ResourceResponse']
 
@@ -72,16 +63,15 @@ export const Route = createFileRoute('/_authenticated/rooms/resources/')({
 
 const defaultForm = { name: '', description: '', icon: 'Projector' }
 
-
-const ResourcesIconsList: Record<string, { label: string, icon: LucideIcon }> = {
-  'Projector': { label: 'Projector', icon: Projector },
-  'Wind': { label: 'Wind', icon: Wind },
-  'Monitor': { label: 'Monitor', icon: Monitor },
-  'Mic': { label: 'Mic', icon: Mic },
-  'Tv': { label: 'Tv', icon: Tv },
-  'Wifi': { label: 'Wifi', icon: Wifi }
-
-}
+const ResourcesIconsList: Record<string, { label: string; icon: LucideIcon }> =
+  {
+    Projector: { label: 'Projetor', icon: Projector },
+    Wind: { label: 'Ar-condicionado', icon: Wind },
+    Monitor: { label: 'Monitor', icon: Monitor },
+    Mic: { label: 'Microfone', icon: Mic },
+    Tv: { label: 'TV', icon: Tv },
+    Wifi: { label: 'Wi-Fi', icon: Wifi },
+  }
 
 function ResourcesPage() {
   const { user } = useAuth()
@@ -179,7 +169,9 @@ function ResourcesPage() {
           body: { status: next },
         })
         await api.resources.listResources.invalidateQueries()
-        toast.success(`Recurso ${next === 'INACTIVE' ? 'desativado' : 'ativado'} com sucesso.`)
+        toast.success(
+          `Recurso ${next === 'INACTIVE' ? 'desativado' : 'ativado'} com sucesso.`,
+        )
       } catch {
         toast.error('Erro ao atualizar status.')
       }
@@ -189,7 +181,8 @@ function ResourcesPage() {
 
   return (
     <>
-      <div className="mb-4 flex items-center justify-between gap-4">
+      {/* Toolbar */}
+      <div className="mb-4 flex items-center gap-3">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -207,89 +200,106 @@ function ResourcesPage() {
         )}
       </div>
 
-      <Card>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Ícone</TableHead>
-              <TableHead>Nome</TableHead>
-              <TableHead>Descrição</TableHead>
-              <TableHead>Status</TableHead>
-              {isAdmin && <TableHead className="w-24">Ações</TableHead>}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filtered.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={isAdmin ? 5 : 4}
-                  className="py-8 text-center text-muted-foreground"
-                >
-                  Nenhum recurso encontrado.
-                </TableCell>
-              </TableRow>
-            ) : (
-              filtered.map((r) => {
-                const IconEntry = r.icon ? ResourcesIconsList[r.icon] : null
-                return (
-                <TableRow key={r.id}>
-                  <TableCell>
-                    {IconEntry
-                      ? <IconEntry.icon className="size-5" />
-                      : <Archive className="size-5 text-muted-foreground" />}
-                  </TableCell>
-                  <TableCell className="font-medium">{r.name}</TableCell>
-                  <TableCell className="max-w-48 truncate text-muted-foreground">
-                    {r.description || '—'}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={r.status === 'ACTIVE' ? 'default' : 'secondary'}>
+      {/* List */}
+      <div className="rounded-md border border-border overflow-hidden">
+        {/* List header */}
+        <div className="bg-muted/50 px-4 py-3 border-b border-border flex items-center justify-between">
+          <span className="text-sm text-muted-foreground">
+            {filtered.length} recurso{filtered.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+
+        {/* Items */}
+        {filtered.length === 0 ? (
+          <div className="py-16 text-center bg-card">
+            <Package className="mx-auto mb-4 size-12 text-muted-foreground/30" />
+            <p className="text-muted-foreground font-medium">
+              Nenhum recurso encontrado
+            </p>
+            <p className="text-sm text-muted-foreground mt-1">
+              {search ? 'Tente ajustar os termos de busca' : 'Cadastre o primeiro recurso'}
+            </p>
+          </div>
+        ) : (
+          filtered.map((r, index) => {
+            const IconEntry = r.icon ? ResourcesIconsList[r.icon] : null
+            return (
+              <div
+                key={r.id}
+                className={cn(
+                  'flex items-center gap-3 px-4 py-3 bg-card hover:bg-muted/30 transition-colors',
+                  index !== filtered.length - 1 && 'border-b border-border',
+                )}
+              >
+                {/* Icon */}
+                <div className="shrink-0 text-muted-foreground">
+                  {IconEntry ? (
+                    <IconEntry.icon className="size-5 text-foreground" />
+                  ) : (
+                    <Archive className="size-5 text-muted-foreground" />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-foreground">{r.name}</span>
+                    <Badge
+                      variant={r.status === 'ACTIVE' ? 'default' : 'secondary'}
+                      className="text-[10px] h-5"
+                    >
                       {r.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
                     </Badge>
-                  </TableCell>
-                  {isAdmin && (
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="size-8">
-                            <MoreHorizontal className="size-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => openEdit(r)}>
-                            <Pencil className="mr-2 size-4" />
-                            Editar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleToggleStatus(r)}>
-                            {r.status === 'ACTIVE' ? (
-                              <XCircle className="mr-2 size-4" />
-                            ) : (
-                              <CheckCircle2 className="mr-2 size-4" />
-                            )}
-                            {r.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            onClick={() => {
-                              setToDelete(r)
-                              setIsDeleteOpen(true)
-                            }}
-                            className="text-destructive focus:text-destructive"
-                          >
-                            <Trash2 className="mr-2 size-4" />
-                            Excluir
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
+                  </div>
+                  {r.description && (
+                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                      {r.description}
+                    </p>
                   )}
-                </TableRow>
-                )
-              })
-            )}
-          </TableBody>
-        </Table>
-      </Card>
+                </div>
+
+                {/* Actions */}
+                {isAdmin && (
+                  <div className="shrink-0">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="size-8">
+                          <MoreHorizontal className="size-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => openEdit(r)}>
+                          <Pencil className="mr-2 size-4" />
+                          Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleToggleStatus(r)}>
+                          {r.status === 'ACTIVE' ? (
+                            <XCircle className="mr-2 size-4" />
+                          ) : (
+                            <CheckCircle2 className="mr-2 size-4" />
+                          )}
+                          {r.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => {
+                            setToDelete(r)
+                            setIsDeleteOpen(true)
+                          }}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="mr-2 size-4" />
+                          Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                )}
+              </div>
+            )
+          })
+        )}
+      </div>
 
       {/* Form Dialog */}
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
@@ -331,16 +341,14 @@ function ResourcesPage() {
                   <SelectValue placeholder="Selecione um ícone" />
                 </SelectTrigger>
                 <SelectContent>
-                  {
-                    Object.entries(ResourcesIconsList).map(([name, { label, icon }]) => {
-                      const Icon = icon
-                      return (
-                        <SelectItem key={name} value={name}>
-                          <Icon /> {label}
-                        </SelectItem>
-                      )
-                    })
-                  }
+                  {Object.entries(ResourcesIconsList).map(([name, { label, icon }]) => {
+                    const Icon = icon
+                    return (
+                      <SelectItem key={name} value={name}>
+                        <Icon className="mr-2 inline size-4" /> {label}
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
             </div>
@@ -349,7 +357,11 @@ function ResourcesPage() {
             <Button variant="outline" onClick={() => setIsFormOpen(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleSave} disabled={!form.name || isSaving} className="min-w-32">
+            <Button
+              onClick={handleSave}
+              disabled={!form.name || isSaving}
+              className="min-w-32"
+            >
               {isSaving ? 'Salvando...' : editing ? 'Salvar' : 'Criar'}
             </Button>
           </DialogFooter>
@@ -370,7 +382,11 @@ function ResourcesPage() {
             <Button variant="outline" onClick={() => setIsDeleteOpen(false)}>
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
               <Trash2 className="mr-2 size-4" />
               {isDeleting ? 'Excluindo...' : 'Excluir'}
             </Button>
