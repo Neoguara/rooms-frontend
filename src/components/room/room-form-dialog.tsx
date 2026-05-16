@@ -21,6 +21,8 @@ import {
 import type { components } from '@/api/schema'
 import { useAPI } from '@/hooks/use-api'
 import { toast } from 'sonner'
+import { ResourcesIconsList } from '@/lib/resources-icons'
+import { RoomTypeIconsList } from '@/lib/room-type-icons'
 
 type RoomDetailResponse = components['schemas']['RoomDetailResponse']
 type BuildingResponse = components['schemas']['BuildingResponse']
@@ -227,11 +229,17 @@ export const RoomFormDialog = memo(function RoomFormDialog({
                   <SelectValue placeholder="Selecione o tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  {activeRoomTypes.map((rt) => (
-                    <SelectItem key={rt.id} value={rt.id!}>
-                      {rt.name}
-                    </SelectItem>
-                  ))}
+                  {activeRoomTypes.map((rt) => {
+                    const RoomTypeIcon = RoomTypeIconsList[rt.icon ?? '']?.icon
+                    return (
+                      <SelectItem key={rt.id} value={rt.id!}>
+                        <span className="flex items-center gap-2">
+                          {RoomTypeIcon && <RoomTypeIcon className="size-4" />}
+                          {rt.name}
+                        </span>
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
             </div>
@@ -305,9 +313,10 @@ export const RoomFormDialog = memo(function RoomFormDialog({
                       htmlFor={`res-${resource.id}`}
                       className="flex cursor-pointer items-center gap-2 text-sm font-medium leading-none"
                     >
-                      {resource.icon && (
-                        <span className="text-base">{resource.icon}</span>
-                      )}
+                      {(() => {
+                        const ResourceIcon = ResourcesIconsList[resource.icon ?? '']?.icon
+                        return ResourceIcon ? <ResourceIcon className="size-4" /> : null
+                      })()}
                       {resource.name}
                     </label>
                   </div>

@@ -18,6 +18,8 @@ import {
   MapPin,
   CheckCircle2,
 } from 'lucide-react'
+import { ResourcesIconsList } from '@/lib/resources-icons'
+import { RoomTypeIconsList } from '@/lib/room-type-icons'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -313,6 +315,9 @@ function RoomsPage() {
             'N/A'
           const resources = room.resources ?? []
 
+          const roomType = room.roomType ?? roomTypeMap.get(room.roomTypeId ?? '')
+          const RoomTypeIcon = RoomTypeIconsList[roomType?.icon ?? '']?.icon ?? DoorOpen
+
           return (
             <Card
               key={room.id}
@@ -325,7 +330,7 @@ function RoomsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                      <DoorOpen className="size-5 text-primary" />
+                      <RoomTypeIcon className="size-5 text-primary" />
                     </div>
                     <div>
                       <CardTitle className="text-base">{room.name}</CardTitle>
@@ -388,11 +393,15 @@ function RoomsPage() {
                 </div>
                 {resources.length > 0 && (
                   <div className="flex flex-wrap gap-1">
-                    {resources.slice(0, 3).map((r) => (
-                      <Badge key={r.id} variant="secondary" className="text-xs">
-                        {r.icon ? `${r.icon} ` : ''}{r.name}
-                      </Badge>
-                    ))}
+                    {resources.slice(0, 3).map((r) => {
+                      const ResourceIcon = ResourcesIconsList[r.icon ?? '']?.icon
+                      return (
+                        <Badge key={r.id} variant="secondary" className="gap-1 text-xs">
+                          {ResourceIcon && <ResourceIcon className="size-3" />}
+                          {r.name}
+                        </Badge>
+                      )
+                    })}
                     {resources.length > 3 && (
                       <Badge variant="secondary" className="text-xs">
                         +{resources.length - 3}
@@ -521,9 +530,15 @@ function RoomsPage() {
             <>
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-3">
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
-                    <DoorOpen className="size-5 text-primary" />
-                  </div>
+                  {(() => {
+                    const vRoomType = viewRoom.roomType ?? roomTypeMap.get(viewRoom.roomTypeId ?? '')
+                    const ViewRoomTypeIcon = RoomTypeIconsList[vRoomType?.icon ?? '']?.icon ?? DoorOpen
+                    return (
+                      <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
+                        <ViewRoomTypeIcon className="size-5 text-primary" />
+                      </div>
+                    )
+                  })()}
                   <div>
                     <span>{viewRoom.name}</span>
                     <p className="text-sm font-normal text-muted-foreground">{viewRoom.code}</p>
@@ -573,11 +588,15 @@ function RoomsPage() {
                 <div className="space-y-3">
                   <p className="text-sm font-medium">Recursos Disponíveis</p>
                   <div className="flex flex-wrap gap-2">
-                    {(viewRoom.resources ?? []).map((r) => (
-                      <Badge key={r.id} variant="secondary" className="px-3 py-1">
-                        {r.icon ? `${r.icon} ` : ''}{r.name}
-                      </Badge>
-                    ))}
+                    {(viewRoom.resources ?? []).map((r) => {
+                      const ResourceIcon = ResourcesIconsList[r.icon ?? '']?.icon
+                      return (
+                        <Badge key={r.id} variant="secondary" className="gap-1.5 px-3 py-1">
+                          {ResourceIcon && <ResourceIcon className="size-3.5" />}
+                          {r.name}
+                        </Badge>
+                      )
+                    })}
                     {(viewRoom.resources ?? []).length === 0 && (
                       <p className="text-sm text-muted-foreground">Nenhum recurso cadastrado</p>
                     )}
