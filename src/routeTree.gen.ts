@@ -12,12 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as AuthenticatedRoomsRouteRouteImport } from './routes/_authenticated/rooms/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedSolicitacoesIndexRouteImport } from './routes/_authenticated/solicitacoes/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedRoomsIndexRouteImport } from './routes/_authenticated/rooms/index'
 import { Route as AuthenticatedGradeIndexRouteImport } from './routes/_authenticated/grade/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
+import { Route as AuthenticatedRoomsRoomTypesIndexRouteImport } from './routes/_authenticated/rooms/room-types/index'
+import { Route as AuthenticatedRoomsResourcesIndexRouteImport } from './routes/_authenticated/rooms/resources/index'
+import { Route as AuthenticatedRoomsBuildingsIndexRouteImport } from './routes/_authenticated/rooms/buildings/index'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -32,6 +36,11 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoomsRouteRoute = AuthenticatedRoomsRouteRouteImport.update({
+  id: '/rooms',
+  path: '/rooms',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   id: '/users/',
@@ -51,9 +60,9 @@ const AuthenticatedSettingsIndexRoute =
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedRoomsIndexRoute = AuthenticatedRoomsIndexRouteImport.update({
-  id: '/rooms/',
-  path: '/rooms/',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRoomsRouteRoute,
 } as any)
 const AuthenticatedGradeIndexRoute = AuthenticatedGradeIndexRouteImport.update({
   id: '/grade/',
@@ -66,9 +75,28 @@ const AuthenticatedDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedRoomsRoomTypesIndexRoute =
+  AuthenticatedRoomsRoomTypesIndexRouteImport.update({
+    id: '/room-types/',
+    path: '/room-types/',
+    getParentRoute: () => AuthenticatedRoomsRouteRoute,
+  } as any)
+const AuthenticatedRoomsResourcesIndexRoute =
+  AuthenticatedRoomsResourcesIndexRouteImport.update({
+    id: '/resources/',
+    path: '/resources/',
+    getParentRoute: () => AuthenticatedRoomsRouteRoute,
+  } as any)
+const AuthenticatedRoomsBuildingsIndexRoute =
+  AuthenticatedRoomsBuildingsIndexRouteImport.update({
+    id: '/buildings/',
+    path: '/buildings/',
+    getParentRoute: () => AuthenticatedRoomsRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/rooms': typeof AuthenticatedRoomsRouteRouteWithChildren
   '/login/': typeof LoginIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/grade/': typeof AuthenticatedGradeIndexRoute
@@ -76,6 +104,9 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/solicitacoes/': typeof AuthenticatedSolicitacoesIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
+  '/rooms/buildings/': typeof AuthenticatedRoomsBuildingsIndexRoute
+  '/rooms/resources/': typeof AuthenticatedRoomsResourcesIndexRoute
+  '/rooms/room-types/': typeof AuthenticatedRoomsRoomTypesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,11 +117,15 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/solicitacoes': typeof AuthenticatedSolicitacoesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/rooms/buildings': typeof AuthenticatedRoomsBuildingsIndexRoute
+  '/rooms/resources': typeof AuthenticatedRoomsResourcesIndexRoute
+  '/rooms/room-types': typeof AuthenticatedRoomsRoomTypesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/rooms': typeof AuthenticatedRoomsRouteRouteWithChildren
   '/login/': typeof LoginIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/grade/': typeof AuthenticatedGradeIndexRoute
@@ -98,11 +133,15 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/solicitacoes/': typeof AuthenticatedSolicitacoesIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/rooms/buildings/': typeof AuthenticatedRoomsBuildingsIndexRoute
+  '/_authenticated/rooms/resources/': typeof AuthenticatedRoomsResourcesIndexRoute
+  '/_authenticated/rooms/room-types/': typeof AuthenticatedRoomsRoomTypesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/rooms'
     | '/login/'
     | '/dashboard/'
     | '/grade/'
@@ -110,6 +149,9 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/solicitacoes/'
     | '/users/'
+    | '/rooms/buildings/'
+    | '/rooms/resources/'
+    | '/rooms/room-types/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,10 +162,14 @@ export interface FileRouteTypes {
     | '/settings'
     | '/solicitacoes'
     | '/users'
+    | '/rooms/buildings'
+    | '/rooms/resources'
+    | '/rooms/room-types'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/_authenticated/rooms'
     | '/login/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/grade/'
@@ -131,6 +177,9 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/'
     | '/_authenticated/solicitacoes/'
     | '/_authenticated/users/'
+    | '/_authenticated/rooms/buildings/'
+    | '/_authenticated/rooms/resources/'
+    | '/_authenticated/rooms/room-types/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -162,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/rooms': {
+      id: '/_authenticated/rooms'
+      path: '/rooms'
+      fullPath: '/rooms'
+      preLoaderRoute: typeof AuthenticatedRoomsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/users/': {
       id: '/_authenticated/users/'
       path: '/users'
@@ -185,10 +241,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/rooms/': {
       id: '/_authenticated/rooms/'
-      path: '/rooms'
+      path: '/'
       fullPath: '/rooms/'
       preLoaderRoute: typeof AuthenticatedRoomsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedRoomsRouteRoute
     }
     '/_authenticated/grade/': {
       id: '/_authenticated/grade/'
@@ -204,22 +260,66 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/rooms/room-types/': {
+      id: '/_authenticated/rooms/room-types/'
+      path: '/room-types'
+      fullPath: '/rooms/room-types/'
+      preLoaderRoute: typeof AuthenticatedRoomsRoomTypesIndexRouteImport
+      parentRoute: typeof AuthenticatedRoomsRouteRoute
+    }
+    '/_authenticated/rooms/resources/': {
+      id: '/_authenticated/rooms/resources/'
+      path: '/resources'
+      fullPath: '/rooms/resources/'
+      preLoaderRoute: typeof AuthenticatedRoomsResourcesIndexRouteImport
+      parentRoute: typeof AuthenticatedRoomsRouteRoute
+    }
+    '/_authenticated/rooms/buildings/': {
+      id: '/_authenticated/rooms/buildings/'
+      path: '/buildings'
+      fullPath: '/rooms/buildings/'
+      preLoaderRoute: typeof AuthenticatedRoomsBuildingsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoomsRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRoomsRouteRouteChildren {
+  AuthenticatedRoomsIndexRoute: typeof AuthenticatedRoomsIndexRoute
+  AuthenticatedRoomsBuildingsIndexRoute: typeof AuthenticatedRoomsBuildingsIndexRoute
+  AuthenticatedRoomsResourcesIndexRoute: typeof AuthenticatedRoomsResourcesIndexRoute
+  AuthenticatedRoomsRoomTypesIndexRoute: typeof AuthenticatedRoomsRoomTypesIndexRoute
+}
+
+const AuthenticatedRoomsRouteRouteChildren: AuthenticatedRoomsRouteRouteChildren =
+  {
+    AuthenticatedRoomsIndexRoute: AuthenticatedRoomsIndexRoute,
+    AuthenticatedRoomsBuildingsIndexRoute:
+      AuthenticatedRoomsBuildingsIndexRoute,
+    AuthenticatedRoomsResourcesIndexRoute:
+      AuthenticatedRoomsResourcesIndexRoute,
+    AuthenticatedRoomsRoomTypesIndexRoute:
+      AuthenticatedRoomsRoomTypesIndexRoute,
+  }
+
+const AuthenticatedRoomsRouteRouteWithChildren =
+  AuthenticatedRoomsRouteRoute._addFileChildren(
+    AuthenticatedRoomsRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedRoomsRouteRoute: typeof AuthenticatedRoomsRouteRouteWithChildren
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedGradeIndexRoute: typeof AuthenticatedGradeIndexRoute
-  AuthenticatedRoomsIndexRoute: typeof AuthenticatedRoomsIndexRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
   AuthenticatedSolicitacoesIndexRoute: typeof AuthenticatedSolicitacoesIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedRoomsRouteRoute: AuthenticatedRoomsRouteRouteWithChildren,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedGradeIndexRoute: AuthenticatedGradeIndexRoute,
-  AuthenticatedRoomsIndexRoute: AuthenticatedRoomsIndexRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
   AuthenticatedSolicitacoesIndexRoute: AuthenticatedSolicitacoesIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
