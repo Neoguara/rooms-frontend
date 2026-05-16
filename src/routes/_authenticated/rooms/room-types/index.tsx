@@ -8,11 +8,12 @@ import {
   MoreHorizontal,
   CheckCircle2,
   XCircle,
+  Tag,
 } from 'lucide-react'
+import { RoomTypeIconsList } from '@/lib/room-type-icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
@@ -29,16 +30,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { useAPI } from '@/hooks/use-api'
 import { useAuth } from '@/hooks/use-auth'
+import { cn } from '@/lib/utils'
 import type { components } from '@/api/schema'
 import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { toast } from 'sonner'
@@ -58,7 +59,7 @@ const defaultForm = {
   description: '',
   defaultCapacity: '',
   color: '',
-  icon: '',
+  icon: 'BookOpen',
 }
 
 function RoomTypesPage() {
@@ -82,15 +83,29 @@ function RoomTypesPage() {
   const [toDelete, setToDelete] = useState<RoomTypeResponse | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
+
+  const stats = useMemo(
+    () => ({
+      active: roomTypes.filter((rt) => rt.status === 'ACTIVE').length,
+      inactive: roomTypes.filter((rt) => rt.status === 'INACTIVE').length,
+    }),
+    [roomTypes],
+  )
 
   const filtered = useMemo(
     () =>
-      roomTypes.filter(
-        (rt) =>
+      roomTypes.filter((rt) => {
+        const matchesSearch =
           rt.name?.toLowerCase().includes(search.toLowerCase()) ||
-          rt.description?.toLowerCase().includes(search.toLowerCase()),
-      ),
-    [roomTypes, search],
+          rt.description?.toLowerCase().includes(search.toLowerCase())
+        const matchesStatus =
+          statusFilter === 'all' ||
+          (statusFilter === 'active' && rt.status === 'ACTIVE') ||
+          (statusFilter === 'inactive' && rt.status === 'INACTIVE')
+        return matchesSearch && matchesStatus
+      }),
+    [roomTypes, search, statusFilter],
   )
 
   function openCreate() {
@@ -106,7 +121,7 @@ function RoomTypesPage() {
       description: rt.description ?? '',
       defaultCapacity: rt.defaultCapacity ?? '',
       color: rt.color ?? '',
-      icon: rt.icon ?? '',
+      icon: rt.icon ?? 'BookOpen',
     })
     setIsFormOpen(true)
   }
@@ -171,7 +186,8 @@ function RoomTypesPage() {
 
   return (
     <>
-      <div className="mb-4 flex items-center justify-between gap-4">
+      {/* Toolbar */}
+      <div className="mb-4 flex items-center gap-3">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -189,94 +205,137 @@ function RoomTypesPage() {
         )}
       </div>
 
-      <Card>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Descrição</TableHead>
-              <TableHead>Cap. Padrão</TableHead>
-              <TableHead>Ícone</TableHead>
-              <TableHead>Status</TableHead>
-              {isAdmin && <TableHead className="w-24">Ações</TableHead>}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filtered.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={isAdmin ? 6 : 5}
-                  className="py-8 text-center text-muted-foreground"
-                >
-                  Nenhum tipo de sala encontrado.
-                </TableCell>
-              </TableRow>
-            ) : (
-              filtered.map((rt) => (
-                <TableRow key={rt.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      {rt.color && (
-                        <span
-                          className="inline-block size-3 rounded-full"
-                          style={{ backgroundColor: rt.color }}
-                        />
-                      )}
-                      {rt.name}
-                    </div>
-                  </TableCell>
-                  <TableCell className="max-w-48 truncate text-muted-foreground">
-                    {rt.description || '—'}
-                  </TableCell>
-                  <TableCell>{rt.defaultCapacity || '—'}</TableCell>
-                  <TableCell className="text-xl">{rt.icon || '—'}</TableCell>
-                  <TableCell>
-                    <Badge variant={rt.status === 'ACTIVE' ? 'default' : 'secondary'}>
+      {/* List */}
+      <div className="rounded-md border border-border overflow-hidden">
+        {/* List header */}
+        <div className="bg-muted/50 px-4 py-3 border-b border-border flex items-center justify-between">
+          <div className="flex items-center gap-4 text-sm">
+            <button
+              className={cn(
+                'flex items-center gap-1.5 font-medium',
+                statusFilter === 'active' ? 'text-foreground' : 'text-muted-foreground',
+              )}
+              onClick={() => setStatusFilter(statusFilter === 'active' ? 'all' : 'active')}
+            >
+              <CheckCircle2 className="size-4 text-emerald-500" />
+              {stats.active} Ativos
+            </button>
+            <button
+              className={cn(
+                'flex items-center gap-1.5',
+                statusFilter === 'inactive' ? 'text-foreground font-medium' : 'text-muted-foreground',
+              )}
+              onClick={() => setStatusFilter(statusFilter === 'inactive' ? 'all' : 'inactive')}
+            >
+              <XCircle className="size-4 text-red-500" />
+              {stats.inactive} Inativos
+            </button>
+          </div>
+          <span className="text-sm text-muted-foreground">
+            {filtered.length} tipo{filtered.length !== 1 ? 's' : ''}
+          </span>
+        </div>
+
+        {/* Items */}
+        {filtered.length === 0 ? (
+          <div className="py-16 text-center bg-card">
+            <Tag className="mx-auto mb-4 size-12 text-muted-foreground/30" />
+            <p className="text-muted-foreground font-medium">Nenhum tipo de sala encontrado</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              {search ? 'Tente ajustar os termos de busca' : 'Cadastre o primeiro tipo de sala'}
+            </p>
+          </div>
+        ) : (
+          filtered.map((rt, index) => {
+            const IconEntry = rt.icon ? RoomTypeIconsList[rt.icon] : null
+            return (
+              <div
+                key={rt.id}
+                className={cn(
+                  'flex items-center gap-3 px-4 py-3 bg-card hover:bg-muted/30 transition-colors',
+                  index !== filtered.length - 1 && 'border-b border-border',
+                )}
+              >
+                {/* Icon */}
+                <div className="shrink-0 text-muted-foreground">
+                  {IconEntry ? (
+                    <IconEntry.icon className="size-5 text-foreground" />
+                  ) : (
+                    <Tag className="size-5 text-muted-foreground" />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {rt.color && (
+                      <span
+                        className="inline-block size-2.5 rounded-full shrink-0"
+                        style={{ backgroundColor: rt.color }}
+                      />
+                    )}
+                    <span className="font-semibold text-foreground">{rt.name}</span>
+                    <Badge
+                      variant={rt.status === 'ACTIVE' ? 'default' : 'secondary'}
+                      className="text-[10px] h-5"
+                    >
                       {rt.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
                     </Badge>
-                  </TableCell>
-                  {isAdmin && (
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="size-8">
-                            <MoreHorizontal className="size-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => openEdit(rt)}>
-                            <Pencil className="mr-2 size-4" />
-                            Editar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleToggleStatus(rt)}>
-                            {rt.status === 'ACTIVE' ? (
-                              <XCircle className="mr-2 size-4" />
-                            ) : (
-                              <CheckCircle2 className="mr-2 size-4" />
-                            )}
-                            {rt.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            onClick={() => {
-                              setToDelete(rt)
-                              setIsDeleteOpen(true)
-                            }}
-                            className="text-destructive focus:text-destructive"
-                          >
-                            <Trash2 className="mr-2 size-4" />
-                            Excluir
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
+                    {rt.defaultCapacity && (
+                      <span className="text-xs text-muted-foreground">
+                        Cap. {rt.defaultCapacity}
+                      </span>
+                    )}
+                  </div>
+                  {rt.description && (
+                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                      {rt.description}
+                    </p>
                   )}
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </Card>
+                </div>
+
+                {/* Actions */}
+                {isAdmin && (
+                  <div className="shrink-0">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="size-8">
+                          <MoreHorizontal className="size-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => openEdit(rt)}>
+                          <Pencil className="mr-2 size-4" />
+                          Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleToggleStatus(rt)}>
+                          {rt.status === 'ACTIVE' ? (
+                            <XCircle className="mr-2 size-4" />
+                          ) : (
+                            <CheckCircle2 className="mr-2 size-4" />
+                          )}
+                          {rt.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => {
+                            setToDelete(rt)
+                            setIsDeleteOpen(true)
+                          }}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="mr-2 size-4" />
+                          Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                )}
+              </div>
+            )
+          })
+        )}
+      </div>
 
       {/* Form Dialog */}
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
@@ -337,13 +396,25 @@ function RoomTypesPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="rt-icon">Ícone (emoji)</Label>
-              <Input
-                id="rt-icon"
+              <Label htmlFor="rt-icon">Ícone</Label>
+              <Select
                 value={form.icon}
-                onChange={(e) => setForm({ ...form, icon: e.target.value })}
-                placeholder="Ex: 🔬"
-              />
+                onValueChange={(value) => setForm({ ...form, icon: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione um ícone" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(RoomTypeIconsList).map(([name, { label, icon }]) => {
+                    const Icon = icon
+                    return (
+                      <SelectItem key={name} value={name}>
+                        <Icon className="mr-2 inline size-4" /> {label}
+                      </SelectItem>
+                    )
+                  })}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

@@ -1,0 +1,30 @@
+import {
+  BookOpen,
+  Users,
+  Presentation,
+  FlaskConical,
+  Cpu,
+  Microscope,
+  Music,
+  Dumbbell,
+  Library,
+  Coffee,
+  Building2,
+  Layers,
+  type LucideIcon,
+} from 'lucide-react'
+
+export const RoomTypeIconsList: Record<string, { label: string; icon: LucideIcon }> = {
+  BookOpen: { label: 'Sala de Aula', icon: BookOpen },
+  Users: { label: 'Sala de Reunião', icon: Users },
+  Presentation: { label: 'Auditório', icon: Presentation },
+  FlaskConical: { label: 'Laboratório', icon: FlaskConical },
+  Cpu: { label: 'Sala de Informática', icon: Cpu },
+  Microscope: { label: 'Laboratório Científico', icon: Microscope },
+  Music: { label: 'Sala de Música', icon: Music },
+  Dumbbell: { label: 'Ginásio', icon: Dumbbell },
+  Library: { label: 'Biblioteca', icon: Library },
+  Coffee: { label: 'Sala de Descanso', icon: Coffee },
+  Building2: { label: 'Sala Geral', icon: Building2 },
+  Layers: { label: 'Multiuso', icon: Layers },
+}
