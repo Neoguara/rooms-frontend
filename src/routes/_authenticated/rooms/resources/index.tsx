@@ -10,6 +10,7 @@ import {
   XCircle,
   Archive,
   Package,
+  ArchiveRestore,
 } from 'lucide-react'
 import { ResourcesIconsList } from '@/lib/resources-icons'
 import { Button } from '@/components/ui/button'
@@ -46,6 +47,8 @@ import {
 } from '@/components/ui/select'
 
 type ResourceResponse = components['schemas']['ResourceResponse']
+type ResourceStatus = NonNullable<ResourceResponse['status']>
+type UpdateableStatus = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED'
 
 export const Route = createFileRoute('/_authenticated/rooms/resources/')({
   component: ResourcesPage,
@@ -56,6 +59,26 @@ export const Route = createFileRoute('/_authenticated/rooms/resources/')({
 })
 
 const defaultForm = { name: '', description: '', icon: 'Projector' }
+
+function StatusBadge({ status }: { status?: ResourceStatus }) {
+  if (status === 'ACTIVE')
+    return (
+      <Badge variant="default" className="text-[10px] h-5">
+        Ativo
+      </Badge>
+    )
+  if (status === 'ARCHIVED')
+    return (
+      <Badge variant="outline" className="text-[10px] h-5 text-amber-600 border-amber-400">
+        Arquivado
+      </Badge>
+    )
+  return (
+    <Badge variant="secondary" className="text-[10px] h-5">
+      Inativo
+    </Badge>
+  )
+}
 
 function ResourcesPage() {
   const { user } = useAuth()
@@ -84,6 +107,7 @@ function ResourcesPage() {
     () => ({
       active: resources.filter((r) => r.status === 'ACTIVE').length,
       inactive: resources.filter((r) => r.status === 'INACTIVE').length,
+      archived: resources.filter((r) => r.status === 'ARCHIVED').length,
     }),
     [resources],
   )
@@ -91,13 +115,15 @@ function ResourcesPage() {
   const filtered = useMemo(
     () =>
       resources.filter((r) => {
+        if (r.status === 'DELETED') return false
         const matchesSearch =
           r.name?.toLowerCase().includes(search.toLowerCase()) ||
           r.description?.toLowerCase().includes(search.toLowerCase())
         const matchesStatus =
           statusFilter === 'all' ||
           (statusFilter === 'active' && r.status === 'ACTIVE') ||
-          (statusFilter === 'inactive' && r.status === 'INACTIVE')
+          (statusFilter === 'inactive' && r.status === 'INACTIVE') ||
+          (statusFilter === 'archived' && r.status === 'ARCHIVED')
         return matchesSearch && matchesStatus
       }),
     [resources, search, statusFilter],
@@ -158,24 +184,30 @@ function ResourcesPage() {
     }
   }, [toDelete, deleteMutation, api])
 
-  const handleToggleStatus = useCallback(
-    async (r: ResourceResponse) => {
+  const handleStatusChange = useCallback(
+    async (r: ResourceResponse, next: UpdateableStatus) => {
       try {
-        const next = r.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         await statusMutation.mutateAsync({
           path: { id: r.id! },
           body: { status: next },
         })
         await api.resources.listResources.invalidateQueries()
-        toast.success(
-          `Recurso ${next === 'INACTIVE' ? 'desativado' : 'ativado'} com sucesso.`,
-        )
+        const labels: Record<UpdateableStatus, string> = {
+          ACTIVE: 'ativado',
+          INACTIVE: 'desativado',
+          ARCHIVED: 'arquivado',
+        }
+        toast.success(`Recurso ${labels[next]} com sucesso.`)
       } catch {
         toast.error('Erro ao atualizar status.')
       }
     },
     [statusMutation, api],
   )
+
+  function toggleStatusFilter(value: string) {
+    setStatusFilter((prev) => (prev === value ? 'all' : value))
+  }
 
   return (
     <>
@@ -208,7 +240,7 @@ function ResourcesPage() {
                 'flex items-center gap-1.5 font-medium',
                 statusFilter === 'active' ? 'text-foreground' : 'text-muted-foreground',
               )}
-              onClick={() => setStatusFilter(statusFilter === 'active' ? 'all' : 'active')}
+              onClick={() => toggleStatusFilter('active')}
             >
               <CheckCircle2 className="size-4 text-emerald-500" />
               {stats.active} Ativos
@@ -218,10 +250,20 @@ function ResourcesPage() {
                 'flex items-center gap-1.5',
                 statusFilter === 'inactive' ? 'text-foreground font-medium' : 'text-muted-foreground',
               )}
-              onClick={() => setStatusFilter(statusFilter === 'inactive' ? 'all' : 'inactive')}
+              onClick={() => toggleStatusFilter('inactive')}
             >
               <XCircle className="size-4 text-red-500" />
               {stats.inactive} Inativos
+            </button>
+            <button
+              className={cn(
+                'flex items-center gap-1.5',
+                statusFilter === 'archived' ? 'text-foreground font-medium' : 'text-muted-foreground',
+              )}
+              onClick={() => toggleStatusFilter('archived')}
+            >
+              <Archive className="size-4 text-amber-500" />
+              {stats.archived} Arquivados
             </button>
           </div>
           <span className="text-sm text-muted-foreground">
@@ -233,9 +275,7 @@ function ResourcesPage() {
         {filtered.length === 0 ? (
           <div className="py-16 text-center bg-card">
             <Package className="mx-auto mb-4 size-12 text-muted-foreground/30" />
-            <p className="text-muted-foreground font-medium">
-              Nenhum recurso encontrado
-            </p>
+            <p className="text-muted-foreground font-medium">Nenhum recurso encontrado</p>
             <p className="text-sm text-muted-foreground mt-1">
               {search ? 'Tente ajustar os termos de busca' : 'Cadastre o primeiro recurso'}
             </p>
@@ -243,12 +283,14 @@ function ResourcesPage() {
         ) : (
           filtered.map((r, index) => {
             const IconEntry = r.icon ? ResourcesIconsList[r.icon] : null
+            const isArchived = r.status === 'ARCHIVED'
             return (
               <div
                 key={r.id}
                 className={cn(
                   'flex items-center gap-3 px-4 py-3 bg-card hover:bg-muted/30 transition-colors',
                   index !== filtered.length - 1 && 'border-b border-border',
+                  isArchived && 'opacity-60',
                 )}
               >
                 {/* Icon */}
@@ -264,12 +306,7 @@ function ResourcesPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold text-foreground">{r.name}</span>
-                    <Badge
-                      variant={r.status === 'ACTIVE' ? 'default' : 'secondary'}
-                      className="text-[10px] h-5"
-                    >
-                      {r.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
-                    </Badge>
+                    <StatusBadge status={r.status} />
                   </div>
                   {r.description && (
                     <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
@@ -288,29 +325,56 @@ function ResourcesPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(r)}>
-                          <Pencil className="mr-2 size-4" />
-                          Editar
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleToggleStatus(r)}>
-                          {r.status === 'ACTIVE' ? (
+                        {!isArchived && (
+                          <DropdownMenuItem onClick={() => openEdit(r)}>
+                            <Pencil className="mr-2 size-4" />
+                            Editar
+                          </DropdownMenuItem>
+                        )}
+
+                        {r.status === 'ACTIVE' && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(r, 'INACTIVE')}>
                             <XCircle className="mr-2 size-4" />
-                          ) : (
+                            Desativar
+                          </DropdownMenuItem>
+                        )}
+
+                        {r.status === 'INACTIVE' && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(r, 'ACTIVE')}>
                             <CheckCircle2 className="mr-2 size-4" />
-                          )}
-                          {r.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setToDelete(r)
-                            setIsDeleteOpen(true)
-                          }}
-                          className="text-destructive focus:text-destructive"
-                        >
-                          <Trash2 className="mr-2 size-4" />
-                          Excluir
-                        </DropdownMenuItem>
+                            Ativar
+                          </DropdownMenuItem>
+                        )}
+
+                        {!isArchived && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(r, 'ARCHIVED')}>
+                            <Archive className="mr-2 size-4" />
+                            Arquivar
+                          </DropdownMenuItem>
+                        )}
+
+                        {isArchived && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(r, 'ACTIVE')}>
+                            <ArchiveRestore className="mr-2 size-4" />
+                            Restaurar
+                          </DropdownMenuItem>
+                        )}
+
+                        {isArchived && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setToDelete(r)
+                                setIsDeleteOpen(true)
+                              }}
+                              className="text-destructive focus:text-destructive"
+                            >
+                              <Trash2 className="mr-2 size-4" />
+                              Excluir
+                            </DropdownMenuItem>
+                          </>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -327,9 +391,7 @@ function ResourcesPage() {
           <DialogHeader>
             <DialogTitle>{editing ? 'Editar Recurso' : 'Novo Recurso'}</DialogTitle>
             <DialogDescription>
-              {editing
-                ? 'Atualize as informações do recurso.'
-                : 'Cadastre um novo recurso.'}
+              {editing ? 'Atualize as informações do recurso.' : 'Cadastre um novo recurso.'}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -394,7 +456,7 @@ function ResourcesPage() {
           <DialogHeader>
             <DialogTitle>Confirmar Exclusão</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir o recurso{' '}
+              Tem certeza que deseja excluir permanentemente o recurso{' '}
               <strong>{toDelete?.name}</strong>? Esta ação não pode ser desfeita.
             </DialogDescription>
           </DialogHeader>
