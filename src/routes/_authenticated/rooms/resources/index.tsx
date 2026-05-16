@@ -9,15 +9,9 @@ import {
   CheckCircle2,
   XCircle,
   Archive,
-  type LucideIcon,
-  Projector,
-  Wind,
-  Monitor,
-  Tv,
-  Mic,
-  Wifi,
   Package,
 } from 'lucide-react'
+import { ResourcesIconsList } from '@/lib/resources-icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -62,16 +56,6 @@ export const Route = createFileRoute('/_authenticated/rooms/resources/')({
 })
 
 const defaultForm = { name: '', description: '', icon: 'Projector' }
-
-const ResourcesIconsList: Record<string, { label: string; icon: LucideIcon }> =
-  {
-    Projector: { label: 'Projetor', icon: Projector },
-    Wind: { label: 'Ar-condicionado', icon: Wind },
-    Monitor: { label: 'Monitor', icon: Monitor },
-    Mic: { label: 'Microfone', icon: Mic },
-    Tv: { label: 'TV', icon: Tv },
-    Wifi: { label: 'Wi-Fi', icon: Wifi },
-  }
 
 function ResourcesPage() {
   const { user } = useAuth()
