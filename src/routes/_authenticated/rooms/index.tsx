@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Plus,
   Search,
@@ -17,6 +17,9 @@ import {
   Wrench,
   MapPin,
   CheckCircle2,
+  XCircle,
+  Archive,
+  RotateCcw,
 } from 'lucide-react'
 import { ResourcesIconsList } from '@/lib/resources-icons'
 import { RoomTypeIconsList } from '@/lib/room-type-icons'
@@ -59,6 +62,7 @@ import type { components } from '@/api/schema'
 import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { RoomFormDialog } from '@/components/room/room-form-dialog'
 import { DeleteRoomDialog } from '@/components/room/delete-room-dialog'
+import { toast } from 'sonner'
 
 type RoomDetailResponse = components['schemas']['RoomDetailResponse']
 type BuildingResponse = components['schemas']['BuildingResponse']
@@ -130,6 +134,27 @@ function RoomsPage() {
   const [editingRoom, setEditingRoom] = useState<RoomDetailResponse | null>(null)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [roomToDelete, setRoomToDelete] = useState<RoomDetailResponse | null>(null)
+
+  const statusMutation = api.rooms.updateRoomStatus.useMutation()
+
+  const handleUpdateStatus = useCallback(
+    async (room: RoomDetailResponse, status: 'AVAILABLE' | 'MAINTENANCE' | 'INACTIVE' | 'ARCHIVED') => {
+      try {
+        await statusMutation.mutateAsync({ path: { id: room.id! }, body: { status } })
+        await api.rooms.listRooms.invalidateQueries()
+        const labels: Record<string, string> = {
+          AVAILABLE: 'disponível',
+          MAINTENANCE: 'em manutenção',
+          INACTIVE: 'inativa',
+          ARCHIVED: 'arquivada',
+        }
+        toast.success(`Sala marcada como ${labels[status]}.`)
+      } catch {
+        toast.error('Erro ao atualizar status da sala.')
+      }
+    },
+    [statusMutation, api],
+  )
 
   const filteredRooms = useMemo(() => {
     return rooms.filter((room) => {
@@ -354,6 +379,37 @@ function RoomsPage() {
                             <Pencil className="mr-2 size-4" />
                             Editar
                           </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          {room.status !== 'AVAILABLE' && (
+                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'AVAILABLE')}>
+                              <CheckCircle2 className="mr-2 size-4 text-emerald-500" />
+                              Marcar como Disponível
+                            </DropdownMenuItem>
+                          )}
+                          {room.status !== 'MAINTENANCE' && (
+                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'MAINTENANCE')}>
+                              <Wrench className="mr-2 size-4 text-amber-500" />
+                              Marcar em Manutenção
+                            </DropdownMenuItem>
+                          )}
+                          {room.status !== 'INACTIVE' && room.status !== 'ARCHIVED' && (
+                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'INACTIVE')}>
+                              <XCircle className="mr-2 size-4" />
+                              Desativar
+                            </DropdownMenuItem>
+                          )}
+                          {room.status !== 'ARCHIVED' && (
+                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'ARCHIVED')}>
+                              <Archive className="mr-2 size-4" />
+                              Arquivar
+                            </DropdownMenuItem>
+                          )}
+                          {(room.status === 'INACTIVE' || room.status === 'ARCHIVED') && (
+                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'AVAILABLE')}>
+                              <RotateCcw className="mr-2 size-4" />
+                              Restaurar
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
                             onClick={() => openDelete(room)}
