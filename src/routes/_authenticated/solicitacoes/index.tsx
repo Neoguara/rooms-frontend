@@ -293,7 +293,7 @@ function SolicitacoesPage() {
               resetPage()
             }}
           >
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-35">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
