@@ -459,17 +459,17 @@ export interface BuildingsService {
             body: UpdateBuildingBody;
         };
     };
-    /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+    /** @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
     deleteBuilding: {
-        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        /** @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteBuildingBody, DeleteBuildingParameters, TMeta, TSignal>, client?: (schema: DeleteBuildingSchema, options: ServiceOperationMutationFnOptions<DeleteBuildingBody, DeleteBuildingParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteBuildingData, DeleteBuildingError>>): Promise<RequestFnResponse<DeleteBuildingData, DeleteBuildingError>>;
-        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        /** @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         getMutationKey(parameters: DeepReadonly<DeleteBuildingParameters> | void): ServiceOperationMutationKey<DeleteBuildingSchema, DeleteBuildingParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
+         * @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -496,7 +496,7 @@ export interface BuildingsService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
+         * @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -522,7 +522,7 @@ export interface BuildingsService {
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
+         * @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -543,7 +543,7 @@ export interface BuildingsService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
+         * @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -572,13 +572,13 @@ export interface BuildingsService {
             filters?: MutationFiltersByParameters<DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext> | MutationFiltersByMutationKey<DeleteBuildingSchema, DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext>;
             select?: (mutation: Mutation<DeleteBuildingData, OperationError<DeleteBuildingError>, MutationVariables<DeleteBuildingBody, DeleteBuildingParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        /** @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext> | MutationFiltersByMutationKey<DeleteBuildingSchema, DeleteBuildingBody, DeleteBuildingData, DeleteBuildingParameters, OperationError<DeleteBuildingError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível.
+         * @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -1215,7 +1215,7 @@ export const updateBuilding = {
     schema: UpdateBuildingSchema;
     [QraftServiceOperationsToken]: BuildingsService["updateBuilding"];
 };
-/** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+/** @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
 export const deleteBuilding = {
     schema: {
         method: "delete",

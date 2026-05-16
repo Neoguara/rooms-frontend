@@ -35,7 +35,7 @@ export interface paths {
         /** @description Atualiza os dados da sala. */
         put: operations["updateRoom"];
         post?: never;
-        /** @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível. */
+        /** @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422. */
         delete: operations["deleteRoom"];
         options?: never;
         head?: never;
@@ -71,7 +71,7 @@ export interface paths {
         /** @description Atualiza os dados de um tipo de sala. */
         put: operations["updateRoomType"];
         post?: never;
-        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        /** @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         delete: operations["deleteRoomType"];
         options?: never;
         head?: never;
@@ -90,7 +90,7 @@ export interface paths {
         /** @description Atualiza nome, descrição e ícone do recurso. */
         put: operations["updateResource"];
         post?: never;
-        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        /** @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         delete: operations["deleteResource"];
         options?: never;
         head?: never;
@@ -109,7 +109,7 @@ export interface paths {
         /** @description Atualiza nome, endereço e total de andares do edifício. */
         put: operations["updateBuilding"];
         post?: never;
-        /** @description Remove um edifício (soft delete). O status passa para DELETED e o edifício deixa de ser visível. */
+        /** @description Remove um edifício (soft delete). O edifício deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         delete: operations["deleteBuilding"];
         options?: never;
         head?: never;
@@ -370,7 +370,15 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        /**
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         *     - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         *     - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         *     - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         *     Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         *     Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         */
         patch: operations["updateRoomTypeStatus"];
         trace?: never;
     };
@@ -387,7 +395,15 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        /**
+         * @description Altera o status do recurso. Transições permitidas:
+         *     - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         *     - **INACTIVE**: desativa um recurso ACTIVE.
+         *     - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         *     Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         *     Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         */
         patch: operations["updateResourceStatus"];
         trace?: never;
     };
@@ -541,7 +557,7 @@ export interface components {
             color?: string;
             icon?: string;
             /** @enum {string} */
-            status?: "ACTIVE" | "INACTIVE" | "DELETED";
+            status?: "ACTIVE" | "INACTIVE" | "ARCHIVED" | "DELETED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -559,7 +575,7 @@ export interface components {
             description?: string;
             icon?: string;
             /** @enum {string} */
-            status?: "ACTIVE" | "INACTIVE" | "DELETED";
+            status?: "ACTIVE" | "INACTIVE" | "ARCHIVED" | "DELETED";
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -704,11 +720,11 @@ export interface components {
         };
         UpdateRoomTypeStatusRequest: {
             /** @enum {string} */
-            status?: "ACTIVE" | "INACTIVE";
+            status?: "ACTIVE" | "INACTIVE" | "ARCHIVED";
         };
         UpdateResourceStatusRequest: {
             /** @enum {string} */
-            status?: "ACTIVE" | "INACTIVE";
+            status?: "ACTIVE" | "INACTIVE" | "ARCHIVED";
         };
         UpdateBuildingStatusRequest: {
             /** @enum {string} */
@@ -1153,7 +1169,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Sala não está arquivada */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -1395,7 +1411,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Tipo de sala não está arquivado */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -1574,7 +1590,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Recurso não está arquivado */
             422: {
                 headers: {
                     [name: string]: unknown;
@@ -1753,7 +1769,7 @@ export interface operations {
                     "*/*": components["schemas"]["ErrorResponse"];
                 };
             };
-            /** @description Unprocessable Content */
+            /** @description Edifício não está arquivado */
             422: {
                 headers: {
                     [name: string]: unknown;

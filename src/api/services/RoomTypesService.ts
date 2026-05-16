@@ -459,17 +459,17 @@ export interface RoomTypesService {
             body: UpdateRoomTypeBody;
         };
     };
-    /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+    /** @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
     deleteRoomType: {
-        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        /** @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteRoomTypeBody, DeleteRoomTypeParameters, TMeta, TSignal>, client?: (schema: DeleteRoomTypeSchema, options: ServiceOperationMutationFnOptions<DeleteRoomTypeBody, DeleteRoomTypeParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteRoomTypeData, DeleteRoomTypeError>>): Promise<RequestFnResponse<DeleteRoomTypeData, DeleteRoomTypeError>>;
-        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        /** @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         getMutationKey(parameters: DeepReadonly<DeleteRoomTypeParameters> | void): ServiceOperationMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
+         * @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -496,7 +496,7 @@ export interface RoomTypesService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
+         * @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -522,7 +522,7 @@ export interface RoomTypesService {
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
+         * @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -543,7 +543,7 @@ export interface RoomTypesService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
+         * @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -572,13 +572,13 @@ export interface RoomTypesService {
             filters?: MutationFiltersByParameters<DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext> | MutationFiltersByMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext>;
             select?: (mutation: Mutation<DeleteRoomTypeData, OperationError<DeleteRoomTypeError>, MutationVariables<DeleteRoomTypeBody, DeleteRoomTypeParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+        /** @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext> | MutationFiltersByMutationKey<DeleteRoomTypeSchema, DeleteRoomTypeBody, DeleteRoomTypeData, DeleteRoomTypeParameters, OperationError<DeleteRoomTypeError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível.
+         * @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -970,17 +970,51 @@ export interface RoomTypesService {
             body: CreateRoomTypeBody;
         };
     };
-    /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+    /**
+     * @description Altera o status do tipo de sala. Transições permitidas:
+     * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+     * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+     * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+     *
+     * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+     * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+     *
+     */
     updateRoomTypeStatus: {
-        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        /**
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
+         */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters, TMeta, TSignal>, client?: (schema: UpdateRoomTypeStatusSchema, options: ServiceOperationMutationFnOptions<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateRoomTypeStatusData, UpdateRoomTypeStatusError>>): Promise<RequestFnResponse<UpdateRoomTypeStatusData, UpdateRoomTypeStatusError>>;
-        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        /**
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
+         */
         getMutationKey(parameters: DeepReadonly<UpdateRoomTypeStatusParameters> | void): ServiceOperationMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -1007,7 +1041,14 @@ export interface RoomTypesService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -1033,7 +1074,14 @@ export interface RoomTypesService {
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -1054,7 +1102,14 @@ export interface RoomTypesService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -1083,13 +1138,29 @@ export interface RoomTypesService {
             filters?: MutationFiltersByParameters<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext>;
             select?: (mutation: Mutation<UpdateRoomTypeStatusData, OperationError<UpdateRoomTypeStatusError>, MutationVariables<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+        /**
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
+         */
         isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext> | MutationFiltersByMutationKey<UpdateRoomTypeStatusSchema, UpdateRoomTypeStatusBody, UpdateRoomTypeStatusData, UpdateRoomTypeStatusParameters, OperationError<UpdateRoomTypeStatusError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}.
+         * @description Altera o status do tipo de sala. Transições permitidas:
+         * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+         * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -1144,7 +1215,7 @@ export const updateRoomType = {
     schema: UpdateRoomTypeSchema;
     [QraftServiceOperationsToken]: RoomTypesService["updateRoomType"];
 };
-/** @description Remove um tipo de sala (soft delete). O status passa para DELETED e o tipo de sala deixa de ser visível. */
+/** @description Remove um tipo de sala (soft delete). O tipo de sala deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
 export const deleteRoomType = {
     schema: {
         method: "delete",
@@ -1175,7 +1246,16 @@ export const createRoomType = {
     schema: CreateRoomTypeSchema;
     [QraftServiceOperationsToken]: RoomTypesService["createRoomType"];
 };
-/** @description Altera o status do tipo de sala. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /room-types/{id}. */
+/**
+ * @description Altera o status do tipo de sala. Transições permitidas:
+ * - **ACTIVE**: ativa um tipo de sala INACTIVE, ou restaura um ARCHIVED.
+ * - **INACTIVE**: desativa um tipo de sala ACTIVE.
+ * - **ARCHIVED**: arquiva o tipo de sala independente do status atual.
+ *
+ * Transições inválidas retornam 422 (ex: ativar diretamente um tipo ARCHIVED sem restaurar).
+ * Para remover permanentemente use DELETE /room-types/{id} (exige ARCHIVED).
+ *
+ */
 export const updateRoomTypeStatus = {
     schema: {
         method: "patch",

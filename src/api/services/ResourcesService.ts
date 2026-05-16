@@ -459,17 +459,17 @@ export interface ResourcesService {
             body: UpdateResourceBody;
         };
     };
-    /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+    /** @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
     deleteResource: {
-        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        /** @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteResourceBody, DeleteResourceParameters, TMeta, TSignal>, client?: (schema: DeleteResourceSchema, options: ServiceOperationMutationFnOptions<DeleteResourceBody, DeleteResourceParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteResourceData, DeleteResourceError>>): Promise<RequestFnResponse<DeleteResourceData, DeleteResourceError>>;
-        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        /** @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         getMutationKey(parameters: DeepReadonly<DeleteResourceParameters> | void): ServiceOperationMutationKey<DeleteResourceSchema, DeleteResourceParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
+         * @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -496,7 +496,7 @@ export interface ResourcesService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
+         * @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -522,7 +522,7 @@ export interface ResourcesService {
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
+         * @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -543,7 +543,7 @@ export interface ResourcesService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
+         * @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -572,13 +572,13 @@ export interface ResourcesService {
             filters?: MutationFiltersByParameters<DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext> | MutationFiltersByMutationKey<DeleteResourceSchema, DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext>;
             select?: (mutation: Mutation<DeleteResourceData, OperationError<DeleteResourceError>, MutationVariables<DeleteResourceBody, DeleteResourceParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+        /** @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext> | MutationFiltersByMutationKey<DeleteResourceSchema, DeleteResourceBody, DeleteResourceData, DeleteResourceParameters, OperationError<DeleteResourceError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível.
+         * @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -970,17 +970,51 @@ export interface ResourcesService {
             body: CreateResourceBody;
         };
     };
-    /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+    /**
+     * @description Altera o status do recurso. Transições permitidas:
+     * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+     * - **INACTIVE**: desativa um recurso ACTIVE.
+     * - **ARCHIVED**: arquiva o recurso independente do status atual.
+     *
+     * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+     * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+     *
+     */
     updateResourceStatus: {
-        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        /**
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
+         */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<UpdateResourceStatusBody, UpdateResourceStatusParameters, TMeta, TSignal>, client?: (schema: UpdateResourceStatusSchema, options: ServiceOperationMutationFnOptions<UpdateResourceStatusBody, UpdateResourceStatusParameters, TMeta, TSignal>) => Promise<RequestFnResponse<UpdateResourceStatusData, UpdateResourceStatusError>>): Promise<RequestFnResponse<UpdateResourceStatusData, UpdateResourceStatusError>>;
-        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        /**
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
+         */
         getMutationKey(parameters: DeepReadonly<UpdateResourceStatusParameters> | void): ServiceOperationMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -1007,7 +1041,14 @@ export interface ResourcesService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -1033,7 +1074,14 @@ export interface ResourcesService {
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -1054,7 +1102,14 @@ export interface ResourcesService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -1083,13 +1138,29 @@ export interface ResourcesService {
             filters?: MutationFiltersByParameters<UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext> | MutationFiltersByMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext>;
             select?: (mutation: Mutation<UpdateResourceStatusData, OperationError<UpdateResourceStatusError>, MutationVariables<UpdateResourceStatusBody, UpdateResourceStatusParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+        /**
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
+         */
         isMutating<TContext>(filters?: MutationFiltersByParameters<UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext> | MutationFiltersByMutationKey<UpdateResourceStatusSchema, UpdateResourceStatusBody, UpdateResourceStatusData, UpdateResourceStatusParameters, OperationError<UpdateResourceStatusError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}.
+         * @description Altera o status do recurso. Transições permitidas:
+         * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+         * - **INACTIVE**: desativa um recurso ACTIVE.
+         * - **ARCHIVED**: arquiva o recurso independente do status atual.
+         *
+         * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+         * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+         *
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -1144,7 +1215,7 @@ export const updateResource = {
     schema: UpdateResourceSchema;
     [QraftServiceOperationsToken]: ResourcesService["updateResource"];
 };
-/** @description Remove um recurso (soft delete). O status passa para DELETED e o recurso deixa de ser visível. */
+/** @description Remove um recurso (soft delete). O recurso deve estar com status ARCHIVED antes de ser deletado; caso contrário retorna 422. */
 export const deleteResource = {
     schema: {
         method: "delete",
@@ -1175,7 +1246,16 @@ export const createResource = {
     schema: CreateResourceSchema;
     [QraftServiceOperationsToken]: ResourcesService["createResource"];
 };
-/** @description Altera o status do recurso. Transições permitidas: ACTIVE ↔ INACTIVE. Para remover permanentemente use DELETE /resources/{id}. */
+/**
+ * @description Altera o status do recurso. Transições permitidas:
+ * - **ACTIVE**: ativa um recurso INACTIVE, ou restaura um ARCHIVED.
+ * - **INACTIVE**: desativa um recurso ACTIVE.
+ * - **ARCHIVED**: arquiva o recurso independente do status atual.
+ *
+ * Transições inválidas retornam 422 (ex: ativar diretamente um recurso ARCHIVED sem restaurar).
+ * Para remover permanentemente use DELETE /resources/{id} (exige ARCHIVED).
+ *
+ */
 export const updateResourceStatus = {
     schema: {
         method: "patch",

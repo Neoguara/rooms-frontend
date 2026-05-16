@@ -507,17 +507,17 @@ export interface RoomsService {
             body: UpdateRoomBody;
         };
     };
-    /** @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível. */
+    /** @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422. */
     deleteRoom: {
-        /** @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível. */
+        /** @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422. */
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteRoomBody, DeleteRoomParameters, TMeta, TSignal>, client?: (schema: DeleteRoomSchema, options: ServiceOperationMutationFnOptions<DeleteRoomBody, DeleteRoomParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteRoomData, DeleteRoomError>>): Promise<RequestFnResponse<DeleteRoomData, DeleteRoomError>>;
-        /** @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível. */
+        /** @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422. */
         getMutationKey(parameters: DeepReadonly<DeleteRoomParameters> | void): ServiceOperationMutationKey<DeleteRoomSchema, DeleteRoomParameters>;
         /**
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível.
+         * @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -544,7 +544,7 @@ export interface RoomsService {
          * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
          * Handles loading state, optimistic updates, and error handling.
          *
-         * @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível.
+         * @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
@@ -570,7 +570,7 @@ export interface RoomsService {
         /**
          * Returns the count of currently in-progress mutations.
          *
-         * @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível.
+         * @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
@@ -591,7 +591,7 @@ export interface RoomsService {
         /**
          * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
          *
-         * @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível.
+         * @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
@@ -620,13 +620,13 @@ export interface RoomsService {
             filters?: MutationFiltersByParameters<DeleteRoomBody, DeleteRoomData, DeleteRoomParameters, OperationError<DeleteRoomError>, TContext> | MutationFiltersByMutationKey<DeleteRoomSchema, DeleteRoomBody, DeleteRoomData, DeleteRoomParameters, OperationError<DeleteRoomError>, TContext>;
             select?: (mutation: Mutation<DeleteRoomData, OperationError<DeleteRoomError>, MutationVariables<DeleteRoomBody, DeleteRoomParameters>, TContext>) => TResult;
         }): Array<TResult>;
-        /** @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível. */
+        /** @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422. */
         isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteRoomBody, DeleteRoomData, DeleteRoomParameters, OperationError<DeleteRoomError>, TContext> | MutationFiltersByMutationKey<DeleteRoomSchema, DeleteRoomBody, DeleteRoomData, DeleteRoomParameters, OperationError<DeleteRoomError>, TContext>): number;
         /**
          * Returns a `MutationCache` object that provides access to mutation cache operations
          * for the specific endpoint.
          *
-         * @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível.
+         * @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422.
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
          *
          * @example Find a mutation with specific parameters
@@ -1503,7 +1503,7 @@ export const updateRoom = {
     schema: UpdateRoomSchema;
     [QraftServiceOperationsToken]: RoomsService["updateRoom"];
 };
-/** @description Remove uma sala (soft delete). O status passa para DELETED e a sala deixa de ser visível. */
+/** @description Remove uma sala (soft delete). A sala deve estar com status ARCHIVED antes de ser deletada; caso contrário retorna 422. */
 export const deleteRoom = {
     schema: {
         method: "delete",
