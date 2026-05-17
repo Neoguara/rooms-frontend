@@ -8,6 +8,8 @@ import {
   MoreHorizontal,
   CheckCircle2,
   XCircle,
+  Archive,
+  ArchiveRestore,
   Tag,
 } from 'lucide-react'
 import { RoomTypeIconsList } from '@/lib/room-type-icons'
@@ -45,6 +47,7 @@ import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { toast } from 'sonner'
 
 type RoomTypeResponse = components['schemas']['RoomTypeResponse']
+type UpdateableStatus = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED'
 
 export const Route = createFileRoute('/_authenticated/rooms/room-types/')({
   component: RoomTypesPage,
@@ -60,6 +63,26 @@ const defaultForm = {
   defaultCapacity: '',
   color: '',
   icon: 'BookOpen',
+}
+
+function StatusBadge({ status }: { status?: RoomTypeResponse['status'] }) {
+  if (status === 'ACTIVE')
+    return (
+      <Badge variant="default" className="text-[10px] h-5">
+        Ativo
+      </Badge>
+    )
+  if (status === 'ARCHIVED')
+    return (
+      <Badge variant="outline" className="text-[10px] h-5 text-amber-600 border-amber-400">
+        Arquivado
+      </Badge>
+    )
+  return (
+    <Badge variant="secondary" className="text-[10px] h-5">
+      Inativo
+    </Badge>
+  )
 }
 
 function RoomTypesPage() {
@@ -89,6 +112,7 @@ function RoomTypesPage() {
     () => ({
       active: roomTypes.filter((rt) => rt.status === 'ACTIVE').length,
       inactive: roomTypes.filter((rt) => rt.status === 'INACTIVE').length,
+      archived: roomTypes.filter((rt) => rt.status === 'ARCHIVED').length,
     }),
     [roomTypes],
   )
@@ -96,13 +120,15 @@ function RoomTypesPage() {
   const filtered = useMemo(
     () =>
       roomTypes.filter((rt) => {
+        if (rt.status === 'DELETED') return false
         const matchesSearch =
           rt.name?.toLowerCase().includes(search.toLowerCase()) ||
           rt.description?.toLowerCase().includes(search.toLowerCase())
         const matchesStatus =
           statusFilter === 'all' ||
           (statusFilter === 'active' && rt.status === 'ACTIVE') ||
-          (statusFilter === 'inactive' && rt.status === 'INACTIVE')
+          (statusFilter === 'inactive' && rt.status === 'INACTIVE') ||
+          (statusFilter === 'archived' && rt.status === 'ARCHIVED')
         return matchesSearch && matchesStatus
       }),
     [roomTypes, search, statusFilter],
@@ -167,22 +193,30 @@ function RoomTypesPage() {
     }
   }, [toDelete, deleteMutation, api])
 
-  const handleToggleStatus = useCallback(
-    async (rt: RoomTypeResponse) => {
+  const handleStatusChange = useCallback(
+    async (rt: RoomTypeResponse, next: UpdateableStatus) => {
       try {
-        const next = rt.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         await statusMutation.mutateAsync({
           path: { id: rt.id! },
           body: { status: next },
         })
         await api.roomTypes.listRoomTypes.invalidateQueries()
-        toast.success(`Tipo ${next === 'INACTIVE' ? 'desativado' : 'ativado'} com sucesso.`)
+        const labels: Record<UpdateableStatus, string> = {
+          ACTIVE: 'ativado',
+          INACTIVE: 'desativado',
+          ARCHIVED: 'arquivado',
+        }
+        toast.success(`Tipo de sala ${labels[next]} com sucesso.`)
       } catch {
         toast.error('Erro ao atualizar status.')
       }
     },
     [statusMutation, api],
   )
+
+  function toggleStatusFilter(value: string) {
+    setStatusFilter((prev) => (prev === value ? 'all' : value))
+  }
 
   return (
     <>
@@ -215,7 +249,7 @@ function RoomTypesPage() {
                 'flex items-center gap-1.5 font-medium',
                 statusFilter === 'active' ? 'text-foreground' : 'text-muted-foreground',
               )}
-              onClick={() => setStatusFilter(statusFilter === 'active' ? 'all' : 'active')}
+              onClick={() => toggleStatusFilter('active')}
             >
               <CheckCircle2 className="size-4 text-emerald-500" />
               {stats.active} Ativos
@@ -225,10 +259,20 @@ function RoomTypesPage() {
                 'flex items-center gap-1.5',
                 statusFilter === 'inactive' ? 'text-foreground font-medium' : 'text-muted-foreground',
               )}
-              onClick={() => setStatusFilter(statusFilter === 'inactive' ? 'all' : 'inactive')}
+              onClick={() => toggleStatusFilter('inactive')}
             >
               <XCircle className="size-4 text-red-500" />
               {stats.inactive} Inativos
+            </button>
+            <button
+              className={cn(
+                'flex items-center gap-1.5',
+                statusFilter === 'archived' ? 'text-foreground font-medium' : 'text-muted-foreground',
+              )}
+              onClick={() => toggleStatusFilter('archived')}
+            >
+              <Archive className="size-4 text-amber-500" />
+              {stats.archived} Arquivados
             </button>
           </div>
           <span className="text-sm text-muted-foreground">
@@ -248,12 +292,14 @@ function RoomTypesPage() {
         ) : (
           filtered.map((rt, index) => {
             const IconEntry = rt.icon ? RoomTypeIconsList[rt.icon] : null
+            const isArchived = rt.status === 'ARCHIVED'
             return (
               <div
                 key={rt.id}
                 className={cn(
                   'flex items-center gap-3 px-4 py-3 bg-card hover:bg-muted/30 transition-colors',
                   index !== filtered.length - 1 && 'border-b border-border',
+                  isArchived && 'opacity-60',
                 )}
               >
                 {/* Icon */}
@@ -275,12 +321,7 @@ function RoomTypesPage() {
                       />
                     )}
                     <span className="font-semibold text-foreground">{rt.name}</span>
-                    <Badge
-                      variant={rt.status === 'ACTIVE' ? 'default' : 'secondary'}
-                      className="text-[10px] h-5"
-                    >
-                      {rt.status === 'ACTIVE' ? 'Ativo' : 'Inativo'}
-                    </Badge>
+                    <StatusBadge status={rt.status} />
                     {rt.defaultCapacity && (
                       <span className="text-xs text-muted-foreground">
                         Cap. {rt.defaultCapacity}
@@ -304,29 +345,56 @@ function RoomTypesPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(rt)}>
-                          <Pencil className="mr-2 size-4" />
-                          Editar
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleToggleStatus(rt)}>
-                          {rt.status === 'ACTIVE' ? (
+                        {!isArchived && (
+                          <DropdownMenuItem onClick={() => openEdit(rt)}>
+                            <Pencil className="mr-2 size-4" />
+                            Editar
+                          </DropdownMenuItem>
+                        )}
+
+                        {rt.status === 'ACTIVE' && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(rt, 'INACTIVE')}>
                             <XCircle className="mr-2 size-4" />
-                          ) : (
+                            Desativar
+                          </DropdownMenuItem>
+                        )}
+
+                        {rt.status === 'INACTIVE' && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(rt, 'ACTIVE')}>
                             <CheckCircle2 className="mr-2 size-4" />
-                          )}
-                          {rt.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setToDelete(rt)
-                            setIsDeleteOpen(true)
-                          }}
-                          className="text-destructive focus:text-destructive"
-                        >
-                          <Trash2 className="mr-2 size-4" />
-                          Excluir
-                        </DropdownMenuItem>
+                            Ativar
+                          </DropdownMenuItem>
+                        )}
+
+                        {!isArchived && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(rt, 'ARCHIVED')}>
+                            <Archive className="mr-2 size-4" />
+                            Arquivar
+                          </DropdownMenuItem>
+                        )}
+
+                        {isArchived && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(rt, 'ACTIVE')}>
+                            <ArchiveRestore className="mr-2 size-4" />
+                            Restaurar
+                          </DropdownMenuItem>
+                        )}
+
+                        {isArchived && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setToDelete(rt)
+                                setIsDeleteOpen(true)
+                              }}
+                              className="text-destructive focus:text-destructive"
+                            >
+                              <Trash2 className="mr-2 size-4" />
+                              Excluir
+                            </DropdownMenuItem>
+                          </>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -434,7 +502,7 @@ function RoomTypesPage() {
           <DialogHeader>
             <DialogTitle>Confirmar Exclusão</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir o tipo{' '}
+              Tem certeza que deseja excluir permanentemente o tipo{' '}
               <strong>{toDelete?.name}</strong>? Esta ação não pode ser desfeita.
             </DialogDescription>
           </DialogHeader>

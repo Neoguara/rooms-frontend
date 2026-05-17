@@ -9,7 +9,7 @@ import {
   CheckCircle2,
   XCircle,
   Archive,
-  RotateCcw,
+  ArchiveRestore,
   Building2,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -39,6 +39,7 @@ import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { toast } from 'sonner'
 
 type BuildingResponse = components['schemas']['BuildingResponse']
+type UpdateableStatus = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED'
 
 export const Route = createFileRoute('/_authenticated/rooms/buildings/')({
   component: BuildingsPage,
@@ -49,6 +50,26 @@ export const Route = createFileRoute('/_authenticated/rooms/buildings/')({
 })
 
 const defaultForm = { name: '', address: '', totalFloors: '1' }
+
+function StatusBadge({ status }: { status?: BuildingResponse['status'] }) {
+  if (status === 'ACTIVE')
+    return (
+      <Badge variant="default" className="text-[10px] h-5">
+        Ativo
+      </Badge>
+    )
+  if (status === 'ARCHIVED')
+    return (
+      <Badge variant="outline" className="text-[10px] h-5 text-amber-600 border-amber-400">
+        Arquivado
+      </Badge>
+    )
+  return (
+    <Badge variant="secondary" className="text-[10px] h-5">
+      Inativo
+    </Badge>
+  )
+}
 
 function BuildingsPage() {
   const { user } = useAuth()
@@ -85,6 +106,7 @@ function BuildingsPage() {
   const filtered = useMemo(
     () =>
       buildings.filter((b) => {
+        if (b.status === 'DELETED') return false
         const matchesSearch =
           b.name?.toLowerCase().includes(search.toLowerCase()) ||
           b.address?.toLowerCase().includes(search.toLowerCase())
@@ -153,16 +175,20 @@ function BuildingsPage() {
     }
   }, [toDelete, deleteMutation, api])
 
-  const handleToggleStatus = useCallback(
-    async (b: BuildingResponse) => {
+  const handleStatusChange = useCallback(
+    async (b: BuildingResponse, next: UpdateableStatus) => {
       try {
-        const next = b.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         await statusMutation.mutateAsync({
           path: { id: b.id! },
           body: { status: next },
         })
         await api.buildings.listBuildings.invalidateQueries()
-        toast.success(`Prédio ${next === 'INACTIVE' ? 'desativado' : 'ativado'} com sucesso.`)
+        const labels: Record<UpdateableStatus, string> = {
+          ACTIVE: 'ativado',
+          INACTIVE: 'desativado',
+          ARCHIVED: 'arquivado',
+        }
+        toast.success(`Prédio ${labels[next]} com sucesso.`)
       } catch {
         toast.error('Erro ao atualizar status.')
       }
@@ -170,37 +196,9 @@ function BuildingsPage() {
     [statusMutation, api],
   )
 
-  const handleArchive = useCallback(
-    async (b: BuildingResponse) => {
-      try {
-        await statusMutation.mutateAsync({
-          path: { id: b.id! },
-          body: { status: 'ARCHIVED' },
-        })
-        await api.buildings.listBuildings.invalidateQueries()
-        toast.success('Prédio arquivado com sucesso.')
-      } catch {
-        toast.error('Erro ao arquivar prédio.')
-      }
-    },
-    [statusMutation, api],
-  )
-
-  const handleRestore = useCallback(
-    async (b: BuildingResponse) => {
-      try {
-        await statusMutation.mutateAsync({
-          path: { id: b.id! },
-          body: { status: 'ACTIVE' },
-        })
-        await api.buildings.listBuildings.invalidateQueries()
-        toast.success('Prédio restaurado com sucesso.')
-      } catch {
-        toast.error('Erro ao restaurar prédio.')
-      }
-    },
-    [statusMutation, api],
-  )
+  function toggleStatusFilter(value: string) {
+    setStatusFilter((prev) => (prev === value ? 'all' : value))
+  }
 
   return (
     <>
@@ -233,7 +231,7 @@ function BuildingsPage() {
                 'flex items-center gap-1.5 font-medium',
                 statusFilter === 'active' ? 'text-foreground' : 'text-muted-foreground',
               )}
-              onClick={() => setStatusFilter(statusFilter === 'active' ? 'all' : 'active')}
+              onClick={() => toggleStatusFilter('active')}
             >
               <CheckCircle2 className="size-4 text-emerald-500" />
               {stats.active} Ativos
@@ -243,7 +241,7 @@ function BuildingsPage() {
                 'flex items-center gap-1.5',
                 statusFilter === 'inactive' ? 'text-foreground font-medium' : 'text-muted-foreground',
               )}
-              onClick={() => setStatusFilter(statusFilter === 'inactive' ? 'all' : 'inactive')}
+              onClick={() => toggleStatusFilter('inactive')}
             >
               <XCircle className="size-4 text-red-500" />
               {stats.inactive} Inativos
@@ -253,9 +251,9 @@ function BuildingsPage() {
                 'flex items-center gap-1.5',
                 statusFilter === 'archived' ? 'text-foreground font-medium' : 'text-muted-foreground',
               )}
-              onClick={() => setStatusFilter(statusFilter === 'archived' ? 'all' : 'archived')}
+              onClick={() => toggleStatusFilter('archived')}
             >
-              <Archive className="size-4 text-orange-400" />
+              <Archive className="size-4 text-amber-500" />
               {stats.archived} Arquivados
             </button>
           </div>
@@ -274,100 +272,107 @@ function BuildingsPage() {
             </p>
           </div>
         ) : (
-          filtered.map((b, index) => (
-            <div
-              key={b.id}
-              className={cn(
-                'flex items-center gap-3 px-4 py-3 bg-card hover:bg-muted/30 transition-colors',
-                index !== filtered.length - 1 && 'border-b border-border',
-              )}
-            >
-              {/* Icon */}
-              <div className="shrink-0 text-muted-foreground">
-                <Building2 className="size-5 text-foreground" />
-              </div>
+          filtered.map((b, index) => {
+            const isArchived = b.status === 'ARCHIVED'
+            return (
+              <div
+                key={b.id}
+                className={cn(
+                  'flex items-center gap-3 px-4 py-3 bg-card hover:bg-muted/30 transition-colors',
+                  index !== filtered.length - 1 && 'border-b border-border',
+                  isArchived && 'opacity-60',
+                )}
+              >
+                {/* Icon */}
+                <div className="shrink-0 text-muted-foreground">
+                  <Building2 className="size-5 text-foreground" />
+                </div>
 
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-semibold text-foreground">{b.name}</span>
-                  <Badge
-                    variant={
-                      b.status === 'ACTIVE'
-                        ? 'default'
-                        : b.status === 'ARCHIVED'
-                          ? 'outline'
-                          : 'secondary'
-                    }
-                    className="text-[10px] h-5"
-                  >
-                    {b.status === 'ACTIVE' ? 'Ativo' : b.status === 'ARCHIVED' ? 'Arquivado' : 'Inativo'}
-                  </Badge>
-                  {b.totalFloors && (
-                    <span className="text-xs text-muted-foreground">
-                      {b.totalFloors} andares
-                    </span>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-foreground">{b.name}</span>
+                    <StatusBadge status={b.status} />
+                    {b.totalFloors && (
+                      <span className="text-xs text-muted-foreground">
+                        {b.totalFloors} andares
+                      </span>
+                    )}
+                  </div>
+                  {b.address && (
+                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                      {b.address}
+                    </p>
                   )}
                 </div>
-                {b.address && (
-                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                    {b.address}
-                  </p>
-                )}
-              </div>
 
-              {/* Actions */}
-              {isAdmin && (
-                <div className="shrink-0">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="size-8">
-                        <MoreHorizontal className="size-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      {b.status === 'ARCHIVED' ? (
-                        <DropdownMenuItem onClick={() => handleRestore(b)}>
-                          <RotateCcw className="mr-2 size-4" />
-                          Restaurar
-                        </DropdownMenuItem>
-                      ) : (
-                        <>
+                {/* Actions */}
+                {isAdmin && (
+                  <div className="shrink-0">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="size-8">
+                          <MoreHorizontal className="size-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {!isArchived && (
                           <DropdownMenuItem onClick={() => openEdit(b)}>
                             <Pencil className="mr-2 size-4" />
                             Editar
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleToggleStatus(b)}>
-                            {b.status === 'ACTIVE' ? (
-                              <XCircle className="mr-2 size-4" />
-                            ) : (
-                              <CheckCircle2 className="mr-2 size-4" />
-                            )}
-                            {b.status === 'ACTIVE' ? 'Desativar' : 'Ativar'}
+                        )}
+
+                        {b.status === 'ACTIVE' && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(b, 'INACTIVE')}>
+                            <XCircle className="mr-2 size-4" />
+                            Desativar
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleArchive(b)}>
+                        )}
+
+                        {b.status === 'INACTIVE' && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(b, 'ACTIVE')}>
+                            <CheckCircle2 className="mr-2 size-4" />
+                            Ativar
+                          </DropdownMenuItem>
+                        )}
+
+                        {!isArchived && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(b, 'ARCHIVED')}>
                             <Archive className="mr-2 size-4" />
                             Arquivar
                           </DropdownMenuItem>
-                        </>
-                      )}
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setToDelete(b)
-                          setIsDeleteOpen(true)
-                        }}
-                        className="text-destructive focus:text-destructive"
-                      >
-                        <Trash2 className="mr-2 size-4" />
-                        Excluir
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              )}
-            </div>
-          ))
+                        )}
+
+                        {isArchived && (
+                          <DropdownMenuItem onClick={() => handleStatusChange(b, 'ACTIVE')}>
+                            <ArchiveRestore className="mr-2 size-4" />
+                            Restaurar
+                          </DropdownMenuItem>
+                        )}
+
+                        {isArchived && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setToDelete(b)
+                                setIsDeleteOpen(true)
+                              }}
+                              className="text-destructive focus:text-destructive"
+                            >
+                              <Trash2 className="mr-2 size-4" />
+                              Excluir
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                )}
+              </div>
+            )
+          })
         )}
       </div>
 
@@ -427,7 +432,7 @@ function BuildingsPage() {
           <DialogHeader>
             <DialogTitle>Confirmar Exclusão</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir o prédio{' '}
+              Tem certeza que deseja excluir permanentemente o prédio{' '}
               <strong>{toDelete?.name}</strong>? Esta ação não pode ser desfeita.
             </DialogDescription>
           </DialogHeader>

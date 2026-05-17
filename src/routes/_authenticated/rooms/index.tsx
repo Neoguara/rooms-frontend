@@ -19,7 +19,7 @@ import {
   CheckCircle2,
   XCircle,
   Archive,
-  RotateCcw,
+  ArchiveRestore,
 } from 'lucide-react'
 import { ResourcesIconsList } from '@/lib/resources-icons'
 import { RoomTypeIconsList } from '@/lib/room-type-icons'
@@ -59,16 +59,17 @@ import { useAPI } from '@/hooks/use-api'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
 import type { components } from '@/api/schema'
-import { LoadingAuthenticated } from '@/components/loading-authenticated'
 import { RoomFormDialog } from '@/components/room/room-form-dialog'
 import { DeleteRoomDialog } from '@/components/room/delete-room-dialog'
 import { toast } from 'sonner'
+import { LoadingAuthenticated } from '#/components/loading-authenticated'
 
 type RoomDetailResponse = components['schemas']['RoomDetailResponse']
 type BuildingResponse = components['schemas']['BuildingResponse']
 type RoomTypeResponse = components['schemas']['RoomTypeResponse']
 
 export const Route = createFileRoute('/_authenticated/rooms/')({
+  pendingComponent: LoadingAuthenticated,
   component: RoomsPage,
   loader: async ({ context: { api } }) => {
     await Promise.all([
@@ -77,7 +78,6 @@ export const Route = createFileRoute('/_authenticated/rooms/')({
       api.roomTypes.listRoomTypes.prefetchQuery(),
     ])
   },
-  pendingComponent: LoadingAuthenticated,
 })
 
 function getRoomStatusLabel(status?: string) {
@@ -156,8 +156,13 @@ function RoomsPage() {
     [statusMutation, api],
   )
 
+  const visibleRooms = useMemo(
+    () => rooms.filter((r) => r.status !== 'DELETED'),
+    [rooms],
+  )
+
   const filteredRooms = useMemo(() => {
-    return rooms.filter((room) => {
+    return visibleRooms.filter((room) => {
       const buildingName =
         room.building?.name ?? buildingMap.get(room.buildingId ?? '')?.name ?? ''
       const matchesSearch =
@@ -169,7 +174,7 @@ function RoomsPage() {
       const matchesRoomType = filterRoomType === 'all' || room.roomTypeId === filterRoomType
       return matchesSearch && matchesStatus && matchesBuilding && matchesRoomType
     })
-  }, [rooms, search, filterStatus, filterBuilding, filterRoomType, buildingMap])
+  }, [visibleRooms, search, filterStatus, filterBuilding, filterRoomType, buildingMap])
 
   useEffect(() => {
     setCurrentPage(1)
@@ -183,12 +188,12 @@ function RoomsPage() {
 
   const stats = useMemo(
     () => ({
-      total: rooms.length,
-      available: rooms.filter((r) => r.status === 'AVAILABLE').length,
-      maintenance: rooms.filter((r) => r.status === 'MAINTENANCE').length,
-      capacity: rooms.reduce((acc, r) => acc + (r.capacity ?? 0), 0),
+      total: visibleRooms.length,
+      available: visibleRooms.filter((r) => r.status === 'AVAILABLE').length,
+      maintenance: visibleRooms.filter((r) => r.status === 'MAINTENANCE').length,
+      capacity: visibleRooms.reduce((acc, r) => acc + (r.capacity ?? 0), 0),
     }),
-    [rooms],
+    [visibleRooms],
   )
 
   function openCreate() {
@@ -343,12 +348,13 @@ function RoomsPage() {
           const roomType = room.roomType ?? roomTypeMap.get(room.roomTypeId ?? '')
           const RoomTypeIcon = RoomTypeIconsList[roomType?.icon ?? '']?.icon ?? DoorOpen
 
+          const isArchived = room.status === 'ARCHIVED'
           return (
             <Card
               key={room.id}
               className={cn(
                 'group transition-all hover:shadow-md',
-                (room.status === 'INACTIVE' || room.status === 'ARCHIVED') && 'opacity-60',
+                (room.status === 'INACTIVE' || isArchived) && 'opacity-60',
               )}
             >
               <CardHeader className="pb-3">
@@ -375,49 +381,76 @@ function RoomsPage() {
                       </DropdownMenuItem>
                       {isAdmin && (
                         <>
-                          <DropdownMenuItem onClick={() => openEdit(room)}>
-                            <Pencil className="mr-2 size-4" />
-                            Editar
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          {room.status !== 'AVAILABLE' && (
-                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'AVAILABLE')}>
-                              <CheckCircle2 className="mr-2 size-4 text-emerald-500" />
-                              Marcar como Disponível
-                            </DropdownMenuItem>
-                          )}
-                          {room.status !== 'MAINTENANCE' && (
-                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'MAINTENANCE')}>
-                              <Wrench className="mr-2 size-4 text-amber-500" />
-                              Marcar em Manutenção
-                            </DropdownMenuItem>
-                          )}
-                          {room.status !== 'INACTIVE' && room.status !== 'ARCHIVED' && (
-                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'INACTIVE')}>
-                              <XCircle className="mr-2 size-4" />
-                              Desativar
-                            </DropdownMenuItem>
-                          )}
-                          {room.status !== 'ARCHIVED' && (
-                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'ARCHIVED')}>
-                              <Archive className="mr-2 size-4" />
-                              Arquivar
-                            </DropdownMenuItem>
-                          )}
-                          {(room.status === 'INACTIVE' || room.status === 'ARCHIVED') && (
-                            <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'AVAILABLE')}>
-                              <RotateCcw className="mr-2 size-4" />
-                              Restaurar
-                            </DropdownMenuItem>
+                          {!isArchived && (
+                            <>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem onClick={() => openEdit(room)}>
+                                <Pencil className="mr-2 size-4" />
+                                Editar
+                              </DropdownMenuItem>
+                            </>
                           )}
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            onClick={() => openDelete(room)}
-                            className="text-destructive focus:text-destructive"
-                          >
-                            <Trash2 className="mr-2 size-4" />
-                            Excluir
-                          </DropdownMenuItem>
+                          {room.status === 'AVAILABLE' && (
+                            <>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'MAINTENANCE')}>
+                                <Wrench className="mr-2 size-4 text-amber-500" />
+                                Colocar em Manutenção
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'INACTIVE')}>
+                                <XCircle className="mr-2 size-4" />
+                                Desativar
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'ARCHIVED')}>
+                                <Archive className="mr-2 size-4" />
+                                Arquivar
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                          {room.status === 'MAINTENANCE' && (
+                            <>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'AVAILABLE')}>
+                                <CheckCircle2 className="mr-2 size-4 text-emerald-500" />
+                                Marcar como Disponível
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'INACTIVE')}>
+                                <XCircle className="mr-2 size-4" />
+                                Desativar
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'ARCHIVED')}>
+                                <Archive className="mr-2 size-4" />
+                                Arquivar
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                          {room.status === 'INACTIVE' && (
+                            <>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'AVAILABLE')}>
+                                <CheckCircle2 className="mr-2 size-4 text-emerald-500" />
+                                Restaurar
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'ARCHIVED')}>
+                                <Archive className="mr-2 size-4" />
+                                Arquivar
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                          {isArchived && (
+                            <>
+                              <DropdownMenuItem onClick={() => handleUpdateStatus(room, 'AVAILABLE')}>
+                                <ArchiveRestore className="mr-2 size-4" />
+                                Restaurar
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                onClick={() => openDelete(room)}
+                                className="text-destructive focus:text-destructive"
+                              >
+                                <Trash2 className="mr-2 size-4" />
+                                Excluir
+                              </DropdownMenuItem>
+                            </>
+                          )}
                         </>
                       )}
                     </DropdownMenuContent>
