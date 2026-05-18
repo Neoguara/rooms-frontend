@@ -7,15 +7,25 @@ const APIContext = createContext<{
   api: ReturnType<typeof createApiClientInstance>
 }>(null!)
 
-const authRequestFn: typeof baseRequestFn = (schema, options) => {
+const authRequestFn: typeof baseRequestFn = async <TData, TError>(
+  schema: Parameters<typeof baseRequestFn>[0],
+  options: Parameters<typeof baseRequestFn>[1],
+) => {
   const token = localStorage.getItem('auth_token')
-  return baseRequestFn(schema, {
+  const result = await baseRequestFn<TData, TError>(schema, {
     ...options,
     headers: {
       ...options.headers,
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   })
+  if ('error' in result && !(result.error instanceof Error)) {
+    const raw = result.error as Record<string, unknown>
+    const message = typeof raw?.message === 'string' ? raw.message : 'API Error'
+    const error = Object.assign(new Error(message), { cause: raw }) as typeof result.error
+    return { response: result.response, error } as Awaited<ReturnType<typeof baseRequestFn<TData, TError>>>
+  }
+  return result
 }
 
 function createApiClientInstance(queryClient: QueryClient) {
