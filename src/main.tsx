@@ -10,6 +10,8 @@ import { APIProvider, useAPI } from './hooks/use-api'
 import { AuthProvider, useAuth } from './hooks/use-auth'
 import { ThemeProvider } from './hooks/use-theme'
 import { Toaster } from './components/ui/sonner'
+import { ErrorAuthenticated } from './components/error-authenticated'
+import { LoadingPublic } from './components/loading-public'
 
 // Create a new router instance
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
@@ -22,10 +24,11 @@ const router = createRouter({
         api: undefined!,
         authentication: undefined!,
     },
+    defaultErrorComponent: ErrorAuthenticated,
+    defaultPendingComponent: LoadingPublic,
     defaultPreload: 'intent',
     scrollRestoration: true,
     defaultStructuralSharing: true,
-    defaultPreloadStaleTime: 0,
 })
 
 // Register the router instance for type safety
