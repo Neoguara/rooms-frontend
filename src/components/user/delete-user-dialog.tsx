@@ -42,8 +42,7 @@ export function DeleteUserDialog({
       toast.success('Usuário excluído com sucesso.')
       onOpenChange(false)
     } catch (e) {
-      console.error(e)
-      toast.error('Erro ao excluir usuário.')
+      toast.error(e instanceof Error ? e.message : 'Erro ao excluir usuário.')
     } finally {
       setTimeout(() => setIsDeleting(false), 300)
     }

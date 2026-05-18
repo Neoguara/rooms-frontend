@@ -100,8 +100,7 @@ export const UserFormDialog = memo(function UserFormDialog({
       }
       onOpenChange(false)
       } catch (e) {
-        console.error(e)
-        toast.error(editingUser?.id ? 'Erro ao atualizar usuário.' : 'Erro ao cadastrar usuário.')
+        toast.error(e instanceof Error ? e.message : (editingUser?.id ? 'Erro ao atualizar usuário.' : 'Erro ao cadastrar usuário.'))
       } finally {
         setTimeout(() => setIsSaving(false), 300)
       }

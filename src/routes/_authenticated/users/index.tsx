@@ -50,13 +50,14 @@ import {
 import { useAPI } from '@/hooks/use-api'
 import { useAuth } from '@/hooks/use-auth'
 import { UserStatsCards } from '#/components/user/user-stats-cards'
-import { useMemo, useState, type ElementType } from 'react'
+import { useCallback, useMemo, useState, type ElementType } from 'react'
 
 import type { components } from "@/api/schema"
 
 import { UserFormDialog } from '#/components/user/user-form-dialog'
 import { DeleteUserDialog } from '#/components/user/delete-user-dialog'
 import { LoadingAuthenticated } from '#/components/loading-authenticated'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_authenticated/users/')({
   component: UsersPage,
@@ -107,8 +108,20 @@ function UsersPage() {
   const { api } = useAPI()
   const { user: currentUser } = useAuth()
 
+  const { data: users = [] } = api.users.findAll.useSuspenseQuery()
+  const updateStatusMutation = api.users.updateStatus.useMutation()
 
-  const { data: users = [], isLoading } = api.users.findAll.useSuspenseQuery()
+  const handleToggleStatus = useCallback(async (u: UserResponse) => {
+    if (!u.id || u.status === 'DELETED') return
+    const nextStatus = u.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
+    try {
+      await updateStatusMutation.mutateAsync({ path: { id: u.id }, body: { status: nextStatus } })
+      await api.users.findAll.invalidateQueries()
+      toast.success(nextStatus === 'ACTIVE' ? 'Usuário ativado com sucesso.' : 'Usuário desativado com sucesso.')
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Erro ao atualizar status.')
+    }
+  }, [updateStatusMutation, api])
 
   const [searchQuery, setSearchQuery] = useState('')
   const [filterRole, setFilterRole] = useState<string>('all')
@@ -216,9 +229,7 @@ function UsersPage() {
           <CardHeader>
             <CardTitle>Usuários Cadastrados</CardTitle>
             <CardDescription>
-              {isLoading
-                ? 'Carregando...'
-                : `${filteredUsers.length} usuário(s) encontrado(s)`}
+              {`${filteredUsers.length} usuário(s) encontrado(s)`}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -234,15 +245,7 @@ function UsersPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {isLoading ? (
-                    <TableRow>
-                      <TableCell colSpan={5} className="h-24 text-center">
-                        <div className="text-muted-foreground">
-                          Carregando usuários...
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ) : filteredUsers.length === 0 ? (
+                  {filteredUsers.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={5} className="h-24 text-center">
                         <div className="flex flex-col items-center justify-center text-muted-foreground">
@@ -317,13 +320,29 @@ function UsersPage() {
                                 <DropdownMenuLabel>Ações</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
-                                onClick={() => {
-                                  setEditingUser(u)
-                                  setIsFormOpen(true);
-                                }}
+                                  onClick={() => {
+                                    setEditingUser(u)
+                                    setIsFormOpen(true)
+                                  }}
                                 >
                                   <Pencil className="mr-2 size-4" />
                                   Editar
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  disabled={isCurrentUser}
+                                  onClick={() => handleToggleStatus(u)}
+                                >
+                                  {u.status === 'ACTIVE' ? (
+                                    <>
+                                      <XCircle className="mr-2 size-4" />
+                                      Desativar
+                                    </>
+                                  ) : (
+                                    <>
+                                      <CheckCircle2 className="mr-2 size-4" />
+                                      Ativar
+                                    </>
+                                  )}
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
