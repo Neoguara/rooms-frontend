@@ -1481,6 +1481,336 @@ export interface RoomsService {
             body: UpdateRoomStatusBody;
         };
     };
+    /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+    getAvailableRooms: {
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetAvailableRoomsParameters, TMeta, TSignal>), client?: (schema: GetAvailableRoomsSchema, options: {
+            parameters: GetAvailableRoomsParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetAvailableRoomsData, GetAvailableRoomsError>>): Promise<RequestFnResponse<GetAvailableRoomsData, GetAvailableRoomsError>>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        getQueryKey(parameters: DeepReadonly<GetAvailableRoomsParameters>): ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.rooms.getAvailableRooms.useQuery({
+         *     query: {
+         *         startAt: startAt,
+         *         endAt: endAt
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetAvailableRoomsData>(parameters: ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>), options?: Omit<UndefinedInitialDataOptions<GetAvailableRoomsData, GetAvailableRoomsError, TData, ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAvailableRoomsError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.rooms.getAvailableRooms.useQuery({
+         *     query: {
+         *         startAt: startAt,
+         *         endAt: endAt
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetAvailableRoomsData>(parameters: ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>), options: Omit<DefinedInitialDataOptions<GetAvailableRoomsData, GetAvailableRoomsError, TData, ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAvailableRoomsError>>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        getInfiniteQueryKey(parameters: DeepReadonly<GetAvailableRoomsParameters>): ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.rooms.getAvailableRooms.useInfiniteQuery({
+         *     query: {
+         *         startAt: startAt,
+         *         endAt: endAt
+         *     }
+         * }, {
+         *     initialPageParam: {
+         *         query: {
+         *             startAt: initialStartAt,
+         *             endAt: initialEndAt
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetAvailableRoomsParameters, TQueryFnData = GetAvailableRoomsData, TData = OperationInfiniteData<TQueryFnData, GetAvailableRoomsParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetAvailableRoomsError, TData, ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetAvailableRoomsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.rooms.getAvailableRooms.useInfiniteQuery({
+         *     query: {
+         *         startAt: startAt,
+         *         endAt: endAt
+         *     }
+         * }, {
+         *     initialPageParam: {
+         *         query: {
+         *             startAt: initialStartAt,
+         *             endAt: initialEndAt
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetAvailableRoomsParameters, TQueryFnData = GetAvailableRoomsData, TData = OperationInfiniteData<TQueryFnData, GetAvailableRoomsParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetAvailableRoomsError, TData, ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetAvailableRoomsData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetAvailableRoomsError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getAvailableRoomsTotal = qraft.rooms.getAvailableRooms.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getAvailableRoomsByParametersTotal = qraft.rooms.getAvailableRooms.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         query: {
+         *             startAt: startAt,
+         *             endAt: endAt
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getAvailableRoomsResults = qraft.rooms.getAvailableRooms.useQueries({
+         *     queries: [
+         *         {
+         *             query: {
+         *                 startAt: startAt1,
+         *                 endAt: endAt1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 startAt: startAt2,
+         *                 endAt: endAt2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAvailableRoomsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getAvailableRoomsCombinedResults = qraft.rooms.getAvailableRooms.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             query: {
+         *                 startAt: startAt1,
+         *                 endAt: endAt1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 startAt: startAt2,
+         *                 endAt: endAt2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAvailableRoomsCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetAvailableRoomsSchema, GetAvailableRoomsParameters, GetAvailableRoomsData, GetAvailableRoomsError>>, TCombinedResult = Array<UseQueryResult<GetAvailableRoomsData, GetAvailableRoomsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetAvailableRoomsData, GetAvailableRoomsError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.rooms.getAvailableRooms.useSuspenseQuery({
+         *     query: {
+         *         startAt: startAt,
+         *         endAt: endAt
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetAvailableRoomsData>(parameters: ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>), options?: Omit<UseSuspenseQueryOptions<GetAvailableRoomsData, GetAvailableRoomsError, TData, ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAvailableRoomsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.rooms.getAvailableRooms.useSuspenseInfiniteQuery({
+         *     query: {
+         *         startAt: startAt,
+         *         endAt: endAt
+         *     }
+         * }, {
+         *     initialPageParam: {
+         *         query: {
+         *             startAt: initialStartAt,
+         *             endAt: initialEndAt
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetAvailableRoomsParameters, TData = GetAvailableRoomsData>(parameters: ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetAvailableRoomsData, GetAvailableRoomsError, OperationInfiniteData<TData, GetAvailableRoomsParameters>, ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetAvailableRoomsData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetAvailableRoomsParameters>, OperationError<GetAvailableRoomsError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getAvailableRoomsData = qraft.rooms.getAvailableRooms.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             query: {
+         *                 startAt: startAt1,
+         *                 endAt: endAt1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 startAt: startAt2,
+         *                 endAt: endAt2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAvailableRoomsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getAvailableRoomsCombinedData = qraft.rooms.getAvailableRooms.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             query: {
+         *                 startAt: startAt1,
+         *                 endAt: endAt1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 startAt: startAt2,
+         *                 endAt: endAt2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAvailableRoomsCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetAvailableRoomsSchema, GetAvailableRoomsParameters, GetAvailableRoomsData, GetAvailableRoomsError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetAvailableRoomsData, GetAvailableRoomsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetAvailableRoomsData, GetAvailableRoomsError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetAvailableRoomsSchema, GetAvailableRoomsData, GetAvailableRoomsParameters, GetAvailableRoomsError>): Promise<GetAvailableRoomsData>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetAvailableRoomsSchema, GetAvailableRoomsData, GetAvailableRoomsParameters, GetAvailableRoomsError>): Promise<void>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetAvailableRoomsSchema, GetAvailableRoomsData, GetAvailableRoomsParameters, GetAvailableRoomsError>): Promise<GetAvailableRoomsData>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        fetchInfiniteQuery<TPageParam extends GetAvailableRoomsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetAvailableRoomsSchema, GetAvailableRoomsData, GetAvailableRoomsParameters, DeepReadonly<TPageParam>, GetAvailableRoomsError>): Promise<OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters>>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        prefetchInfiniteQuery<TPageParam extends GetAvailableRoomsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetAvailableRoomsSchema, GetAvailableRoomsData, GetAvailableRoomsParameters, DeepReadonly<TPageParam>, GetAvailableRoomsError>): Promise<void>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        ensureInfiniteQueryData<TPageParam extends GetAvailableRoomsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetAvailableRoomsSchema, GetAvailableRoomsData, GetAvailableRoomsParameters, DeepReadonly<TPageParam>, GetAvailableRoomsError>): Promise<OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters>>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        getQueryData(parameters: ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>)): GetAvailableRoomsData | undefined;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>)): OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters> | undefined;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>,
+            data: NoInfer<OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>,
+            data: GetAvailableRoomsData | undefined
+        ]>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        getQueryState(parameters: ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters> | (DeepReadonly<GetAvailableRoomsParameters>)): QueryState<GetAvailableRoomsData, GetAvailableRoomsError> | undefined;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        getInfiniteQueryState(parameters: DeepReadonly<GetAvailableRoomsParameters> | ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>): QueryState<OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters>, GetAvailableRoomsError> | undefined;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        setQueryData(parameters: (DeepReadonly<GetAvailableRoomsParameters>) | ServiceOperationQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>, updater: Updater<NoInfer<GetAvailableRoomsData> | undefined, NoInfer<DeepReadonly<GetAvailableRoomsData>> | undefined>, options?: SetDataOptions): GetAvailableRoomsData | undefined;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        setInfiniteQueryData(parameters: (DeepReadonly<GetAvailableRoomsParameters>) | ServiceOperationInfiniteQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetAvailableRoomsData, GetAvailableRoomsParameters> | undefined;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>, updater: Updater<NoInfer<GetAvailableRoomsData> | undefined, NoInfer<GetAvailableRoomsData> | undefined>, options?: SetDataOptions): Array<GetAvailableRoomsData | undefined>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>, options?: InvalidateOptions): Promise<void>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>, options?: RefetchOptions): Promise<void>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>, options?: CancelOptions): Promise<void>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>): void;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>, options?: ResetOptions): Promise<void>;
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError> | QueryFiltersByQueryKey<GetAvailableRoomsSchema, GetAvailableRoomsData, TInfinite, GetAvailableRoomsParameters, GetAvailableRoomsError>): number;
+        schema: GetAvailableRoomsSchema;
+        types: {
+            parameters: GetAvailableRoomsParameters;
+            data: GetAvailableRoomsData;
+            error: GetAvailableRoomsError;
+        };
+    };
 }
 /** @description Retorna os dados de uma sala pelo seu ID. */
 export const getRoom = {
@@ -1566,6 +1896,16 @@ export const updateRoomStatus = {
     schema: UpdateRoomStatusSchema;
     [QraftServiceOperationsToken]: RoomsService["updateRoomStatus"];
 };
+/** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+export const getAvailableRooms = {
+    schema: {
+        method: "get",
+        url: "/rooms/available"
+    }
+} as {
+    schema: GetAvailableRoomsSchema;
+    [QraftServiceOperationsToken]: RoomsService["getAvailableRooms"];
+};
 export const roomsService = {
     getRoom,
     updateRoom,
@@ -1573,7 +1913,8 @@ export const roomsService = {
     replaceRoomResources,
     listRooms,
     createRoom,
-    updateRoomStatus
+    updateRoomStatus,
+    getAvailableRooms
 } as const;
 type GetRoomSchema = {
     method: "get";
@@ -1645,3 +1986,10 @@ type UpdateRoomStatusParameters = paths["/rooms/{id}/status"]["patch"]["paramete
 type UpdateRoomStatusData = paths["/rooms/{id}/status"]["patch"]["responses"]["200"]["content"]["*/*"];
 type UpdateRoomStatusError = paths["/rooms/{id}/status"]["patch"]["responses"]["400"]["content"]["*/*"] | paths["/rooms/{id}/status"]["patch"]["responses"]["404"]["content"]["*/*"] | paths["/rooms/{id}/status"]["patch"]["responses"]["409"]["content"]["*/*"] | paths["/rooms/{id}/status"]["patch"]["responses"]["422"]["content"]["*/*"];
 type UpdateRoomStatusBody = paths["/rooms/{id}/status"]["patch"]["requestBody"]["content"]["application/json"];
+type GetAvailableRoomsSchema = {
+    method: "get";
+    url: "/rooms/available";
+};
+type GetAvailableRoomsParameters = paths["/rooms/available"]["get"]["parameters"];
+type GetAvailableRoomsData = paths["/rooms/available"]["get"]["responses"]["200"]["content"]["*/*"];
+type GetAvailableRoomsError = paths["/rooms/available"]["get"]["responses"]["400"]["content"]["*/*"] | paths["/rooms/available"]["get"]["responses"]["404"]["content"]["*/*"] | paths["/rooms/available"]["get"]["responses"]["409"]["content"]["*/*"] | paths["/rooms/available"]["get"]["responses"]["422"]["content"]["*/*"];

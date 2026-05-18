@@ -432,6 +432,23 @@ export interface paths {
         patch: operations["updateBuildingStatus"];
         trace?: never;
     };
+    "/rooms/available": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Retorna todas as salas disponíveis no período informado, com filtros opcionais por tipo, recursos e capacidade mínima. */
+        get: operations["getAvailableRooms"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/events": {
         parameters: {
             query?: never;
@@ -3022,6 +3039,75 @@ export interface operations {
                 };
             };
             /** @description Transição de status inválida */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    getAvailableRooms: {
+        parameters: {
+            query: {
+                /** @description Início do período (ISO-8601, ex: 2024-06-01T09:00:00) */
+                startAt: string;
+                /** @description Fim do período (ISO-8601, ex: 2024-06-01T11:00:00) */
+                endAt: string;
+                /** @description Filtrar por tipo de sala (UUID) */
+                roomTypeId?: string;
+                /** @description Filtrar por recursos que a sala deve ter (lista de UUIDs) */
+                resourceIds?: string[];
+                /** @description Capacidade mínima da sala */
+                minCapacity?: number;
+                /** @description Expandable fields: building, roomType, resources */
+                expand?: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Salas disponíveis retornadas */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoomDetailResponse"][];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Período inválido (startAt >= endAt ou ausente) */
             422: {
                 headers: {
                     [name: string]: unknown;

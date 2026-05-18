@@ -19,6 +19,7 @@ import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedRoomsIndexRouteImport } from './routes/_authenticated/rooms/index'
 import { Route as AuthenticatedGradeIndexRouteImport } from './routes/_authenticated/grade/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
+import { Route as AuthenticatedBuscarSalaIndexRouteImport } from './routes/_authenticated/buscar-sala/index'
 import { Route as AuthenticatedRoomsRoomTypesIndexRouteImport } from './routes/_authenticated/rooms/room-types/index'
 import { Route as AuthenticatedRoomsResourcesIndexRouteImport } from './routes/_authenticated/rooms/resources/index'
 import { Route as AuthenticatedRoomsBuildingsIndexRouteImport } from './routes/_authenticated/rooms/buildings/index'
@@ -75,6 +76,12 @@ const AuthenticatedDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedBuscarSalaIndexRoute =
+  AuthenticatedBuscarSalaIndexRouteImport.update({
+    id: '/buscar-sala/',
+    path: '/buscar-sala/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedRoomsRoomTypesIndexRoute =
   AuthenticatedRoomsRoomTypesIndexRouteImport.update({
     id: '/room-types/',
@@ -98,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/rooms': typeof AuthenticatedRoomsRouteRouteWithChildren
   '/login/': typeof LoginIndexRoute
+  '/buscar-sala/': typeof AuthenticatedBuscarSalaIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/grade/': typeof AuthenticatedGradeIndexRoute
   '/rooms/': typeof AuthenticatedRoomsIndexRoute
@@ -111,6 +119,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginIndexRoute
+  '/buscar-sala': typeof AuthenticatedBuscarSalaIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/grade': typeof AuthenticatedGradeIndexRoute
   '/rooms': typeof AuthenticatedRoomsIndexRoute
@@ -127,6 +136,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/rooms': typeof AuthenticatedRoomsRouteRouteWithChildren
   '/login/': typeof LoginIndexRoute
+  '/_authenticated/buscar-sala/': typeof AuthenticatedBuscarSalaIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/grade/': typeof AuthenticatedGradeIndexRoute
   '/_authenticated/rooms/': typeof AuthenticatedRoomsIndexRoute
@@ -143,6 +153,7 @@ export interface FileRouteTypes {
     | '/'
     | '/rooms'
     | '/login/'
+    | '/buscar-sala/'
     | '/dashboard/'
     | '/grade/'
     | '/rooms/'
@@ -156,6 +167,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/buscar-sala'
     | '/dashboard'
     | '/grade'
     | '/rooms'
@@ -171,6 +183,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_authenticated/rooms'
     | '/login/'
+    | '/_authenticated/buscar-sala/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/grade/'
     | '/_authenticated/rooms/'
@@ -260,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/buscar-sala/': {
+      id: '/_authenticated/buscar-sala/'
+      path: '/buscar-sala'
+      fullPath: '/buscar-sala/'
+      preLoaderRoute: typeof AuthenticatedBuscarSalaIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/rooms/room-types/': {
       id: '/_authenticated/rooms/room-types/'
       path: '/room-types'
@@ -309,6 +329,7 @@ const AuthenticatedRoomsRouteRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedRoomsRouteRoute: typeof AuthenticatedRoomsRouteRouteWithChildren
+  AuthenticatedBuscarSalaIndexRoute: typeof AuthenticatedBuscarSalaIndexRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedGradeIndexRoute: typeof AuthenticatedGradeIndexRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
@@ -318,6 +339,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedRoomsRouteRoute: AuthenticatedRoomsRouteRouteWithChildren,
+  AuthenticatedBuscarSalaIndexRoute: AuthenticatedBuscarSalaIndexRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedGradeIndexRoute: AuthenticatedGradeIndexRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
